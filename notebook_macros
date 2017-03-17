@@ -1,0 +1,123 @@
+(Latex macros)
+$
+    \newcommand{\dataerr}{\mathbf{\Sigma_D}}
+    \newcommand{\PI}{\mathbf{\pi}}
+    \newcommand{\nclobs}{n_{c,obs}}
+    \newcommand{\nclpred}{n_{c,pred}}
+    \newcommand{\birthrate}{\dot n_{birth}}
+    \newcommand{\Mi}{M_{i}}
+    \newcommand{\ts}{\tilde{t}}
+    \newcommand{\tage}{t_{age}}
+    \newcommand{\PI}{\overrightarrow{\pi}}
+    \newcommand{\dif}{\,\text{d}} 
+    \newcommand{\dt}{\Delta t}
+    \newcommand{\Ge}{\gamma_e}
+    \newcommand{\Gd}{\gamma_d} 
+    \newcommand{\dif}{\,\text{d}} 
+    \newcommand{\given}{\,\mid\,}
+    \newcommand{\prob}{\mathcal{P}}
+    \newcommand{\data}{\mathbf{D}}
+    \newcommand{\datai}{\mathbf{D_i}}
+    \newcommand{\T}{\mathbf{\theta}}
+    \newcommand{\Ti}{\mathbf{\theta_i}}
+    \newcommand{\err}{\mathbf{\Sigma_D}}
+    \newcommand{\erri}{\mathbf{\Sigma_{D,i}}}
+    \newcommand{\like}{\mathcal{L}}
+    \newcommand{\best}{\mathrm{best}}
+    \newcommand{\normal}{\mathcal{N}}
+    \newcommand{\Pbad}{\prob_{\mathrm{b}}}
+    \newcommand{\union}{\cup}
+    \newcommand{\intersect}{\cap}
+    \newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+    \newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+    \newcommand{\card}{\operatorname{card}}	
+    \newcommand{\sgn}{\operatorname{sgn}}
+    \newcommand{\rank}{\operatorname{rank}}				
+    \newcommand{\EE}{\operatornamewithlimits{E}}
+    \newcommand{\id}{\operatorname{id}}			
+   \newcommand{\abs}[1]{\left| #1 \right|}
+   \newcommand{\norm}[1]{\left\| #1 \right\|}
+   \newcommand{\pa}[1]{\left(#1\right)}
+   \newcommand{\bra}[1]{\left[#1\right]}
+   \newcommand{\cbra}[1]{\left\{#1\right\}} 	
+   \newcommand{\Vec}[1]{\overrightarrow}
+   \newcommand{\mmatrix}[1]{\boldsymbol{#1}}
+   \newcommand{\inverse}[1]{{#1}^{-1}}
+   \newcommand{\transpose}[1]{{#1}^{\scriptscriptstyle \top}}
+   \newcommand{\mean}[1]{\left<{#1}\right>}
+   \newcommand{\Proba}[1]{\prob\left(\, #1 \,\right)}
+   \newcommand{\proba}[1]{\prob(\, #1 \,)}
+   \newcommand{\set}[1]{\left\{\,#1\,\right\}}
+   \newcommand{\set}[1]{\left\{\,#1\,\right\}}
+$
+$
+  \newcommand{\Unit}[1]{{\mathrm{~#1}}} % define unit
+  \newcommand{\um}{\mu\mathrm{m}}
+  \newcommand{\erg}{\Unit{erg}}
+  \newcommand{\ergs}{\Unit{erg~s}}
+  \newcommand{\yr}{\Unit{yr}}
+  \newcommand{\Myr}{\Unit{Myr}}
+  \newcommand{\Gyr}{\Unit{Gyr}}
+  \newcommand{\pc}{\Unit{pc}}
+  \newcommand{\kpc}{\Unit{kpc}}
+  \newcommand{\Mpc}{\Unit{Mpc}}
+  \newcommand{\Lsun}{\Unit{L}_{\odot}}
+  \newcommand{\Zsun}{\Unit{Z}_{\odot}}
+  \newcommand{\msun}{\Unit{M}_{\odot}}
+  \newcommand{\kms}{\Unit{km\,s^{-1}}}
+  \newcommand{\ang}{\AA}               %Angstrom unit
+  \newcommand{\degpoint}{\mbox{$^\circ\mskip-7.0mu.\,$}}
+  \newcommand{\halpha}{\mbox{H$\alpha$}}
+  \newcommand{\hbeta}{\mbox{H$\beta$}}
+  \newcommand{\hgamma}{\mbox{H$\gamma$}}
+  \newcommand{\lya}{\mbox{Ly$\alpha$}}
+  \newcommand{\lyb}{\mbox{Ly$\beta$}}
+  \newcommand{\minpoint}{\mbox{$'\mskip-4.7mu.\mskip0.8mu$}}
+  \newcommand{\mv}{\mbox{$m_{_V}$}}
+  \newcommand{\Mv}{\mbox{$M_{_V}$}}
+  \newcommand{\peryr}{\mbox{$\>\rm yr^{-1}$}}
+  \newcommand{\secpoint}{\mbox{$''\mskip-7.6mu.\,$}}
+  \newcommand{\sqdeg}{\mbox{${\rm deg}^2$}}
+  \newcommand{\squig}{\sim\!\!}
+  \newcommand{\subsun}{\mbox{$_{\normalsize\odot}$}}
+  \newcommand{\sq}{\mbox{\rlap{$\sqcap$}$\sqcup$}}% 
+  \newcommand{\arcdeg}{\mbox{$^\circ$}}% 
+  \newcommand{\arcmin}{\mbox{$^\prime$}}% 
+  \newcommand{\arcsec}{\mbox{$^{\prime\prime}$}}% 
+  \newcommand{\fd}{\mbox{$.\!\!^{\mathrm d}$}}% 
+  \newcommand{\fh}{\mbox{$.\!\!^{\mathrm h}$}}% 
+  \newcommand{\fm}{\mbox{$.\!\!^{\mathrm m}$}}% 
+  \newcommand{\fs}{\mbox{$.\!\!^{\mathrm s}$}}% 
+  \newcommand{\fdg}{\mbox{$.\!\!^\circ$}}% 
+  \newcommand{\slantfrac}{\case}% 
+  \newcommand{\onehalf}{\slantfrac{1}{2}}% 
+  \newcommand{\onethird}{\slantfrac{1}{3}}% 
+  \newcommand{\twothirds}{\slantfrac{2}{3}}% 
+  \newcommand{\onequarter}{\slantfrac{1}{4}}% 
+  \newcommand{\threequarters}{\slantfrac{3}{4}}% 
+  \newcommand{\ubvr}{\mbox{$U\!BV\!R$}}%% UBVR system 
+  \newcommand{\ub}{\mbox{$U\!-\!B$}}%   % U-B 
+  \newcommand{\bv}{\mbox{$B\!-\!V$}}%   % B-V 
+  \newcommand{\vr}{\mbox{$V\!-\!R$}}%   % V-R 
+  \newcommand{\ur}{\mbox{$U\!-\!R$}}%   % U-R 
+  \newcommand{\ion}[2]{#1$\;${\small\rmfamily\@Roman{#2}}\relax}% 
+  \newcommand{\nodata}{ ~$\cdots$~ }% 
+  \newcommand{\diameter}{\ooalign{\hfil/\hfil\crcr\mathhexbox20D}}% 
+  \newcommand{\degr}{\arcdeg}% 
+  \newcommand{\sun}{\odot}% 
+  \newcommand{\Sun}{\sun}% 
+  \newcommand{\Sol}{\sun}% 
+  \newcommand{\Av}{{{\mathrm{A}}_{\mathrm{V}}}}
+  \newcommand{\latin}[1]{\textsl{#1}}
+  \newcommand{\aposteriori}{\latin{a~posteriori}}
+  \newcommand{\apriori}{\latin{a~priori}}
+  \newcommand{\adhoc}{\latin{ad~hoc}}
+  \newcommand{\etal}{\latin{et~al.}}
+  \newcommand{\eg}{{e.g.}}
+  \newcommand{\ie}{\latin{i.e.}}
+  \newcommand{\term}[1]{{\bf #1}}
+  \newcommand{\code}[1]{{\tt #1}}
+  \newcommand{\Fref}[1]{Fig.\,\ref{#1}}
+  \newcommand{\Sref}[1]{\S\,\ref{#1}}
+  \newcommand{\Eref}[1]{Eq.\,\ref{#1}}
+$

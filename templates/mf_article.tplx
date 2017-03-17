@@ -1,0 +1,96 @@
+((*- extends 'article.tplx' -*))
+
+%===============================================================================
+% Latex Article
+%===============================================================================
+
+((* block docclass *))
+\documentclass{article}
+((* endblock docclass *))
+
+((* block packages *))
+  \usepackage{graphicx}         % Used to insert images
+  \usepackage{adjustbox}        % Used to constrain images to a maximum size
+  \usepackage{color}            % Allow colors to be defined
+  \usepackage{enumerate}        % Needed for markdown enumerations to work
+  \usepackage{amsmath}          % Equations
+  \usepackage{amssymb}          % Equations
+  \usepackage{eurosym}          % defines \euro
+  \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+  \usepackage[utf8x]{inputenc}  % Allow utf-8 characters in the tex document
+  \usepackage{fancyvrb}         % verbatim replacement that allows latex
+  \usepackage{grffile}          % extends the file name processing of package graphics
+                                % to support a larger range
+  % \usepackage{longtable}        % longtable support required by pandoc >1.10
+  \usepackage{booktabs}         % table support for pandoc > 1.12.2
+  % The hyperref package gives us a pdf with properly built
+  % internal navigation ('pdf bookmarks' for the table of contents,
+  % internal cross-reference links, web links for URLs, etc.)
+  \usepackage{hyperref}
+  % personal packages
+  \usepackage[top=1cm,left=2cm,right=2cm,bottom=2cm]{geometry} % margins
+  \usepackage[math, probs, units, fig, names, todonotes, prettylinks, prettymath]{mf}
+
+  \input{document_configuration}
+((* endblock packages *))
+
+((* block author *))
+\author{\documentAuthor}
+((* endblock author *))
+
+((* block commands *))
+% provide some macros
+\providecommand{\nclobs}{n_{c,obs}}
+\providecommand{\data}{\overrightarrow{d}}
+\providecommand{\datai}{\overrightarrow{d_i}}
+\providecommand{\T}{\overrightarrow{\theta}}
+\providecommand{\Ti}{{\overrightarrow{\theta_i}}}
+\providecommand{\err}{\overrightarrow{\sigma}}
+\providecommand{\erri}{{\overrightarrow{\sigma_{d,i}}}}
+\providecommand{\Mc}{M}
+\providecommand{\PI}{\overrightarrow{\pi}}
+\providecommand{\dif}{\,\text{d}} 
+((* endblock commands *))
+
+((* block title *))
+    \title{\documentTitle}
+((* endblock title *))
+
+
+% Default mechanism for rendering figures
+((*- block data_png -*))((( draw_figure(output.metadata.filenames['image/png']) )))((*- endblock -*))
+((*- block data_jpg -*))((( draw_figure(output.metadata.filenames['image/jpeg']) )))((*- endblock -*))
+((*- block data_svg -*))((( draw_figure(output.metadata.filenames['image/svg+xml']) )))((*- endblock -*))
+((*- block data_pdf -*))((( draw_figure(output.metadata.filenames['application/pdf']) )))((*- endblock -*))
+
+
+
+% Draw a figure using the graphicx package.
+((* macro draw_figure(filename) -*))
+((*- block figure scoped -*))
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.7\columnwidth, keepaspectratio]{((( filename )))}
+    \end{center}
+\end{figure}
+
+((*- endblock figure -*))
+((*- endmacro *))
+
+
+((*- block input -*))
+  ((*- if cell.metadata.hide -*))
+  ((*- else -*))
+     ((( super() )))
+  ((*- endif -*))
+((*- endblock input -*))
+
+((*- block output -*))
+  ((*- if cell.metadata.hide -*))
+  ((*- else -*))
+     ((( super() )))
+  ((*- endif -*))
+((*- endblock output -*))
+
+

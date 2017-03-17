@@ -1,0 +1,175 @@
+((*- extends 'article.tplx' -*))
+
+%===============================================================================
+% MF's NBConvert Template for Latex Article
+% =========================================
+%
+% This template implements minimal updates to the latex conversion template
+%
+% Mostly, it tends to clean up the rendering.
+%   * Figures use includegraphics with a columnwidth size by default
+%   * Header is a bit filtered
+%   * Add the possibility to hide cells (metadata.hide == true)
+%   * Inputs code is hidden by default (uncomment the lines if needed
+%
+%===============================================================================
+
+% Document specific options
+% =========================
+((* block docclass *))
+\documentclass[apj, tighten, numberedappendix, twocolappendix]{emulateapj}
+% \documentclass[apj, tighten, numberedappendix, twocolappendix, onecolumn]{emulateapj}
+((* endblock docclass *))
+
+((* block title *))
+((* endblock title *))
+
+((* block author *))
+((* endblock author *))
+
+((* block bibliography *))
+\bibliographystyle{yahapj}
+% \bibliographystyle{apj}
+\bibliography{bibliography}
+((* endblock bibliography *))
+
+((* block margins *))
+((* endblock margins *))
+
+((* block predoc *))
+\title{\documentTitle}
+\author{\documentAuthor\altaffilmark{1}}
+\altaffiltext{1}{Max-Planck-Institut f\"ur Astronomie, K\"onigstuhl 17, 69117 Heidelberg, Germany}
+\email{fouesneau@mpia.de}
+\shortauthors{Fouesneau}
+\lefthead{Fouesneau}
+% \righthead{Schechter Evidence}
+((* endblock predoc *))
+
+((* block commands *))
+% provide some macros
+((* endblock commands *))
+
+% Header cleaning
+% ===============
+((* block packages *))
+  \usepackage[english]{babel}
+  \usepackage{graphicx}         % Used to insert images
+  \usepackage{adjustbox}        % Used to constrain images to a maximum size
+  \usepackage{color}            % Allow colors to be defined
+  \usepackage{enumerate}        % Needed for markdown enumerations to work
+  \usepackage{amsmath}          % Equations
+  \usepackage{amssymb}          % Equations
+  \usepackage{eurosym}          % defines \euro
+  \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+  \usepackage[utf8x]{inputenc}  % Allow utf-8 characters in the tex document
+  \usepackage{fancyvrb}         % verbatim replacement that allows latex
+  \usepackage{grffile}          % extends the file name processing of package graphics
+                                % to support a larger range
+  \usepackage{longtable}        % longtable support required by pandoc >1.10
+  \usepackage{booktabs}         % table support for pandoc > 1.12.2
+  % The hyperref package gives us a pdf with properly built
+  % internal navigation ('pdf bookmarks' for the table of contents,
+  % internal cross-reference links, web links for URLs, etc.)
+  \usepackage{hyperref}
+  % \usepackage{subcaption}
+  % personal packages
+  \usepackage[textwidth=1.8cm, textsize=small]{todonotes}
+  \usepackage[prettymath, probs, math, units, todonotes, prettylinks]{mf}
+
+  \usepackage{listings}
+  \usepackage{color}
+  \definecolor{codegreen}{rgb}{0,0.6,0}
+  \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+  \definecolor{codepurple}{rgb}{0.58,0,0.82}
+  \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+   
+  \lstdefinestyle{mystyle}{
+        backgroundcolor=\color{backcolour},   
+        commentstyle=\color{codegreen},
+        keywordstyle=\color{magenta},
+        numberstyle=\tiny\color{codegray},
+        stringstyle=\color{codepurple},
+        basicstyle=\scriptsize,
+        breakatwhitespace=false,         
+        breaklines=true,                 
+        captionpos=b,                    
+        keepspaces=true,                 
+        numbers=left,                    
+        numbersep=5pt,                  
+        showspaces=false,                
+        showstringspaces=false,
+        showtabs=false,                  
+        tabsize=1
+  }
+  \lstset{style=mystyle}
+
+  \input{document_configuration}
+((* endblock packages *))
+
+
+% Draw a figure using the graphicx package.
+% =========================================
+% Default mechanism for rendering figures
+((*- block data_png -*))
+   ((( draw_figure(output.metadata.filenames['image/png']) )))
+((*- endblock -*))
+((*- block data_jpg -*))
+   ((( draw_figure(output.metadata.filenames['image/jpeg']) )))
+((*- endblock -*))
+((*- block data_svg -*))
+   ((( draw_figure(output.metadata.filenames['image/svg+xml']) )))
+((*- endblock -*))
+((*- block data_pdf -*))
+   ((( draw_figure(output.metadata.filenames['application/pdf']) )))
+((*- endblock -*))
+
+% do not show figures directly, use the LatexFigure instead
+((* macro draw_figure(filename) -*))
+((*- block figure scoped -*))
+
+
+((*- endblock figure -*))
+((*- endmacro *))
+
+% Handle code rendering
+% ======================
+((*- block markdowncell -*))
+  ((*- if cell.metadata.hide -*))
+  ((*- elif cell.metadata.abstract -*))
+    \begin{abstract}
+    ((( cell.source | citation2latex | strip_files_prefix | latex_internal_refs | markdown2latex | newline_block)))
+    \end{abstract}
+  ((*- elif cell.metadata.appendix -*))
+  \appendix
+  ((*- else -*))
+    ((( cell.source | citation2latex | strip_files_prefix | latex_internal_refs | markdown2latex | newline_block)))
+  ((*- endif -*))
+((*- endblock markdowncell -*))
+
+((*- block input -*))
+((*- endblock input -*))
+
+((*- block output -*))
+  ((*- if cell.metadata.hide -*))
+  ((*- elif cell.metadata.abstract -*))
+    \begin{abstract}
+    ((( cell.source | citation2latex | strip_files_prefix | latex_internal_refs | markdown2latex | newline_block)))
+    \end{abstract}
+  ((*- else -*))
+     ((( super() )))
+  ((*- endif -*))
+((*- endblock output -*))
+
+((* block in_prompt *))
+((*- endblock in_prompt *))
+((* block out_prompt *))
+((*- endblock out_prompt *))
+
+% Redirect execute_result to display data priority.
+% get rid of the prompts
+((* block execute_result scoped *))
+    ((* block data_priority scoped *))
+    ((( super() )))
+    ((* endblock *))
+((* endblock execute_result *))

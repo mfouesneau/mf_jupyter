@@ -1,0 +1,128 @@
+((*- extends 'article.tplx' -*))
+
+%===============================================================================
+% MF's NBConvert Template for Latex Article
+% =========================================
+%
+% This template implements minimal updates to the latex conversion template
+%
+% Mostly, it tends to clean up the rendering.
+%   * Figures use includegraphics with a columnwidth size by default
+%   * Header is a bit filtered
+%   * Add the possibility to hide cells (metadata.hide == true)
+%   * Inputs code is hidden by default (uncomment the lines if needed
+%
+%===============================================================================
+
+% Document specific options
+% =========================
+((* block docclass *))
+\documentclass[twocolumn]{article}
+((* endblock docclass *))
+
+((* block title *))
+    \title{\documentTitle}
+((* endblock title *))
+
+((* block author *))
+\author{\documentAuthor}
+((* endblock author *))
+
+((* block commands *))
+% provide some macros
+\providecommand{\nclobs}{n_{c,obs}}
+\providecommand{\data}{\overrightarrow{d}}
+\providecommand{\datai}{\overrightarrow{d_i}}
+\providecommand{\T}{\overrightarrow{\theta}}
+\providecommand{\Ti}{{\overrightarrow{\theta_i}}}
+\providecommand{\err}{\overrightarrow{\sigma}}
+\providecommand{\erri}{{\overrightarrow{\sigma_{d,i}}}}
+\providecommand{\Mc}{M}
+\providecommand{\PI}{\overrightarrow{\pi}}
+\providecommand{\dif}{\,\text{d}} 
+((* endblock commands *))
+
+% Header cleaning
+% ===============
+((* block packages *))
+  \usepackage{graphicx}         % Used to insert images
+  \usepackage{adjustbox}        % Used to constrain images to a maximum size
+  \usepackage{color}            % Allow colors to be defined
+  \usepackage{enumerate}        % Needed for markdown enumerations to work
+  \usepackage{amsmath}          % Equations
+  \usepackage{amssymb}          % Equations
+  \usepackage{eurosym}          % defines \euro
+  \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+  \usepackage[utf8x]{inputenc}  % Allow utf-8 characters in the tex document
+  \usepackage{fancyvrb}         % verbatim replacement that allows latex
+  \usepackage{grffile}          % extends the file name processing of package graphics
+                                % to support a larger range
+  \usepackage{longtable}        % longtable support required by pandoc >1.10
+  \usepackage{booktabs}         % table support for pandoc > 1.12.2
+  % The hyperref package gives us a pdf with properly built
+  % internal navigation ('pdf bookmarks' for the table of contents,
+  % internal cross-reference links, web links for URLs, etc.)
+  \usepackage{hyperref}
+  % personal packages
+  \usepackage[top=1cm,left=2cm,right=2cm,bottom=2cm]{geometry} % margins
+  \usepackage[math, probs, units, fig, names, todonotes, prettylinks, prettymath]{mf}
+
+  \input{document_configuration}
+((* endblock packages *))
+
+
+% Draw a figure using the graphicx package.
+% =========================================
+% Default mechanism for rendering figures
+((*- block data_png -*))
+   ((( draw_figure(output.metadata.filenames['image/png']) )))
+((*- endblock -*))
+((*- block data_jpg -*))
+   ((( draw_figure(output.metadata.filenames['image/jpeg']) )))
+((*- endblock -*))
+((*- block data_svg -*))
+   ((( draw_figure(output.metadata.filenames['image/svg+xml']) )))
+((*- endblock -*))
+((*- block data_pdf -*))
+   ((( draw_figure(output.metadata.filenames['application/pdf']) )))
+((*- endblock -*))
+
+% do not show figures directly, use the LatexFigure instead
+((* macro draw_figure(filename) -*))
+((*- block figure scoped -*))
+
+
+((*- endblock figure -*))
+((*- endmacro *))
+
+% Handle code rendering
+% ======================
+((*- block markdowncell -*))
+  ((*- if cell.metadata.hide -*))
+  ((*- else -*))
+     ((( super() )))
+  ((*- endif -*))
+((*- endblock markdowncell -*))
+
+((*- block input -*))
+((*- endblock input -*))
+
+((*- block output -*))
+  ((*- if cell.metadata.hide -*))
+  ((*- else -*))
+     ((( super() )))
+  ((*- endif -*))
+((*- endblock output -*))
+
+((* block in_prompt *))
+((*- endblock in_prompt *))
+((* block out_prompt *))
+((*- endblock out_prompt *))
+
+% Redirect execute_result to display data priority.
+% get rid of the prompts
+((* block execute_result scoped *))
+    ((* block data_priority scoped *))
+    ((( super() )))
+    ((* endblock *))
+((* endblock execute_result *))

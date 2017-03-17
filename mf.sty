@@ -1,0 +1,394 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%    mf -- This package defines some commands that make my life easier. 
+%
+%    Version: 1.0, August, 1 2013
+%    Author:  M. Fouesneau
+%
+%    Content
+%    -------
+%	
+%    * default common                                           [sec:common]
+%         some alias to commonly used/internal functions 
+%
+%    * probabilities						[sec:probs]
+%         personal notations when writing probabilities
+%
+%    * figure convertions                                       [sec:fig]
+%         Handles automated conversion for appropriate format
+%
+%    * astro units						[sec:astro]
+%         Common units in astronomy (works in math/text mode)
+%
+%    * journal abbreviations                                    [sec:journals]
+%         Common Journal abbreviations in astronomy
+%
+%    * names                                                    [sec:names]
+%         lazyness at its maximum for proper spelling of names
+%
+%    * misc                                                     [sec:misc]
+%         some other quick options:
+%             pretty math: make all equations use `\displaymath`
+%
+%
+%    Each section name has the associated option name, apart from common that is
+%    always set.
+%
+%    Commands are defined using `providecommand` so that it won't neither 
+%    redefine existing macros nor raise an error. Hence the order of loading
+%    packages matters.
+%
+%    Example Usage
+%    -------------
+%
+%    \usepackage[math, fig]{mf}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesPackage{mf}[2013/09/11 MF custom package]
+\RequirePackage{ifpdf}
+\RequirePackage{amsmath}
+\RequirePackage{color}
+\RequirePackage{bm}
+
+% common functions and tools ------------------------------- [sec:common]
+\providecommand{\latin}[1]{\textsl{#1}}
+\providecommand{\aposteriori}{\latin{a~posteriori}}
+\providecommand{\apriori}{\latin{a~priori}}
+\providecommand{\adhoc}{\latin{ad~hoc}}
+\providecommand{\etal}{\latin{et~al.}}
+\providecommand{\eg}{{e.g.}}
+\providecommand{\ie}{\latin{i.e.}}
+\providecommand{\term}[1]{{\bf #1}}
+\providecommand{\code}[1]{{\tt #1}}
+\providecommand{\Fref}[1]{Fig.\,\ref{#1}}
+\providecommand{\Sref}[1]{\S\,\ref{#1}}
+\providecommand{\Eref}[1]{Eq.\,\ref{#1}}
+
+\ifthenelse{\isundefined{\marginfigure}}{
+  %% Do this if it is undefined
+  \let\marginfigure\figure        
+  \let\endmarginfigure\endfigure  
+}{
+  %% Do this if it is defined
+}
+
+
+
+% common math tools -------------------------------------- [sec:math]
+\DeclareOption{math}{
+  \providecommand{\mmatrix}[1]{\ensuremath{\boldsymbol{#1}}}
+  \providecommand{\inverse}[1]{\ensuremath{{#1}^{-1}}}
+  \providecommand{\transpose}[1]{\ensuremath{{#1}^{\scriptscriptstyle \top}}}
+  \providecommand{\setofall}[3]{\{{#1}\}_{{#2}}^{{#3}}}
+  \providecommand{\allx}{\setofall{x_i}{i=1}{N}}
+  \providecommand{\allxy}{\setofall{x_i,\,y_i}{i=1}{N}}
+  \providecommand{\allsigmay}{\setofall{\sigma_{yi}^2}{i=1}{N}}
+  \providecommand{\union}{\cup}
+  \providecommand{\intersect}{\cap}
+  \providecommand{\mean}[1]{\left<{#1}\right>}
+  \providecommand{\argmax}{\operatornamewithlimits{arg\,max}}
+  \providecommand{\argmin}{\operatornamewithlimits{arg\,min}}
+  \providecommand{\card}{\operatorname{card}}			% cardinality
+  \providecommand{\E}{\operatorname{E}}				% Expectation: $\E[X]$ (like \Pr)
+  \providecommand{\EE}{\operatornamewithlimits{E}}
+  \providecommand{\id}{\operatorname{id}}			% identity
+  \providecommand{\rank}{\operatorname{rank}}
+  \providecommand{\sgn}{\operatorname{sgn}}
+  \providecommand{\abs}[1]{\ensuremath{\left| #1 \right|}}	% use instead of $|x|$ 
+  \providecommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}	% use instead of $\|x\|$ 
+  \providecommand{\pa}[1]{\ensuremath{\left(#1\right)}} 	% encloses the argument using stretchable parentheses
+  \providecommand{\bra}[1]{\ensuremath{\left[#1\right]}} 	% encloses the argument using stretchable square brackets
+  \providecommand{\cbra}[1]{\ensuremath{\left\{#1\right\}}} 	% encloses the argument using stretchable curly brackets
+  \providecommand{\Vec}[1]{\ensuremath{\overrightarrow}}
+  % make bold math proper
+  \renewcommand{\mathbf}[1]{{\bm{#1}}}
+}
+%sometimes this is not defined, in this case just avoid the problem
+\providecommand{\ensuremath}[1]{#1}
+
+%probs aliases	-------------------------------------------- [sec:probs]
+\DeclareOption{probs}{
+  \providecommand{\given}{\ensuremath{\,\mid\,}}
+  \providecommand{\prob}{\ensuremath{\mathcal{P}}}
+  \providecommand{\Proba}[1]{\ensuremath{\prob\left(\, #1 \,\right)}}
+  \providecommand{\proba}[1]{\ensuremath{\prob(\, #1 \,)}}
+  \providecommand{\set}[1]{\ensuremath{\left\{\,#1\,\right\}}}
+  \providecommand{\set}[1]{\ensuremath{\left\{\,#1\,\right\}}}
+  \providecommand{\like}{\ensuremath{\mathcal{L}}}
+  \providecommand{\best}{\ensuremath{\mathrm{best}}}
+  \providecommand{\normal}{\ensuremath{\mathcal{N}}}
+  \providecommand{\Pbad}{\ensuremath{\prob_{\mathrm{b}}}}
+  \providecommand{\dataerr}{\mathbf{\Sigma_D}}
+  \providecommand{\PI}{\mathbf{\pi}}
+  \providecommand{\dif}{\,\text{d}} 
+  \providecommand{\prob}{\mathcal{P}}
+  \providecommand{\data}{\mathbf{D}}
+  \providecommand{\datai}{\mathbf{D_i}}
+  \providecommand{\T}{\mathbf{\theta}}
+  \providecommand{\Ti}{\mathbf{\theta_i}}
+  \providecommand{\err}{\mathbf{\Sigma_D}}
+  \providecommand{\erri}{\mathbf{\Sigma_{D,i}}}
+  \providecommand{\fmodel}{{f}}
+  \providecommand{\bmodel}{{b}}
+}
+
+%fig conversions ------------------------------------------- [sec:fig]
+\DeclareOption{fig}{
+% Uses convert to make sure all files are handle properly 
+% with includegraphics
+\DeclareGraphicsExtensions{.jpg, .ps, .eps, .png}
+\ifpdf
+  \DeclareGraphicsRule{.eps}{pdf}{.eps}{`convert #1 pdf:-}
+\else
+  \DeclareGraphicsRule{.png}{eps}{.png}{`convert #1 eps:-}
+  \DeclareGraphicsRule{.jpg}{eps}{.jpg}{`convert #1 eps:-}
+  \DeclareGraphicsRule{.pdf}{eps}{.pdf}{`convert #1 eps:-}
+\fi
+}
+
+%astro aliases	-------------------------------------------- [sec:astro]
+\DeclareOption{units}{
+  \providecommand{\Unit}[1]{\ensuremath{\mathrm{~#1}}} % define unit
+  %\providecommand{\Unit}[1]{{\mathrm{~#1}}} % define unit
+  \providecommand{\um}{\mu\mathrm{m}}
+  \providecommand{\erg}{\Unit{erg}}
+  \providecommand{\ergs}{\Unit{erg~s}}
+  \providecommand{\yr}{\Unit{yr}}
+  \providecommand{\Myr}{\Unit{Myr}}
+  \providecommand{\Gyr}{\Unit{Gyr}}
+  \providecommand{\pc}{\Unit{pc}}
+  \providecommand{\kpc}{\Unit{kpc}}
+  \providecommand{\Mpc}{\Unit{Mpc}}
+  \providecommand{\Lsun}{\Unit{L}_{\odot}}
+  \providecommand{\Zsun}{\Unit{Z}_{\odot}}
+  \providecommand{\msun}{\Unit{M}_{\odot}}
+  \providecommand{\kms}{\Unit{km\,s^{-1}}}
+  \providecommand{\ang}{\AA}               %Angstrom unit
+  \providecommand{\degpoint}{\mbox{$^\circ\mskip-7.0mu.\,$}}
+  \providecommand{\halpha}{\mbox{H$\alpha$}}
+  \providecommand{\hbeta}{\mbox{H$\beta$}}
+  \providecommand{\hgamma}{\mbox{H$\gamma$}}
+  \providecommand{\lya}{\mbox{Ly$\alpha$}}
+  \providecommand{\lyb}{\mbox{Ly$\beta$}}
+  \providecommand{\minpoint}{\mbox{$'\mskip-4.7mu.\mskip0.8mu$}}
+  \providecommand{\mv}{\mbox{$m_{_V}$}}
+  \providecommand{\Mv}{\mbox{$M_{_V}$}}
+  \providecommand{\peryr}{\mbox{$\>\rm yr^{-1}$}}
+  \providecommand{\secpoint}{\mbox{$''\mskip-7.6mu.\,$}}
+  \providecommand{\sqdeg}{\mbox{${\rm deg}^2$}}
+  \providecommand{\squig}{\sim\!\!}
+  %\providecommand{\subsun}{\mbox{$_{\twelvesy\odot}$}}
+  \providecommand{\subsun}{\mbox{$_{\normalsize\odot}$}}
+  \providecommand{\sq}{\mbox{\rlap{$\sqcap$}$\sqcup$}}% 
+  \providecommand{\arcdeg}{\mbox{$^\circ$}}% 
+  \providecommand{\arcmin}{\mbox{$^\prime$}}% 
+  \providecommand{\arcsec}{\mbox{$^{\prime\prime}$}}% 
+  \providecommand{\fd}{\mbox{$.\!\!^{\mathrm d}$}}% 
+  \providecommand{\fh}{\mbox{$.\!\!^{\mathrm h}$}}% 
+  \providecommand{\fm}{\mbox{$.\!\!^{\mathrm m}$}}% 
+  \providecommand{\fs}{\mbox{$.\!\!^{\mathrm s}$}}% 
+  \providecommand{\fdg}{\mbox{$.\!\!^\circ$}}% 
+  \providecommand{\slantfrac}{\case}% 
+  \providecommand{\onehalf}{\slantfrac{1}{2}}% 
+  \providecommand{\onethird}{\slantfrac{1}{3}}% 
+  \providecommand{\twothirds}{\slantfrac{2}{3}}% 
+  \providecommand{\onequarter}{\slantfrac{1}{4}}% 
+  \providecommand{\threequarters}{\slantfrac{3}{4}}% 
+  \providecommand{\ubvr}{\mbox{$U\!BV\!R$}}%% UBVR system 
+  \providecommand{\ub}{\mbox{$U\!-\!B$}}%   % U-B 
+  \providecommand{\bv}{\mbox{$B\!-\!V$}}%   % B-V 
+  \providecommand{\vr}{\mbox{$V\!-\!R$}}%   % V-R 
+  \providecommand{\ur}{\mbox{$U\!-\!R$}}%   % U-R 
+  \providecommand{\ion}[2]{#1$\;${\small\rmfamily\@Roman{#2}}\relax}% 
+  \providecommand{\nodata}{ ~$\cdots$~ }% 
+  \providecommand{\diameter}{\ooalign{\hfil/\hfil\crcr\mathhexbox20D}}% 
+  \providecommand{\degr}{\arcdeg}% 
+  \providecommand{\sun}{\odot}% 
+  \providecommand{\Sun}{\sun}% 
+  \providecommand{\Sol}{\sun}% 
+
+  \providecommand{\Av}{\ensuremath{{\mathrm{A}}_{\mathrm{V}}}}
+}    
+
+%astro journals --------------------------------------------- [sec:journals]
+
+\DeclareOption{journals}{
+  \let\jnl@style=\rmfamily 
+  \def\ref@jnl#1{{\jnl@style#1}}% 
+  \providecommand\aj{AJ}%
+            % Astronomical Journal
+  \providecommand\actaa{Acta Astron.}%
+            % Acta Astronomica
+  \providecommand\araa{ARA\&A}%
+            % Annual Review of Astron and Astrophys
+  \providecommand\apj{ApJ}%
+            % Astrophysical Journal
+  \providecommand\apjl{ApJ}%
+            % Astrophysical Journal, Letters
+  \providecommand\apjs{ApJS}%
+            % Astrophysical Journal, Supplement
+  \providecommand\ao{Appl.~Opt.}%
+            % Applied Optics
+  \providecommand\apss{Ap\&SS}%
+            % Astrophysics and Space Science
+  \providecommand\aap{A\&A}%
+            % Astronomy and Astrophysics
+  \providecommand\aapr{A\&A~Rev.}%
+            % Astronomy and Astrophysics Reviews
+  \providecommand\aaps{A\&AS}%
+            % Astronomy and Astrophysics, Supplement
+  \providecommand\azh{AZh}%
+            % Astronomicheskii Zhurnal
+  \providecommand\baas{BAAS}%
+            % Bulletin of the AAS
+  \providecommand\bac{Bull. astr. Inst. Czechosl.}%
+            % Bulletin of the Astronomical Institutes of Czechoslovakia 
+  \providecommand\caa{Chinese Astron. Astrophys.}%
+            % Chinese Astronomy and Astrophysics
+  \providecommand\cjaa{Chinese J. Astron. Astrophys.}%
+            % Chinese Journal of Astronomy and Astrophysics
+  \providecommand\icarus{Icarus}%
+            % Icarus
+  \providecommand\jcap{J. Cosmology Astropart. Phys.}%
+            % Journal of Cosmology and Astroparticle Physics
+  \providecommand\jrasc{JRASC}%
+            % Journal of the RAS of Canada
+  \providecommand\mnras{MNRAS}%
+            % Monthly Notices of the RAS
+  \providecommand\memras{MmRAS}%
+            % Memoirs of the RAS
+  \providecommand\na{New A}%
+            % New Astronomy
+  \providecommand\nar{New A Rev.}%
+            % New Astronomy Review
+  \providecommand\pasa{PASA}%
+            % Publications of the Astron. Soc. of Australia
+  \providecommand\pra{Phys.~Rev.~A}%
+            % Physical Review A: General Physics
+  \providecommand\prb{Phys.~Rev.~B}%
+            % Physical Review B: Solid State
+  \providecommand\prc{Phys.~Rev.~C}%
+            % Physical Review C
+  \providecommand\prd{Phys.~Rev.~D}%
+            % Physical Review D
+  \providecommand\pre{Phys.~Rev.~E}%
+            % Physical Review E
+  \providecommand\prl{Phys.~Rev.~Lett.}%
+            % Physical Review Letters
+  \providecommand\pasp{PASP}%
+            % Publications of the ASP
+  \providecommand\pasj{PASJ}%
+            % Publications of the ASJ
+  \providecommand\qjras{QJRAS}%
+            % Quarterly Journal of the RAS
+  \providecommand\rmxaa{Rev. Mexicana Astron. Astrofis.}%
+            % Revista Mexicana de Astronomia y Astrofisica
+  \providecommand\skytel{S\&T}%
+            % Sky and Telescope
+  \providecommand\solphys{Sol.~Phys.}%
+            % Solar Physics
+  \providecommand\sovast{Soviet~Ast.}%
+            % Soviet Astronomy
+  \providecommand\ssr{Space~Sci.~Rev.}%
+            % Space Science Reviews
+  \providecommand\zap{ZAp}%
+            % Zeitschrift fuer Astrophysik
+  \providecommand\nat{Nature}%
+            % Nature
+  \providecommand\iaucirc{IAU~Circ.}%
+            % IAU Cirulars
+  \providecommand\aplett{Astrophys.~Lett.}%
+            % Astrophysics Letters
+  \providecommand\apspr{Astrophys.~Space~Phys.~Res.}%
+            % Astrophysics Space Physics Research
+  \providecommand\bain{Bull.~Astron.~Inst.~Netherlands}%
+            % Bulletin Astronomical Institute of the Netherlands
+  \providecommand\fcp{Fund.~Cosmic~Phys.}%
+            % Fundamental Cosmic Physics
+  \providecommand\gca{Geochim.~Cosmochim.~Acta}%
+            % Geochimica Cosmochimica Acta
+  \providecommand\grl{Geophys.~Res.~Lett.}%
+            % Geophysics Research Letters
+  \providecommand\jcp{J.~Chem.~Phys.}%
+            % Journal of Chemical Physics
+  \providecommand\jgr{J.~Geophys.~Res.}%
+            % Journal of Geophysics Research
+  \providecommand\jqsrt{J.~Quant.~Spec.~Radiat.~Transf.}%
+            % Journal of Quantitiative Spectroscopy and Radiative Trasfer
+  \providecommand\memsai{Mem.~Soc.~Astron.~Italiana}%
+            % Mem. Societa Astronomica Italiana
+  \providecommand\nphysa{Nucl.~Phys.~A}%
+            % Nuclear Physics A
+  \providecommand\physrep{Phys.~Rep.}%
+            % Physics Reports
+  \providecommand\physscr{Phys.~Scr}%
+            % Physica Scripta
+  \providecommand\planss{Planet.~Space~Sci.}%
+            % Planetary Space Science
+  \providecommand\procspie{Proc.~SPIE}%
+            % Proceedings of the SPIE
+  \let\astap=\aap
+  \let\apjlett=\apjl
+  \let\apjsupp=\apjs
+  \let\applopt=\ao
+  
+}
+
+% annotations ----------------------------------------------- [sec:comments]
+\providecommand{\com}{}
+\providecommand{\alert}{}
+%default is do nothing but if option is set then show something
+\DeclareOption{comments}{
+  \definecolor{mygreen}{rgb}{0,0.5,0}
+  \definecolor{myred}{rgb}{0.5,0,0}
+  \renewcommand{\alert}[1]{ {\color{myred} \bf #1} }
+  \renewcommand{\com}[1]{ {\color{mygreen} \bf [ #1 ]} }
+}
+
+\@ifpackageloaded{todonotes}{
+  \DeclareOption{todonotes}{
+     % To streamline use the following /command was suggested by Stefan Pinnow.
+     \newcommand\todoin[2][MF]{%
+	\todo[inline, caption={#1}, color=red!20]{
+		  \begin{minipage}{\linewidth}
+	     #2
+		  \end{minipage}
+	  }
+     }
+     \newcommand\commentin[2][MF]{%
+	\todo[inline, caption={#1}, color=green!20]{
+		  \begin{minipage}{\linewidth}
+	     #2
+		  \end{minipage}
+	  }
+     }
+     
+     \newcommand\mytodo[2][MF]{\todo[caption={#1}, color=green!20]{ \scriptsize #2 } }
+  }
+  }{}
+
+%names  ----------------------------------------------------- [sec:names]
+\DeclareOption{names}{
+  \providecommand{\Lancon}{Lan{\cc}on} 
+}
+
+%misc  ------------------------------------------------------- [sec:misc]
+\DeclareOption{prettymath}{
+  %make all math nice looking
+  \everymath{\displaystyle}
+}
+
+\@ifpackageloaded{hyperref}{
+  \DeclareOption{prettylinks}{
+	\hypersetup{colorlinks=true, citecolor=blue, urlcolor=green, linkcolor=blue}
+    }
+}
+
+
+
+
+% ============= OPTIONS PROCESSING ================
+\DeclareOption*{\typeout{What's \CurrentOption?}}
+\ProcessOptions\relax 
+
+\endinput
