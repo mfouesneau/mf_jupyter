@@ -1000,9 +1000,3 @@ class IncludeGraphics(LatexFigure):
     def _repr_html_(self):
         return markdown2html('> **Figure (<a name="fig:{label:s}">{label:s}</a>)**: {caption:s}'.format(
             label=self.label, caption=self.caption)) + '\n' + self.data._repr_html_()
-        
-    def display(self):
-        display(self)
-
-    def __str__(self):
-        return self._repr_latex_()
