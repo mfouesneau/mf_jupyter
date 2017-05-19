@@ -7,6 +7,7 @@ try:
 except ImportError:
     from IPython.nbconvert.filters.markdown import markdown2latex, markdown2html
 from IPython.display import DisplayObject
+from IPython.display import IFrame, SVG, Image
 import time as _time
 import sys
 import os
@@ -945,3 +946,63 @@ class NBPbar(object):
             self.desc = desc
         cur_t = _time.time()
         self.print_status(n, total, cur_t - self._start_t)
+
+
+class IncludeGraphics(LatexFigure):
+    """
+    A LaTeX IPython DisplayObject Figure
+
+    `label` is mandatory, since it also sets the filename. It will
+    have ``fig:`` preprended to it.
+
+    `fig` is optional - the current figure (via ``gcf``) will be used
+    if it is not set.
+
+    `position` is either the float placement specifier or the subfigure
+    vertical position.
+
+    If `subfigure` is set to true, a subfigure with width `width` will
+    be created.
+
+    The figure is saved (via ``savefig``) as a PDF file in the current
+    directory.
+
+    Displaying the object produces LaTeX (only) to embed the figure.
+    A little hacky, but since this is meant for use in the notebook
+    it is assumed that the figure is going to be displayed automatically
+    in HTML independently.
+    """
+    def __init__(self, fname, label, caption, fig=None, position="", star=False,
+                 options='width=\columnwidth', margin=False):
+        if fig is None:
+            from matplotlib.pyplot import gcf
+            fig = gcf()
+
+        self.label = label
+        self.caption = caption
+        self.fig = fig
+        self.position = position
+        self.options = options
+        self.star = star
+        self.margin = margin
+        self.filename = fname
+        self.data = self._get_data()
+    
+    def _get_data(self):
+        extension = self.filename.split('.')[-1].lower()
+        if extension == 'svg':
+            return SVG(filename=self.filename)
+        elif extension == 'pdf':
+            return IFrame("mftex/pgm.pdf#view=fit", 600, 400)
+        else:
+            return Image(filename=self.filename)
+
+    def _repr_html_(self):
+        return markdown2html('> **Figure (<a name="fig:{label:s}">{label:s}</a>)**: {caption:s}'.format(
+            label=self.label, caption=self.caption)) + '\n' + self.data._repr_html_()
+        
+    def display(self):
+        display(self)
+
+    def __str__(self):
+        return self._repr_latex_()
