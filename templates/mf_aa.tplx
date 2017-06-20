@@ -162,11 +162,10 @@
   ((*- if cell.metadata.hide -*))
   ((*- elif cell.metadata.abstract -*))
 	\label{firstpage}
-	\maketitle
+    \abstract{
+    ((( cell.source | citation2latex | strip_files_prefix | latex_internal_refs | markdown2latex | newline_block)))}
 
-    \begin{abstract}
-    ((( cell.source | citation2latex | strip_files_prefix | latex_internal_refs | markdown2latex | newline_block)))
-    \end{abstract}
+	\maketitle
   ((*- elif cell.metadata.appendix -*))
   \appendix
   ((*- else -*))
@@ -180,10 +179,8 @@
 ((*- block output -*))
   ((*- if cell.metadata.hide -*))
   ((*- elif cell.metadata.abstract -*))
-
-    \begin{abstract}
-     ((( cell.source | citation2latex | strip_files_prefix | latex_internal_refs | markdown2latex | newline_block)))
-    \end{abstract}
+    \abstract{
+    ((( cell.source | citation2latex | strip_files_prefix | latex_internal_refs | markdown2latex | newline_block)))}
   ((*- else -*))
      ((( super() )))
   ((*- endif -*))
