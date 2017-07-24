@@ -1,5 +1,6 @@
 (Latex macros)
 $
+    \newcommand{\num}{{}}
     \newcommand{\dataerr}{\mathbf{\Sigma_D}}
     \newcommand{\PI}{\mathbf{\pi}}
     \newcommand{\nclobs}{n_{c,obs}}

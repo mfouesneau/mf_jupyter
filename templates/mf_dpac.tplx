@@ -43,10 +43,10 @@
 
 %Product name first in title 
 \setDpacDocTitle    [TN]{\color[rgb]{0.16,0.42,0.57} \sf \documentTitle} 
-\setDpacDocAuthor   {\documentAuthor}                % the author(s)
-\setDpacDocRef      {GAIA-C8-TN-MPIA-MFX-???} % the reference code
+\setDpacDocAuthor   {\documentAuthor}         % the author(s)
+\setDpacDocRef      {\DpacDocRef}             % the reference code
 %\setDpacDocIssue    {0}                      % the issue
-\setDpacDocRevision {0}                       % the revision
+\setDpacDocRevision {\DpacDocRevision}        % the revision
 \setDpacDocDate     {\today}                  % the date of the issue
 \setDpacDocStatus   {Draft}                   % the document status
 % Comment out the setDpacDU if you do not want it do not set it to Blanck
@@ -132,6 +132,14 @@
   \setcounter{secnumdepth}{2}
 
   \input{document_configuration}
+  \makeatletter
+     \@ifundefined{DpacDocRef}{%
+	\def\DpacDocRef{GAIA-C8-TN-MPIA-MFX-???}
+	}{}
+     \@ifundefined{DpacDocRevision}{%
+	\def\DpacDocRevision{0}
+	}{}
+   \makeatother
 
 ((* endblock packages *))
 

@@ -610,7 +610,7 @@ class LatexFigure(object):
 
 class LatexSubfigures(object):
     def __init__(self, label, caption, figures, position='h',
-                 subfigure_position='b', star=False):
+                 subfigure_position='b', rescale=True, star=False):
         """
         Displays several :cls:`LatexFigures` as sub-figures, two per row.
 
@@ -624,6 +624,7 @@ class LatexSubfigures(object):
         self.position = position
         self.subfigure_position = subfigure_position
         self.star = star
+        self.rescale = rescale
 
     def _repr_html_(self):
         # Bit crude. Hide ourselves to the notebook viewer, since we'll
@@ -643,23 +644,15 @@ class LatexSubfigures(object):
             \centering
         """)
 
-        #left = True
-        #first = True
-        opts = {"position": self.subfigure_position,
-                "width": "{0:0.2f}\linewidth".format((1 - len(self.figures) * 0.01) / len(self.figures))}
-        for f in self.figures:
-            #if left and not first:
-            #    strings.append(r"\vspace{1em}")
+        opts = {"position": self.subfigure_position}
+        if self.rescale is True:
+            opts["width"] = "{0:0.2f}\linewidth".format((1 - len(self.figures) * 0.01) / len(self.figures))
+        else:
+            opts["width"] = "\columnwidth"
 
+        for f in self.figures:
             # have to be quite careful about whitespace
             latex = f._repr_latex_(subfigure=opts).strip()
-
-            #if left:
-            #    latex += '%'
-            #else:
-            #    latex += r'\newline'
-            #first = False
-            #left = not left
 
             strings.append(latex)
 
