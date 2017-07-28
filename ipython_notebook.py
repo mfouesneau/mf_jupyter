@@ -15,8 +15,21 @@ import os
 
 # constants
 rcParams = {
-    "figdir": os.path.curdir,
+    "figdir": os.path.curdir + '/figures',
 }
+
+
+def _check_figdir_exists(name=None):
+    """ Check the directory existence or create it if needed """
+    if name is None:
+        name = rcParams['figdir']
+    if not os.path.isdir(name):
+        os.makedirs(name)
+
+
+def set_figures_directory(name):
+    _check_figdir_exists(name)
+    rcParams['figdir'] = name
 
 
 class Caption(Markdown):
@@ -80,10 +93,12 @@ class Matrix(object):
 
 
 def disp_markdown(*args):
+    """ A shortcut to display(Markdown(*args)) """
     return display(Markdown(*args))
 
 
 def load_latex_macros():
+    """ Load macros """
     import os
     import inspect
     localpath = '/'.join(os.path.abspath(inspect.getfile(inspect.currentframe())).split('/')[:-1])
@@ -547,8 +562,9 @@ class LatexFigure(object):
         """
         if fig is None:
             from matplotlib.pyplot import gcf
-
             fig = gcf()
+
+        _check_figdir_exists()
 
         self.label = label
         self.caption = caption
