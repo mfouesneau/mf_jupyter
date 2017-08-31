@@ -355,7 +355,10 @@ class Table(DisplayObject):
     def _repr_latex_(self):
         strings = []
 
-        strings.append(r"""\begin{table}[""" + self.position + r"""]
+        strings.append(r"""\begin{table}""")
+        if self.position not in (None, ''):
+            strings.append("[" + self.position + r"]")
+        strings.append("""
         \centering
         """)
 
