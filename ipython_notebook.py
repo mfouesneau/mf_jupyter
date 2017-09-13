@@ -1012,3 +1012,67 @@ class IncludeGraphics(LatexFigure):
     def _repr_html_(self):
         return markdown2html('> **Figure (<a name="fig:{label:s}">{label:s}</a>)**: {caption:s}'.format(
             label=self.label, caption=self.caption)) + '\n' + self.data._repr_html_()
+
+
+class LatexMultiFigures(object):
+    def __init__(self, label, caption, figures, position='',
+                 rescale=True, star=False):
+        """
+        Displays several :cls:`LatexFigures` as sub-figures, two per row.
+
+        `figures` should be an array of :cls:`LatexFigure` objects, not
+        :cls:`matplotlib.Figure` objects.
+        """
+
+        self.label = label
+        self.caption = caption
+        self.figures = figures
+        self.position = position
+        self.star = star
+        self.rescale = rescale
+
+    def _repr_html_(self):
+        # Bit crude. Hide ourselves to the notebook viewer, since we'll
+        # have been shown already anyway.
+        # Nicer solutions are afaict infeasible.
+        return markdown2html('> **Figure (<a name="fig:{label:s}">{label:s}</a>)**: {caption:s}'.format(
+            label=self.label, caption=self.caption))
+
+    def _repr_latex_(self):
+        strings = []
+
+        environment = "figure"
+        if self.star:
+            environment += '*'
+
+        strings.append(r"""\begin{""" + environment + """}[""" + self.position + r"""]
+            \centering
+        """)
+
+        opts = {}
+        if self.rescale is True:
+            opts["width"] = "{0:0.2f}\linewidth".format((1 - len(self.figures) * 0.01) / len(self.figures))
+        else:
+            opts["width"] = "\columnwidth"
+
+        for f in self.figures:
+            # have to be quite careful about whitespace
+            latex = r"""\includegraphics[{options:s}]{{{fname:s}}}"""
+            strings.append(latex.format(options=f.options, fname=f.filename))
+
+        strings.append(r"""
+            \caption{""" + self.caption + r"""}
+            \label{fig:""" + self.label + r"""}
+        \end{""" + environment + """}
+        """)
+
+        return "\n".join(strings).replace('[]', '')
+
+    def __repr__(self):
+        c = self.caption.replace("\n", " ")
+        strings = ["Figure group: {0} ({1})".format(self.label, c)]
+        strings += [repr(x) for x in self.figures]
+        return "\n".join(strings)
+
+    def __html__(self):
+        return ""
