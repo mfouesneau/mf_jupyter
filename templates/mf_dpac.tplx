@@ -51,6 +51,7 @@
 \setDpacDocStatus   {Draft}                   % the document status
 % Comment out the setDpacDU if you do not want it do not set it to Blanck
 %\setDpacDU          {DUy}                      % no DU for CU8
+%\setDpacDocApprove{who checked}              % Who checked the document
 ((* endblock predoc *))
 
 
