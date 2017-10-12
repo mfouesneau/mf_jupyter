@@ -249,7 +249,7 @@ class Table(DisplayObject):
     VDOTS = object()
 
     def __init__(self, data, headings=None, formats=None, caption=None,
-                 label=None, position='h', subtables=1):
+                 label=None, position='h', fontsize=None, subtables=1):
         """
         A HTML/LaTeX IPython DisplayObject Table
 
@@ -316,6 +316,7 @@ class Table(DisplayObject):
         self.label = label
         self.position = position
         self.subtables = subtables
+        self.fontsize = fontsize
 
     @staticmethod
     def _default_format(what):
@@ -366,6 +367,8 @@ class Table(DisplayObject):
             strings.append(r"\caption{" + self.caption + "}")
             strings.append(r"\label{tab:" + self.label + "}")
 
+        if self.fontsize:
+            strings.append("\n" + self.fontsize + "\n")
         if self.subtables > 1:
             subtables = self._subtables_split()
             width = "{:.3f}\linewidth".format(0.95 / self.subtables)
