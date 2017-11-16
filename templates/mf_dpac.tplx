@@ -63,6 +63,7 @@
 % Header cleaning
 % ===============
 ((* block packages *))
+  \usepackage{xspace}
   \usepackage{breakurl}
   \usepackage[english]{babel}
   \usepackage{natbib}
