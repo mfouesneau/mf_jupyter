@@ -34,3 +34,6 @@ html:
 
 clean:
 	rm -f *.dvi *.aux *.bbl *.blg *.log *.toc *.lot *.lof *.cb *.bak *.out
+
+run:
+	${NBCONVERT} --to notebook --execute ${SOURCE}.ipynb
