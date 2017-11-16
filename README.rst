@@ -40,6 +40,13 @@ Once the document is ready, compilation can be done through a simple `make` comm
 Where the `SOURCE` variable is the name of the notebook file and `tufte` is the
 template name.
 
+You can also re-run the full document and export it without opening it
+interactively 
+
+.. code:: shell
+
+   > SOURCE=Untitled make run tufte pdf
+
 
 Notebook content and meta data
 ------------------------------
