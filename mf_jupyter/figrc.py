@@ -10,7 +10,7 @@ import pylab as plt
 import numpy as np
 from scipy import sparse
 import matplotlib as mpl
-from matplotlib.mlab import griddata
+from scipy.interpolate import griddata 
 from matplotlib.ticker import MaxNLocator
 from matplotlib.patches import Ellipse
 from scipy.sparse import coo_matrix
@@ -530,7 +530,7 @@ def crazy_histogram2d(x, y, bins=10, weights=None, reduce_w=None, NULL=None, rei
                                         defaults to numpy's sum function (np.sum)
         NULL        value type          filling missing data value
         reinterp    str                 values are [None, 'nn', linear']
-                                        if set, reinterpolation is made using mlab.griddata to fill missing data
+                                        if set, reinterpolation is made using scipy.interpolate.griddata to fill missing data
                                         within the convex polygone that encloses the data
 
     OUTPUTS:
@@ -606,7 +606,8 @@ def crazy_histogram2d(x, y, bins=10, weights=None, reduce_w=None, NULL=None, rei
     else:  # reinterp
         xi = np.arange(nx, dtype=float)
         yi = np.arange(ny, dtype=float)
-        B = griddata(_grid.col.astype(float), _grid.row.astype(float), _grid.data, xi, yi, interp=reinterp)
+        # B = griddata(_grid.col.astype(float), _grid.row.astype(float), _grid.data, xi, yi, interp=reinterp)
+        B = griddata((_grid.col.astype(float), _grid.row.astype(float)), _grid.data, (xi[None,:], yi[:,None]), method=reinterp)
 
     return B, (xmin, xmax, ymin, ymax), (dx, dy)
 
