@@ -12,7 +12,7 @@ setup(name = "mf_jupyter",
     author_email = "",
     url = "https://github.com/mfouesneau/mf_jupyter",
     packages = find_packages(),
-    package_data = {'mf_jupyter':['./*'],},
+    package_data = {'mf_jupyter':['./*', './templates'],},
     include_package_data = True,
     classifiers=[
       'Intended Audience :: Science/Research',
