@@ -516,6 +516,60 @@ class Table(DisplayObject):
 
     def __html__(self):
         return self._repr_html_()
+    
+    def transpose(self):
+        """ transpose table """
+        data_ = [self.headings] + self.data
+        data = list(map(list, zip(*data_)))
+        return self.__class__(data)
+    
+    @property
+    def T(self):
+        return self.transpose()
+    
+    def set_header(self, header=None, first_row=False):
+        if (not header) and (not first_row):
+            return
+        elif header:
+            if self.columns != len(header):
+                msg = "Proposed header has {0:d} fields, expecting {1:d}"
+                raise AttributeError(msg.format(self.columns, len(header)))
+            self.headings = header
+        else:
+            self.headings = self.data.pop(0)
+        return self
+    
+    @classmethod
+    def from_pandas(cls, df, **kwargs):
+        data = df.to_records()
+        headings = list(data.dtype.names)
+        headings = kwargs.pop("headings", headings)
+        return cls(data.tolist(), headings=headings, **kwargs)
+    
+    def _repr_jira_(self) -> str:
+        """ returns the jira ascii formatted table """
+    
+        def _jira_tabular(strings: list, rows: list):
+
+            if self.headings:
+                strings.append('|| ' + " || ".join([str(x) for x in self.headings]) + ' ||')
+            for row in rows:
+                strings.append("| " + " | ".join(list(row)) + " |")
+
+        strings = []
+
+        if self.label:
+            strings.append("*" + self.caption + "*")
+        if self.subtables > 1:
+            raise NotImplementedError()
+        else:
+            rows = self._format_rows()
+            _jira_tabular(strings, rows)
+
+        return "\n".join(strings)
+    
+    def to_jira(self):
+        return self._repr_jira_()
 
 
 class AppendixMark(Markdown):
