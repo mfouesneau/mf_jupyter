@@ -63,9 +63,9 @@ def mf_jupyter_convert(filename: str, template: str = "dpac", silent: bool = Tru
             else:
                 TEXEXPORT.append(k)
     
-    TEXEXPORT = ':'.join(TEXEXPORT)    
+    TEXEXPORTS = ':'.join(TEXEXPORTS)    
         
-    cmd = f"""export TEXINPUTS=.:{TEXEXPORT:s}:
+    cmd = f"""export TEXINPUTS=.:{TEXEXPORTS:s}:
     {PDFLATEX:s} {filename:s}
     bibtex {filename:s}
     {PDFLATEX:s} {filename:s}
