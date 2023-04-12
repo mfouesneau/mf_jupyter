@@ -24,8 +24,9 @@ def _get_nbconvert_cmd(notebook_path: str,
     cmd: str
         the commandline to run nbconvert
     """
-    config = os.path.abspath(pkg_resources.resource_filename('mf_jupyter', 'config.py'))
-    templates_dir = os.path.abspath(pkg_resources.resource_filename('mf_jupyter', 'templates'))
+    mf_nbconvert_pkg_path = os.path.abspath(os.path.join(pkg_resources.resource_filename('mf_jupyter', 'nbconvert')))
+    config = os.path.join(mf_nbconvert_pkg_path, 'config.py')
+    templates_dir = os.path.join(mf_nbconvert_pkg_path, 'templates')
 
     args = [
         """jupyter nbconvert """,
@@ -57,9 +58,8 @@ def _get_pdflatex_cmd(latexfile_path: str,
     cmd: str
         the commandline to run pdflatex
     """
-    TEXMFLOCAL = os.path.join(
-                        os.path.abspath(pkg_resources.resource_filename('mf_jupyter', 'texlibs')),
-                        'texmf//')
+    mf_nbconvert_pkg_path = os.path.abspath(os.path.join(pkg_resources.resource_filename('mf_jupyter', 'nbconvert')))
+    TEXMFLOCAL = os.path.join(mf_nbconvert_pkg_path, 'texlibs', 'texmf//')
     PDFLATEX = f"pdflatex -enable-write18 -shell-escape -interaction=nonstopmode"
 
     TEXEXPORTS = [f"{TEXMFLOCAL:s}"]
