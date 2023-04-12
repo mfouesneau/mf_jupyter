@@ -1,0 +1,79 @@
+# Starting with PEP 621 (June 2020), the Python community selected pyproject.toml as a
+# standard way of specifying project metadata. Setuptools has adopted this
+# standard and will use the information contained in this file as an input in
+# the build process.
+# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+
+[build-system]
+requires = ["setuptools>=45",
+            "setuptools-scm>=6.2",
+            "wheel",
+            ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mf_jupyter"
+description = "Notebook with my suite to easy latex conversion"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["template", "python", "nbconvert"]
+license = {text = "BSD 3-Clause License"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: BSD 3-Clause License",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "requests",
+    'importlib-metadata; python_version<"3.8"',
+    "ipython",
+    "jupyter",
+    "matplotlib",
+    "nbconvert",
+    "notebook",
+    "numpy",
+    "pandas",
+]
+
+dynamic = ["version"]
+
+[tool.setuptools_scm]
+# write_to = "src/mf_jupyter/__version__.py"
+
+[tool.setuptools]
+# By default, include-package-data is true in pyproject.toml, so you do
+# NOT have to specify this line.
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]                  # list of folders that contain the packages (["."] by default)
+include = ["mf_jupyter*"]        # package names should match these glob patterns (["*"] by default)
+exclude = ["mf_jupyter.tests*"]  # exclude packages matching these glob patterns (empty by default)
+namespaces = true                # to disable scanning PEP 420 namespaces (true by default)
+
+[tool.setuptools.package-data]
+# Examples
+# "*" = ["*.txt"]
+#mf_jupyter = ["*.txt", "*.rst"]
+#mf_jupyter.data = ["*.txt", "*.rst"]  # for subfolder of cu8val
+
+[project.optional-dependencies]
+
+testing = [
+    "pytest",
+    "pytest-doctestplus",
+    "flake8",
+    "codecov",
+    "pytest-cov"]
+
+ci = [
+  "toml",
+  "yapf"]
+
+docs = [
+  "sphinx",
+  "sphinx-automodapi",
+  "numpydoc"]
+
+# ... other project metadata fields as specified in:
+#     https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
