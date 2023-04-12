@@ -1,13 +1,13 @@
-""" Generate commandlines to run the conversions """
+""" This module generate commandlines to run the conversions and provides a single function to convert a notebook
+"""
 import os
 import pkg_resources
 from typing import List
 
-pkg_dir = pkg_resources.resource_filename('mf_jupyter', '')
 
-def get_nbconvert_cmd(notebook_path: str,
-                      template: str = 'tufte',
-                      debug: bool = True) -> str:
+def _get_nbconvert_cmd(notebook_path: str,
+                       template: str = 'tufte',
+                       debug: bool = True) -> str:
     """ Get commandline to run nbconvert
 
     Parameters
@@ -40,7 +40,7 @@ def get_nbconvert_cmd(notebook_path: str,
 
     return ' '.join(args)
 
-def get_pdflatex_cmd(latexfile_path: str,
+def _get_pdflatex_cmd(latexfile_path: str,
                      texdirs: List[str] = [],
                      ) -> str:
     """Get commandline to run pdflatex
@@ -81,10 +81,10 @@ def get_pdflatex_cmd(latexfile_path: str,
     return cmd
 
 
-def mf_jupyter_convert(filename: str,
-                       template: str = "tufte",
-                       silent: bool = True,
-                       texdirs: list = []):
+def convert_notebook(filename: str,
+                     template: str = "tufte",
+                     silent: bool = True,
+                     texdirs: list = []):
     """ This function compiles a notebook into a DPAC latex document and its PDF.
 
     Parameters
@@ -107,7 +107,7 @@ def mf_jupyter_convert(filename: str,
     filename = filename.replace('.ipynb', '')
 
     # step 1: convert notebook to latex
-    cmd = get_nbconvert_cmd(filename, template=template, debug=~silent)
+    cmd = _get_nbconvert_cmd(filename, template=template, debug=~silent)
     print(cmd)
 
     p = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
@@ -121,7 +121,7 @@ def mf_jupyter_convert(filename: str,
         raise RuntimeError("nbconvert step failed")
 
     # step 2: convert latex to pdf
-    cmd = get_pdflatex_cmd(filename, texdirs=texdirs)
+    cmd = _get_pdflatex_cmd(filename, texdirs=texdirs)
     print(cmd)
 
     p = Popen(cmd.replace('\n', '; '), shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
