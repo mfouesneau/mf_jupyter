@@ -1,0 +1,191 @@
+\section{Report template macros}\label{sec:macros}
+
+\draftcomment{This section is only visible in draft mode}
+
+In this section, I give the main macros that are provided to make these reports easier to read by imposing standardized presentation.
+
+\subsection{Common Abbreviations}
+
+\providecommand\fverb[1]{\texttt{\detokenize{#1}\ignorespaces\relax}}
+\providecommand\helpline[2]{\texttt{\detokenize{#1}\ignorespaces\relax}&{#1}&{#2}}
+
+\begin{center}
+    option \fverb{abbrev} of \fverb{_cu8_macros}\\
+    \begin{tabular}{r|l|l}
+        \hline
+        \helpline{\eg}{}\\
+        \helpline{\ie}{}\\
+        \helpline{\prompt}{show a console prompt sign}\\
+        \hline
+    \end{tabular}
+\end{center}
+
+\subsection{links}
+
+% \begin{center}
+%     option \fverb{buttons} of \fverb{_cu8_macros}\\
+%     \begin{tabular}{r|l|l}
+%         \hline
+%         \helpline{\gotobutton{}}{hyperref linkbutton}\\
+%         \helpline{\svnbutton{}}{svn link button}\\
+%         \helpline{\videobutton{}}{video link button}\\
+%         \hline
+%     \end{tabular}
+% \end{center}
+
+
+\begin{center}
+    option \fverb{links} of \fverb{_cu8_macros}\\
+    \begin{tabular}{r|l|l}
+        \hline
+        \helpline{\jira{C8CAL-123}}{link to a JIRA issue}\\
+        \helpline{\svnlink{url}{name}}{Link to svn}\\
+        \helpline{\wikilink{url}{name}}{Link to wiki}\\
+        \helpline{\lllink{url}{name}}{Link to livelink}\\
+        \helpline{\videolink{url}{name}}{Link to a video}\\
+        \helpline{\slidesurl{url}{name}}{Link to slides}\\
+        \helpline{\overleaf{url}{name}}{Link to an overleaf document}\\
+        \hline
+    \end{tabular}
+\end{center}
+
+
+\subsection{Apsis and module names}\label{sec:names}
+
+\renewcommand\helpline[2]{\texttt{\detokenize{#1}\ignorespaces\relax}&{#1}}
+\begin{center}
+    \begin{tabular}{r|l}
+        \hline
+        \helpline{\apsis}{\modulename{Apsis}}\\
+        \helpline{\apsisval}{\modulename{ApsisVal}}\\
+        \helpline{\apsisops}{\modulename{ApsisOps}}\\
+        \helpline{\smsgen}{\modulename{SMSgen}}\\
+        \helpline{\dsc}{\modulename{DSC}}\\
+        \helpline{\gspphot}{\modulename{GSP-Phot}}\\
+        \helpline{\priam}{\modulename{Priam}}\\
+        \helpline{\aeneas}{\modulename{Aeneas}}\\
+        \helpline{\gspspec}{\modulename{GSP-Spec}}\\
+        \helpline{\msc}{\modulename{MSC}}\\
+        \helpline{\flame}{\modulename{FLAME}}\\
+        \helpline{\espels}{\modulename{ESP-ELS}}\\
+        \helpline{\esphs}{\modulename{ESP-HS}}\\
+        \helpline{\espcs}{\modulename{ESP-CS}}\\
+        \helpline{\espucd}{\modulename{ESP-UCD}}\\
+        \helpline{\ugc}{\modulename{UGC}}\\
+        \helpline{\oa}{\modulename{OA}}\\
+        \helpline{\oca}{\modulename{OCA}}\\
+        \helpline{\qsoc}{\modulename{QSOC}}\\
+        \helpline{\tge}{\modulename{TGE}}\\
+        \hline
+    \end{tabular}
+\end{center}
+
+\subsection{tabular}
+
+\providecommand{\rawtext}[1]{\texttt{\detokenize{#1}\ignorespaces\relax}}
+
+You can define columns that automatically wraps around avoiding any manual line break definition.
+To do so, you can use the capital letters for the column alignment declarations (\rawtext{CLR}) and a width:\\
+
+\noindent Normal behavior of standard alignments: \\
+\rawtext{begin{tabular}{|c|l|c|r|}}
+
+\begin{tabular}{|c|l|c|r|}
+foo &
+A cell with text that wraps around, is raggedright and allows \newline
+    manual line breaks &
+A cell with text that wraps around, is centered and allows \newline
+    manual line breaks &
+A cell with text that wraps around, is raggedleft and allows \newline
+    manual line breaks \\
+\end{tabular}
+
+\noindent with these new column types (and width constraints): \\
+\rawtext{begin{tabular}{|c|L{3cm}|C{3cm}|R{0.3\textwidth}|}}
+
+\begin{tabular}{|c|L{3cm}|C{3cm}|R{0.3\textwidth}|}
+foo &
+A cell with text that wraps around, is raggedright and allows \newline
+    manual line breaks &
+A cell with text that wraps around, is centered and allows \newline
+    manual line breaks &
+A cell with text that wraps around, is raggedleft and allows \newline
+    manual line breaks \\
+\end{tabular}
+
+
+\subsection{Notations \& Units}
+
+\begin{center}
+    % option \fverb{units} of \fverb{_cu8_macros}\\
+    \begin{tabular}{r|l}
+        \hline
+        \helpline{\rad}{\ensuremath{\mathcal{R}}}\\
+        \helpline{\lum}{\ensuremath{\mathcal{L}}}\\
+        \helpline{\mass}{\ensuremath{\mathcal{M}}}\\
+        \helpline{\age}{\ensuremath{\mathcal{\tau}}}\\
+        \helpline{\rvgc}{\ensuremath{\mathcal{{\rm rv}_{\rm GC}}}} \\
+        \helpline{\teff}{\ensuremath{\mathcal{T_{\rm eff}}}}\\
+        \helpline{\feh}{{\ensuremath{\rm [Fe/H]}}}\\
+        \helpline{\ch}{{\ensuremath{\rm [C/H]}}}\\
+        \helpline{\nh}{{\ensuremath{\rm [N/H]}}}\\
+        \helpline{\metal}{{\ensuremath{\rm [M/H]}}}\\
+        \helpline{\azero}{\ensuremath{{A_0}}}\\
+        \helpline{\rzero}{\ensuremath{{R_0}}}\\
+        \helpline{\ag}{\ensuremath{{A_G}}}\\
+        \helpline{\logg}{\ensuremath{\log{g}}}\\
+        \helpline{\gmag}{\ensuremath{{\rm G}}}\\
+        \helpline{\absgmag}{\ensuremath{M_{\rm G}}}\\
+        \helpline{\bpmag}{\ensuremath{\rm BP}}\\
+        \helpline{\absbpmag}{\ensuremath{M_{\rm BP}}}\\
+        \helpline{\rpmag}{\ensuremath{\rm RP}}\\
+        \helpline{\absrpmag}{\ensuremath{M_{\rm RP}}}\\
+        \helpline{\plx}{\ensuremath{\varpi}}\\
+        \helpline{\diam}{\ensuremath{\theta}}\\
+        \helpline{\bc}{{\sc BC}}\\
+        \helpline{\mlum}{\ensuremath{\mathcal{L_{\rm M}}}}\\
+        \helpline{\mlogg}{\ensuremath{\log g_{\rm M}}}\\
+        \helpline{\mteff}{\ensuremath{\mathcal{T_{\rm M}}}}\\
+        \helpline{\evol}{{\sc EvolState}}\\
+        \helpline{\spf}{{\sc SPF}}\\
+        \helpline{\msol}{\ensuremath{\mathcal{M_{\odot}}}}\\
+        \helpline{\lsol}{\ensuremath{\mathcal{L_{\odot}}}}\\
+        \helpline{\rsol}{\ensuremath{\mathcal{R_{\odot}}}}\\
+        \helpline{\kelvin}{\ensuremath{\,\rm K}}\\
+        \hline
+    \end{tabular}
+\end{center}
+
+
+
+\subsection{Draft \& Guidelines}
+
+Use the \fverb{draft} option  of \fverb{_cu8_macros} to display guidelines and labels
+
+\subsection{Validation}
+
+\paragraph*{Validation test definition}
+
+for every test done in this section declare a test with the \fverb{\valtest} macro as below.
+This macro will create a small header for your test that is standardized, but also
+record the test name and \fverb{\fail} or \fverb{\pass} result that will appear in the summary section of the document.
+
+\valtest{Guideline example of passed validation test}
+{Description of the test}
+{dataset used}
+{Main result/conclusion}
+{\pass}  
+
+\valtest{Guideline example of failed validation test}
+{Description of the test}
+{dataset used}
+{Main result/conclusion}
+{\fail}  
+
+Use the \fverb{\listofvaltest} to display the list of the validation tests and their status.
+
+\paragraph*{validated CU8 product}
+
+A standard table can be generated to show which module product is validated when using \fverb{\useddatalist{module_1}...{module_n}}. Use the module macros (Sect. \ref{sec:names}) to declare the data.
+
+\useddatalist{\dsc}{\msc}

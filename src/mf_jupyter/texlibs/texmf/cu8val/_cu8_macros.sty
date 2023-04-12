@@ -1,0 +1,186 @@
+\ProvidesPackage{_cu8_macros}[2019/09/17 MF package with generic custom macros]
+\RequirePackage[inline]{showlabels}
+
+%% 'sans serif' option
+\DeclareOption{sans}{
+  \renewcommand{\familydefault}{\sfdefault}
+}
+
+%% 'roman' option
+\DeclareOption{roman}{
+  \renewcommand{\familydefault}{\rmdefault}
+}
+
+% common abbreviations
+% ====================
+\DeclareOption{abbrev}{
+    \providecommand{\eg}{e.g.}
+    \providecommand{\ie}{{\em{i.e.}}}
+    \providecommand{\prompt}{\texttt{\textbf{\$}~}}
+}
+
+% Buttons for links
+% =================
+\DeclareOption{buttons}{
+    \providecommand{\gotobutton}[1]{\hfill\tikz[anchor=base, baseline]
+      \node[
+      align=center,
+      draw=black!0,
+      fill=black!05,
+      rounded corners=4pt]  {\scriptsize \hyperref[#1]{\color{black} \texttt{#1}}};
+    }
+    \providecommand{\svnbutton}[1]{\tikz[anchor=base, baseline]
+      \node[
+      draw=orange!0,
+      fill=orange!0,
+      rounded corners=4pt]  {\small \href{\meetingsvn/#1}{\texttt{svn:#1}}};
+    }
+    
+    \providecommand{\videobutton}[2]{\hfill\tikz[anchor=base, baseline]
+      \node[
+      draw=orange!50,
+      fill=orange!10,
+      rounded corners=4pt]  {\scriptsize \href{#1}{\color{black}\texttt{video:}{#2}}};
+    }
+}
+
+
+% Add links to document
+% =====================
+\DeclareOption{links}{
+    \providecommand{\jira}[1]{\href{https://issues.cosmos.esa.int/gaia/browse/#1}{{\texttt{\scriptsize JIRA:}#1}}}
+    \providecommand{\svnlink}[2]{\href{#1}{\texttt{\scriptsize SVN:}\protect{#2}}}
+    \providecommand{\slidesurl}[2]{\href{#1}{\texttt{\scriptsize slides:}\protect{#2}}}
+    \providecommand{\wikilink}[2]{\href{#1}{\texttt{\scriptsize WIKI:}\protect{#2}}}
+    \providecommand{\overleaf}[2]{\href{#1}{\texttt{\scriptsize Overleaf:}\protect{#2}}}
+    \providecommand{\lllink}[2]{\href{#1}{\texttt{\scriptsize LL:}\protect{#2}}}
+    \providecommand{\videolink}[2]{\href{#1}{\texttt{\scriptsize video:}\protect{#2}}}
+    % overleaf necessity
+    \renewcommand{\citell}[1]{{\textcolor{blue!70!black}{#1}}}
+}
+
+
+% Module names
+% ============
+\DeclareOption{modulenames}{
+    \providecommand{\modulename}[1]{#1\xspace}
+    \providecommand{\apsisrun}[1]{\texttt{#1}\xspace}
+    \providecommand{\apsis}{\modulename{Apsis}}
+    \providecommand{\apsisval}{\modulename{ApsisVal}}
+    \providecommand{\apsisops}{\modulename{ApsisOps}}
+    \providecommand{\smsgen}{\modulename{SMSgen}}
+    \providecommand{\dsc}{\modulename{DSC}}
+    \providecommand{\gspphot}{\modulename{GSP-Phot}}
+    \providecommand{\priam}{\modulename{Priam}}
+    \providecommand{\aeneas}{\modulename{Aeneas}}
+    \providecommand{\gspspec}{\modulename{GSP-Spec}}
+    \providecommand{\msc}{\modulename{MSC}}
+    \providecommand{\flame}{\modulename{FLAME}}
+    \providecommand{\espels}{\modulename{ESP-ELS}}
+    \providecommand{\esphs}{\modulename{ESP-HS}}
+    \providecommand{\espcs}{\modulename{ESP-CS}}
+    \providecommand{\espucd}{\modulename{ESP-UCD}}
+    \providecommand{\ugc}{\modulename{UGC}}
+    \providecommand{\oa}{\modulename{OA}}
+    \providecommand{\oca}{\modulename{OCA}}
+    \providecommand{\qsoc}{\modulename{QSOC}}
+    \providecommand{\tge}{\modulename{TGE}}
+}
+
+
+% notations
+% =========
+\DeclareOption{notations}{
+    \providecommand{\rad}{\ensuremath{\mathcal{R}}}
+    \providecommand{\lum}{\ensuremath{\mathcal{L}}}
+    \providecommand{\mass}{\ensuremath{\mathcal{M}}}
+    \providecommand{\age}{\ensuremath{\mathcal{\tau}}}
+    \providecommand{\rvgc}{\ensuremath{\mathcal{{\rm rv}_{\rm GC}}}} 
+    \providecommand{\teff}{\ensuremath{\mathcal{T_{\rm eff}}}}
+    \providecommand{\feh}{{\ensuremath{\rm [Fe/H]}}}
+    \providecommand{\ch}{{\ensuremath{\rm [C/H]}}}
+    \providecommand{\nh}{{\ensuremath{\rm [N/H]}}}
+    \providecommand{\metal}{{\ensuremath{\rm [M/H]}}}
+    \providecommand{\azero}{\ensuremath{{A_0}}}
+    \providecommand{\rzero}{\ensuremath{{R_0}}}
+    \providecommand{\ag}{\ensuremath{{A_G}}}
+    \providecommand{\logg}{\ensuremath{\log{g}}}
+    \providecommand{\gmag}{\ensuremath{{\rm G}}}
+    \providecommand{\absgmag}{\ensuremath{M_{\rm G}}}
+    \providecommand{\bpmag}{\ensuremath{\rm BP}}
+    \providecommand{\absbpmag}{\ensuremath{M_{\rm BP}}}
+    \providecommand{\rpmag}{\ensuremath{\rm RP}}
+    \providecommand{\absrpmag}{\ensuremath{M_{\rm RP}}}
+    \providecommand{\plx}{\ensuremath{\varpi}}
+    \providecommand{\diam}{\ensuremath{\theta}}
+    \providecommand{\bc}{{\sc BC}}
+    \providecommand{\mlum}{\ensuremath{\mathcal{L_{\rm M}}}}
+    \providecommand{\mlogg}{\ensuremath{\log g_{\rm M}}}
+    \providecommand{\mteff}{\ensuremath{\mathcal{T_{\rm M}}}}
+    \providecommand{\evol}{{\sc EvolState}}
+    \providecommand{\spf}{{\sc SPF}}
+    \providecommand{\msol}{\ensuremath{\mathcal{M_{\odot}}}}
+    \providecommand{\lsol}{\ensuremath{\mathcal{L_{\odot}}}}
+    \providecommand{\rsol}{\ensuremath{\mathcal{R_{\odot}}}}
+    \providecommand{\kelvin}{\ensuremath{\,\rm K}}
+}
+
+% Draft mode
+% ==========
+% Allows one to display guidelines and notes if set option
+\newif\ifMyDraft % boolean variable whether or not to show xcomments
+\MyDraftfalse%    default should be false
+\DeclareOption{draft}{
+    % set MyDraft to true in order to get comments for the sections displayed, the build date, etc...
+    \MyDrafttrue
+}
+
+\ExecuteOptions{abbrev, links, notations, modulenames}
+
+\ProcessOptions\relax
+
+%% To help filling the document, the draft mode displays guidelines and checks the section limits
+\def\DraftCommentColor{blue!80}
+\providecommand{\draftcomment}[1]{%
+    \ifMyDraft
+        {\color{\DraftCommentColor}
+        #1
+        }
+    \fi
+}
+
+%% Display individual marks for input files
+\ifMyDraft
+    \providecommand{\inputfile}[1]{%
+    \draftcomment{%
+      {\scriptsize\ \hrule\vspace{-1.5em}\texttt{begin input file:} \texttt{\detokenize{#1}}}
+    }
+
+    \input{#1}
+
+    \draftcomment{{\scriptsize \texttt{end input file:} \texttt{\detokenize{#1}\hrule}}}
+    }
+\else
+    \providecommand{\inputfile}[1]{\input{#1}}
+\fi
+
+\ifMyDraft
+    \usepackage{pifont}
+    \def\bookmarkicon{\ding{46}}
+    % \usepackage{fontawesome}
+    % \def\bookmarkicon{\faBookmark}
+    \renewcommand{\showlabelsetlabel}[1]{{\tiny\color{blue}\bookmarkicon~ \texttt{#1}}}
+\else
+    \renewcommand{\showlabelsetlabel}[1]{}
+\fi
+
+
+% Offer an auto-wrapped Column type
+% https://tex.stackexchange.com/questions/12703/how-to-create-fixed-width-table-columns-with-text-raggedright-centered-raggedlef
+
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+

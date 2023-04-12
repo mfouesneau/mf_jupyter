@@ -1,0 +1,235 @@
+% VALIDATION MACROS
+% ========================================================================
+% version 1.0
+%
+% Contains some macros used in the CU8 Validation report template
+
+\ProvidesPackage{_cu8_validation}[2019/09/17 MF package with validation macros]
+\RequirePackage{amssymb}% http://ctan.org/pkg/amssymb
+\RequirePackage{pifont}% http://ctan.org/pkg/pifont
+\RequirePackage{_cu8_macros}  % MF' general macro style
+
+\providecommand\fverb[1]{\texttt{\detokenize{#1}\ignorespaces\relax}}
+\providecommand\helpline[2]{\texttt{\detokenize{#1}\ignorespaces\relax}&{#1}&{#2}}
+
+% force itemize with no spacing.
+\newenvironment{itemize*}%
+  {\begin{itemize}%
+    \setlength{\itemsep}{0pt}%
+    \setlength{\parskip}{0pt}}%
+  {\end{itemize}}
+
+% Icons for check and X symbols
+% ------------------------------
+\newcommand{\cmark}{\ding{52}}%
+\newcommand{\xmark}{\ding{56}}%
+\newcommand{\skipmark}{\ding{122}}%
+
+% Quick macros to set PASS/FAIL results in colors etc.
+% ----------------------------------------------------
+%\providecommand{\pass}{\textcolor{green}{PASS}}
+%\providecommand{\fail}{\textcolor{red}{FAIL}}
+% \providecommand{\pass}{\textcolor{green!50!black}{\cmark}}
+% \providecommand{\fail}{\textcolor{red}{\xmark}}
+\providecommand{\pass}{\textcolor[rgb]{0, 0.98, 0.5}{\cmark}}
+\providecommand{\unknown}{\textcolor[rgb]{0, 0.439, 0.988}{\skipmark}}
+\providecommand{\fail}{\textcolor[rgb]{0.988, 0.5, 0	}{\xmark}}
+
+% validation test macros
+% ----------------------
+%
+% \newtest{name of the test} 
+%
+% Will create a numbered paragraph which will also appear in the TOC.
+% \newcounter{validation}[subsection]
+%  \newcommand{\newtest}[1]{%
+%      \refstepcounter{validation}\par\medskip
+%       \addcontentsline{toc}{subsubsection}{Test~\arabic{subsection}.\thevalidation:~#1}
+%      \textbf{Test~\arabic{subsection}.\thevalidation:~#1} \rmfamily
+%       }
+
+%
+% ========================================================================
+% Validation test list
+% ========================================================================
+\RequirePackage{tocloft}
+
+%List of validation tests
+\newcommand{\listvaltest}{\normalsize List of validation tests and results\label{listValTests}}
+
+\newlistof{valtest}{vtn}{\listvaltest}
+\newcommand{\valtest}[5]{%
+    % 1 - title of the test
+    % 2 - Description of the test
+    % 3 - Dataset used in the test 
+    % 4 - Results
+    % 5 - Conclusion (pass or fail)
+    \refstepcounter{valtest}
+    \par\hspace{-3em}\noindent\label{vt:\thevaltest}\textbf{\textsc{vt:\thevaltest}}{\hspace{0.2em}\textbf{#1}}
+    \addcontentsline{vtn}{valtest} {\protect\numberline{\thevaltest}~[#5]~#1}
+    \marginlabel{#5}
+    \begin{itemize*}
+        \item[\textbf{Objectives}:] #2
+        \item[\textbf{Dataset:}] #3
+        \item[\textbf{Result}:] #4
+    \end{itemize*}
+}
+% ========================================================================
+% Validation data usage
+% ========================================================================
+\newcommand*\rot{\rotatebox{90}}
+
+\RequirePackage{titleref}
+\makeatletter
+\newcommand*{\currentname}{\TR@currentTitle}
+\makeatother
+
+% Dictionary of values 
+\def\addvalue#1#2{\expandafter\gdef\csname my@data@\detokenize{#1}\endcsname{#2}}
+\def\usevalue#1{%
+  \ifcsname my@data@\detokenize{#1}\endcsname
+    \csname my@data@\detokenize{#1}\expandafter\endcsname
+  \else
+    \expandafter {-}
+  \fi
+}
+\providecommand{\usedatareset}{
+\addvalue\smsgen{}
+\addvalue\dsc{}  
+\addvalue\gspphot{}
+\addvalue\gspspec{}
+\addvalue\espels{}
+\addvalue\esphs{}
+\addvalue\espcs{}
+\addvalue\espucd{}
+\addvalue\flame{}
+\addvalue\msc{}
+\addvalue\tge{}
+\addvalue\oa{}
+\addvalue\ugc{}
+\addvalue\qsoc{} 
+}
+
+% \usedata\dsc will set the \checkmark with DSC
+\providecommand{\usedata}[1]{\addvalue#1\checkmark}
+
+% Generate the Table of module / checkmarks 
+\providecommand{\showuseddata}{
+\begin{center}
+    \begin{tabular}{r|c|c|c|c|c|c|c|c|c|c|c|c|c|c}
+ Data             & \rot\smsgen & \rot\dsc   & \rot\gspphot & \rot\gspspec & \rot\espels & \rot\esphs & \rot\espcs & \rot\espucd & \rot\flame & \rot\msc   & \rot\tge   & \rot\oa    & \rot\ugc   & \rot\qsoc  \\
+\hline
+\currenttitle     & 
+\usevalue\smsgen  &
+\usevalue\dsc     &  
+\usevalue\gspphot &
+\usevalue\gspspec &
+\usevalue\espels  &
+\usevalue\esphs   &
+\usevalue\espcs   &
+\usevalue\espucd  &
+\usevalue\flame   &
+\usevalue\msc     &
+\usevalue\tge     &
+\usevalue\oa      &
+\usevalue\ugc     &
+\usevalue\qsoc \\
+\hline
+    \end{tabular}
+\end{center}
+}
+
+% Generates the main macro
+% \useddatalist{\oa}{\dsc}{...} 
+% which will set which datasets were used and make the table
+\makeatletter
+\newcommand{\useddatalist}[1]{%
+    \usedatareset
+    \usedata{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{\showuseddata}}
+\newcommand{\gobblenextarg}[1]{\usedata{#1}\@ifnextchar\bgroup{\gobblenextarg}{ \showuseddata}}
+
+
+% Add information to the TOC
+% --------------------------
+% Only a simple line without page indication
+%
+% \tocinfo{information message}
+%
+\providecommand{\tocinfo}[1]{%
+\addtocontents{toc}{\protect\contentsline{subsubsection}{\protect\numberline{}
+    #1 \hspace{4\linewidth}}{}{}}
+    }
+
+
+% Author and contributor marks
+% -----------------------------
+% These will only appear in the TOC in Draft mode (\usepackage[draft]{_cu8_macros})
+\ifMyDraft
+  \providecommand{\responsible}[1]{%
+    \vspace{-1em}\hspace{2.8em}Main author: \textit{#1}
+    \tocinfo{Main author: \textit{#1}}
+  }
+\else
+  \providecommand{\responsible}[1]{%
+    \vspace{-1em}\hspace{2.8em}Main author: \textit{#1}
+  }
+\fi
+
+\providecommand{\contributors}[1]{%
+    \vspace{-1em}\hspace{2.8em}Contributors: \textit{#1}
+}
+
+
+% ========================================================================
+% Other macros
+% ========================================================================
+\RequirePackage{tikz} 
+
+\newcommand{\framedbox}[4]{
+    \begin{figure}[h]
+        \centering
+    \begin{tikzpicture}
+        \node[anchor=text,text width=\columnwidth-1.2cm, draw, rounded corners, line width=1pt, fill=#3, inner sep=5mm] (big) {\\#4};
+        \node[draw, rounded corners, line width=.5pt, fill=#2, anchor=west, xshift=5mm] (small) at (big.north west) {#1};
+    \end{tikzpicture}
+    \end{figure}
+}
+
+
+% ========================================================================
+% Applicable documents list
+%
+% Usage: 
+%  add entries with \addApplicableDocument{name}{value}
+%  list entries with \listApplicableDocuments as an itemize list
+%
+% ========================================================================
+\makeatletter
+\let\applicableDocuments\@gobble\@empty
+\makeatother
+\newcommand{\addApplicableDocument}[2]{%
+    \expandafter\def\expandafter\applicableDocuments\expandafter{\applicableDocuments,{#1: #2}}%
+}
+\newcommand{\noteApplicableDocument}[2]{%
+    \marginpar{\scriptsize #2}%
+    \addApplicableDocument{#1}{#2}
+}
+\makeatletter
+
+\newcommand{\listApplicableDocuments}{
+\begin{itemize}[leftmargin=*]
+    \setlength\itemsep{-0.2em}
+    \foreach \x in \applicableDocuments
+    {
+       \item \expandafter{\x}
+    }
+    \end{itemize}
+}
+
+\AtEndDocument{
+\protected@write\@auxout{}{%
+       %\string\applicableDocuments{}
+     }
+}
+\makeatother
