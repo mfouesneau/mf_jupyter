@@ -1,7 +1,7 @@
 
 ((=- Default to the notebook output style -=))
 ((*- if not cell_style is defined -*))
-    ((* set cell_style = 'style_jupyter.tex.j2' *))
+    ((* set cell_style = 'latex/style_jupyter.tex.j2' *))
 ((*- endif -*))
 
 ((=- Inherit from the specified cell style. -=))
@@ -106,7 +106,7 @@ $^{1}$ Max-Planck-Institut f\"ur Astronomie, K\"onigstuhl 17, 69117 Heidelberg, 
   % Don't change these lines unless you know what you are doing
   \usepackage[T1]{fontenc}
   \usepackage{ae,aecompl}
-  
+
   % MNRAS is set in Times font. If you don't have this installed (most LaTeX
   % installations will be fine) or prefer the old Computer Modern fonts, comment
   % out the following line
@@ -125,27 +125,27 @@ $^{1}$ Max-Planck-Institut f\"ur Astronomie, K\"onigstuhl 17, 69117 Heidelberg, 
   \definecolor{codegray}{rgb}{0.5,0.5,0.5}
   \definecolor{codepurple}{rgb}{0.58,0,0.82}
   \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-   
+
   \lstdefinestyle{mystyle}{
-        backgroundcolor=\color{backcolour},   
+        backgroundcolor=\color{backcolour},
         commentstyle=\color{codegreen},
         keywordstyle=\color{magenta},
         numberstyle=\tiny\color{codegray},
         stringstyle=\color{codepurple},
         basicstyle=\scriptsize,
-        breakatwhitespace=false,         
-        breaklines=true,                 
-        captionpos=b,                    
-        keepspaces=true,                 
-        numbers=left,                    
-        numbersep=5pt,                  
-        showspaces=false,                
+        breakatwhitespace=false,
+        breaklines=true,
+        captionpos=b,
+        keepspaces=true,
+        numbers=left,
+        numbersep=5pt,
+        showspaces=false,
         showstringspaces=false,
-        showtabs=false,                  
+        showtabs=false,
         tabsize=1
   }
   \lstset{style=mystyle}
-  
+
   \input{document_configuration}
 
 ((* endblock packages *))
