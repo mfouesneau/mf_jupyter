@@ -1,12 +1,16 @@
 # mf Jupyter: Notebook with my suite to easy latex conversion
-=============================================================
 
 A package to offer tools to create and convert a notebook into TeX files for further publications (e.g., articles, notes).
 
 This package provides a collection of tools to automate validation procedures in the CU8 activities.
 
-This version relies on `nbconvert >= 7.0`
+**This version relies on `nbconvert >= 7.0`**
 
+**Documentation not entirely up to date**
+
+## Notebook content
+
+Check out the examples/template_notebook.ipynb.
 
 ## Manual command
 
@@ -14,10 +18,10 @@ This version relies on `nbconvert >= 7.0`
 jupyter nbconvert \
 	--config=config.py --to=latex --template=tufte \
 	--TemplateExporter.extra_template_basedirs=${PWD}/templates \
-	examples/vstprep.ipynb --debug
+	examples/template_notebook.ipynb --debug
 ```
 
-## Notebook content and meta data
+## Notebook content and metadata
 
 The furnished template contains a few blocks as examples. There are only a few options that are used for converting a notebook. These options are always set through the `metadata` that one can access through the toolbar on each cell. If the toolbar is not visible, use the menu `View > Cell Toolbar > Edit Metadata`.
 
