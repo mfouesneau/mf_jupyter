@@ -11,25 +11,47 @@ from IPython.display import IFrame, SVG, Image
 import time as _time
 import sys
 import os
+import pkg_resources
+import re
 
 
 # constants
 rcParams = {
+    # Where to store the figures
     "figdir": os.path.curdir + '/figures',
 }
 
 
-def _check_figdir_exists(name=None):
-    """ Check the directory existence or create it if needed """
+def _check_figdir_exists(name: str = None):
+    """ Check the directory existence or create it if needed
+
+    Parameters
+    ----------
+    name : str, optional
+        The name of the directory to check
+    """
     if name is None:
         name = rcParams['figdir']
     if not os.path.isdir(name):
         os.makedirs(name)
 
 
-def set_figures_directory(name):
+def set_figures_directory(name: str):
+    """ Set the figures directory
+
+    Parameters
+    ----------
+    name : str
+        The name of the directory to set
+    """
     _check_figdir_exists(name)
     rcParams['figdir'] = name
+
+
+class AutoText(Markdown):
+    """ Makes generating markdown text easier to export also in tex """
+    def _repr_latex_(self) -> str:
+        return markdown2latex(self.data)
 
 
 class Caption(Markdown):
@@ -39,6 +61,7 @@ class Caption(Markdown):
         self._center = center
 
     def _repr_html_(self):
+        """ HTML representation of the caption for the notebook"""
         txt = markdown2html(self.data)
         if self._center:
             return '<center>{0}</center>'.format(txt)
@@ -46,6 +69,7 @@ class Caption(Markdown):
             return '{0}'.format(txt)
 
     def _repr_latex_(self):
+        """ LaTeX representation of the caption for the exports """
         txt = markdown2latex(self.data)
         if self._center:
             return '\\begin{center}\n' + txt + '\n\\end{center}'
@@ -53,21 +77,23 @@ class Caption(Markdown):
             return txt
 
     def display(self):
+        """ Display the caption (`IPython.display.display`) """
         display(self)
 
     def __str__(self):
+        """ String representation of the caption """
         return self._repr_latex_()
 
 
 class Matrix(object):
-    """ Make a caption to associate with figures """
+    """ Make a bmatrix representation (square brackets) """
     def __init__(self,s, fmt='%0.4g'):
         self.s = s
         self._fmt = fmt
 
     def _repr_(self):
+        """ Markdown representation of the matrix """
         text = r"""\begin{bmatrix}"""
-
         t = []
         for k in self.s:
             t.append( ' & '.join([self._fmt % v for v in k] ) + r'\\' )
@@ -76,6 +102,7 @@ class Matrix(object):
         return Markdown(text)
 
     def _repr_latex_(self):
+        """ Latex representation of the matrix """
         text = r"""\begin{bmatrix}"""
 
         t = []
@@ -86,9 +113,11 @@ class Matrix(object):
         return text
 
     def __str__(self):
+        """ String representation of the matrix """
         return self._repr_latex_()
 
     def display(self):
+        """ Display the object (`IPython.display.display`) """
         display(self)
 
 
@@ -98,140 +127,21 @@ def disp_markdown(*args):
 
 
 def load_latex_macros():
-    """ Load macros """
-    import os
-    import inspect
-    localpath = '/'.join(os.path.abspath(inspect.getfile(inspect.currentframe())).split('/')[:-1])
-    return disp_markdown(open(localpath + '/notebook_macros').read())
+    """ Read in the latex_macro file provided with the package and display it as Markdown
+
+    The file contains latex macro definitions that MathJax will use to render the notebook.
+
+    Note: You may want to hide the cell from the exports to avoid redefinition of macros.
+    """
+    mf_nbconvert_pkg_path = os.path.abspath(pkg_resources.resource_filename('mf_jupyter', 'notebook'))
+    macrofile = os.path.join(mf_nbconvert_pkg_path, 'latex_macros')
+    return disp_markdown(open(macrofile).read())
 
 
-def add_input_toggle():
-    from IPython.display import HTML, display
-
-    r = HTML('''
-    <script>
-
-    $( document ).ready(function () {
-        IPython.CodeCell.options_default['cm_config']['lineWrapping'] = true;
-        IPython.notebook.get_selected_cell()
-
-        IPython.toolbar.add_buttons_group([
-                {
-                    'label'   : 'toggle all input cells',
-                    'icon'    : 'fa-eye-slash',
-                    'callback': function(){ $('div.input').slideToggle(); }
-                }
-            ]);
-    });
-    </script>
-    ''')
-    display(r)
-    return r
-
-
-def add_hide_button():
-    from IPython.display import HTML, display
-
-    r = HTML('''
-             <script>
-             var CellToolbar = Jupyter.CellToolbar
-var mf_hide_toggle =  function(div, cell) {
-     var button_container = $(div)
-
-     // let's create a button that shows the current value of the metadata
-     var button = $('<button/>').addClass('btn btn-default btn-xs').text("hide: "  + String(cell.metadata.hide));
-
-     // On click, change the metadata value and update the button label
-     button.click(function(){
-                 var v = cell.metadata.hide;
-                 cell.metadata.hide = !v;
-                 button.text("hide: "  + String(!v));
-             })
-
-     // add the button to the DOM div.
-     button_container.append(button);
-}
-
-// now we register the callback under the name foo to give the
-// user the ability to use it later
-CellToolbar.register_callback('mf_hide', mf_hide_toggle);
-
-// Now we declare the toolbar
-console.log('Clear mf_jupyter if exists.')
-Jupyter.CellToolbar.unregister_preset('mf_jupyter')
-Jupyter.CellToolbar.register_preset('mf_jupyter',['mf_hide','default.rawedit'])
-console.log('Loaded extension mf_jupyter.')
-             </script>
-             ''')
-    display(r)
-    return r
-
-
-def add_citation_button():
-    from IPython.display import HTML, display
-    r = HTML("""
-    <script>
-
-    function insert_citn() {
-        // Build paragraphs of cell type and count
-
-        var entry_box = $('<input type="text"/>');
-        var body = $('<div><p> Enter the Bibtex reference to insert </p><form>').append(entry_box)
-                    .append('</form></div>');
-
-        // Show a modal dialog with the stats
-        IPython.dialog.modal({
-            notebook: IPython.notebook,
-            keyboard_manager: IPython.notebook.keyboard_manager,
-            title: "Bibtex reference insertion",
-            body: body,
-            open: function() {
-                // Submit on pressing enter
-                var that = $(this);
-                that.find('form').submit(function () {
-                    that.find('.btn-primary').first().click();
-                    return false;
-                });
-                entry_box.focus();
-            },
-            buttons : {
-                "Cancel" : {},
-                "Insert" : {
-                    "class" : "btn-primary",
-                    "click" : function() {
-                        // Retrieve the selected citation, add to metadata,
-                        var citation = entry_box.val();
-                        // if (!citation) {return;}
-                        var citn_html = '<cite data-cite="' + citation + '">' + citation + '</cite>';
-                        var cell = IPython.notebook.get_selected_cell();
-                        cell.code_mirror.replaceSelection(citn_html);
-                    }
-                }
-            }
-        });
-    };
-
-    $( document ).ready(function () {
-
-        IPython.toolbar.add_buttons_group([
-                {
-                    'label'   : 'insert bibtex reference in markdown',
-                    'icon'    : 'fa-graduation-cap', // http://fontawesome.io/icons/
-                    'callback': insert_citn,
-                }
-            ]);
-    });
-
-    </script>
-    <style>
-    cite {
-        font-style: normal;
-        color: #45749e;
-    }
-    </style>
-    """)
-    display(r)
-    return r
+def _remove_indent(txt: str) -> str:
+    """ removes indents from python code string definitions """
+    return re.sub(r'^\s+', '', txt,
+                  flags=re.MULTILINE|re.DOTALL)
 
 
 class PDF(object):
@@ -573,7 +483,7 @@ class Table(DisplayObject):
 
 
 class AppendixMark(Markdown):
-
+    """ Add the appendix mark """
     def __init__(self):
         Markdown.__init__(self, '# Appendix')
 
@@ -582,6 +492,7 @@ class AppendixMark(Markdown):
 
 
 class Acknowledgements(Markdown):
+    """ Set the acknowledgements section """
 
     def __init__(self, text, *args, **kwargs):
         self.text = text
@@ -592,6 +503,7 @@ class Acknowledgements(Markdown):
 
 
 class LatexFigure(object):
+    """ Deals with figures to be properly exported in LaTeX """
 
     extension = 'pdf'
 
@@ -685,6 +597,8 @@ class LatexFigure(object):
 
 
 class LatexMultiFigures(object):
+    """ Displays several :cls:`LatexFigures` as sub-figures, two per row."""
+
     def __init__(self, label, caption, figures, position='',
                  rescale=True, star=False):
         """
@@ -749,6 +663,8 @@ class LatexMultiFigures(object):
 
 
 class LatexSubfigures(object):
+    """ Displays several :cls:`LatexFigures` as sub-figures, two per row. """
+
     def __init__(self, label, caption, figures, position='h',
                  subfigure_position='b', rescale=True, star=False):
         """
@@ -843,242 +759,6 @@ class LatexNumberFormatter(object):
             return r"${} \times 10^{{{}}}$".format(n, exp)
         else:
             return "${}$".format(n)
-
-
-"""
-Simple progressbar
-==================
-
-This package implement a unique progress bar class that can be used to decorate
-an iterator, a function or even standalone.
-
-The format of the meter is flexible and can display along with the progress
-meter, the running time, an eta, and the rate of the iterations.
-
-An example is:
-    description    [----------] k/n  10% [time: 00:00:00, eta: 00:00:00, 2.7 iters/sec]
-"""
-
-
-class NBPbar(object):
-    """
-    make a progress string  in a shape of:
-
-    [----------] k/n  10% [time: 00:00:00, eta: 00:00:00, 2.7 iters/sec]
-
-    Attributes
-    ---------
-
-    time: bool, optional (default: True)
-        if set, add the runtime information
-
-    eta: bool, optional (default: True)
-        if set, add an estimated time to completion
-
-    rate: bool, optional (default: True)
-        if set, add the rate information
-
-    length: int, optional (default: None)
-        number of characters showing the progress meter itself
-        if None, the meter will adapt to the buffer width
-
-        TODO: make it variable with the buffer length
-
-    keep: bool, optional (default: True)
-        If not set, deletes its traces from screen after completion
-
-    file: buffer
-        the buffer to write into
-
-    mininterval: float (default: 0.5)
-        minimum time in seconds between two updates of the meter
-
-    miniters: int, optional (default: 1)
-        minimum iteration number between two updates of the meter
-
-    units: str, optional (default: 'iters')
-        unit of the iteration
-    """
-    def __init__(self, desc=None, maxval=None, time=True, eta=True, rate=True, length=None,
-                 file=None, keep=True, mininterval=0.5, miniters=1, units='iters', **kwargs):
-        self.time = time
-        self.eta = eta
-        self.rate = rate
-        self.desc = desc or ''
-        self.units = units
-        self.file = file or sys.stdout
-        self._last_print_len = 0
-        self.keep = keep
-        self.mininterval = mininterval
-        self.miniters = miniters
-        self._auto_width = True
-        self.length = 10
-        if length is not None:
-            self.length = length
-            self._auto_width = False
-        # backward compatibility
-        self._start_t = _time.time()
-        self._maxval = maxval
-        if 'txt' in kwargs:
-            self.desc = kwargs['txt']
-        self._F = None
-
-    @staticmethod
-    def format_interval(t):
-        """ make a human readable time interval decomposed into days, hours,
-        minutes and seconds
-
-        Parameters
-        ----------
-        t: int
-            interval in seconds
-
-        Returns
-        -------
-        txt: str
-            string representing the interval
-            (format:  <days>d <hrs>:<min>:<sec>)
-        """
-        mins, s = divmod(int(t), 60)
-        h, m = divmod(mins, 60)
-        d, h = divmod(h, 24)
-
-        txt = '{m:02d}:{s:02d}'
-        if h:
-            txt = '{h:02d}:' + txt
-        if d:
-            txt = '{d:d}d ' + txt
-        return txt.format(d=d, h=h, m=m, s=s)
-
-    def build_str_meter(self, n, total, elapsed):
-        """
-        make a progress string  in a shape of:
-
-            k/n  10% [time: 00:00:00, eta: 00:00:00, 2.7 iters/sec]
-
-        Parameters
-        ----------
-        n: int
-            number of finished iterations
-
-        total: int
-            total number of iterations, or None
-
-        elapsed: int
-            number of seconds passed since start
-
-        Returns
-        -------
-        txt: str
-            string representing the meter
-        """
-        if n > total:
-            total = None
-
-        vals = {'n': n}
-        vals['elapsed'] = self.format_interval(elapsed)
-        vals['rate'] = '{0:5.2f}'.format((n / elapsed)) if elapsed else '?'
-        vals['units'] = self.units
-
-        if not total:
-            txt = '{desc:s} {n:d}'
-        else:
-            txt = '{desc:s} {n:d}/{total:d} {percent:s}'
-
-        if self.time or self.eta or self.rate:
-            txt += ' ['
-            info = []
-            if self.time:
-                info.append('time: {elapsed:s}')
-            if self.eta and total:
-                info.append('eta: {left:s}')
-            if self.rate:
-                info.append('{rate:s} {units:s}/sec')
-            txt += ', '.join(info) + ']'
-
-        if not total:
-            return txt.format(**vals)
-
-        frac = float(n) / total
-        vals['desc'] = self.desc
-        vals['percent'] = '{0:3.0%}'.format(frac)
-        vals['left'] = self.format_interval(elapsed / n * (total - n)) if n else '?'
-        vals['total'] = total
-
-        return txt.format(**vals)
-
-    def print_status(self, n, total, elapsed):
-        from IPython.html.widgets import FloatProgress
-        desc = self.build_str_meter(n, total, elapsed)
-        if self._F is None:
-            self._F = FloatProgress(min=0, max=total, description=desc)
-            display(self._F)
-
-        self._F.value = n
-        self._F.description = desc
-
-    def iterover(self, iterable, total=None):
-        """
-        Get an iterable object, and return an iterator which acts exactly like the
-        iterable, but prints a progress meter and updates it every time a value is
-        requested.
-
-        Parameters
-        ----------
-        iterable: generator or iterable object
-            object to iter over.
-
-        total: int, optional
-            the number of iterations is assumed to be the length of the
-            iterator.  But sometimes the iterable has no associated length or
-            its length is not the actual number of future iterations. In this
-            case, total can be set to define the number of iterations.
-
-        Returns
-        -------
-        gen: generator
-            pass the values from the initial iterator
-        """
-        if total is None:
-            try:
-                total = len(iterable)
-            except TypeError:
-                total = self._maxval
-
-        self.print_status(0, total, 0)
-        last_print_n = 0
-
-        start_t = last_print_t = _time.time()
-
-        for n, obj in enumerate(iterable):
-            yield obj
-            if n - last_print_n >= self.miniters:
-                cur_t = _time.time()
-                if cur_t - last_print_t >= self.mininterval:
-                    self.print_status(n, total, cur_t - start_t)
-                    last_print_n = n
-                    last_print_t = cur_t
-
-        if self.keep:
-            if last_print_n < n:
-                cur_t = _time.time()
-                self.print_status(n, total, cur_t - start_t)
-            self.file.write('\n')
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *args, **kwargs):
-        return False
-
-    def update(self, n, desc=None, total=None):
-        """ Kept for backward compatibility and the decorator feature """
-        if total is None:
-            total = self._maxval
-        if desc is not None:
-            self.desc = desc
-        cur_t = _time.time()
-        self.print_status(n, total, cur_t - self._start_t)
 
 
 class IncludeGraphics(LatexFigure):
