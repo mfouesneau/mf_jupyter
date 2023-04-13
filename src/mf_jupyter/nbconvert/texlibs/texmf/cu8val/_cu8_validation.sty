@@ -7,6 +7,7 @@
 \ProvidesPackage{_cu8_validation}[2019/09/17 MF package with validation macros]
 \RequirePackage{amssymb}% http://ctan.org/pkg/amssymb
 \RequirePackage{pifont}% http://ctan.org/pkg/pifont
+\RequirePackage{arevmath}
 \RequirePackage{_cu8_macros}  % MF' general macro style
 
 \providecommand\fverb[1]{\texttt{\detokenize{#1}\ignorespaces\relax}}
@@ -31,14 +32,16 @@
 %\providecommand{\fail}{\textcolor{red}{FAIL}}
 % \providecommand{\pass}{\textcolor{green!50!black}{\cmark}}
 % \providecommand{\fail}{\textcolor{red}{\xmark}}
-\providecommand{\pass}{\textcolor[rgb]{0, 0.98, 0.5}{\cmark}}
+% \providecommand{\pass}{\textcolor[rgb]{0, 0.98, 0.5}{\cmark}}
+\providecommand{\pass}{\textcolor[rgb]{0, 0.98, 0.5}{\ensuremath{\checkmark}}}
 \providecommand{\unknown}{\textcolor[rgb]{0, 0.439, 0.988}{\skipmark}}
-\providecommand{\fail}{\textcolor[rgb]{0.988, 0.5, 0	}{\xmark}}
+% \providecommand{\fail}{\textcolor[rgb]{0.988, 0.5, 0	}{\xmark}}
+\providecommand{\fail}{\textcolor[rgb]{0.988, 0.5, 0	}{\ensuremath{\ballotx}}}
 
 % validation test macros
 % ----------------------
 %
-% \newtest{name of the test} 
+% \newtest{name of the test}
 %
 % Will create a numbered paragraph which will also appear in the TOC.
 % \newcounter{validation}[subsection]
@@ -61,7 +64,7 @@
 \newcommand{\valtest}[5]{%
     % 1 - title of the test
     % 2 - Description of the test
-    % 3 - Dataset used in the test 
+    % 3 - Dataset used in the test
     % 4 - Results
     % 5 - Conclusion (pass or fail)
     \refstepcounter{valtest}
@@ -84,7 +87,7 @@
 \newcommand*{\currentname}{\TR@currentTitle}
 \makeatother
 
-% Dictionary of values 
+% Dictionary of values
 \def\addvalue#1#2{\expandafter\gdef\csname my@data@\detokenize{#1}\endcsname{#2}}
 \def\usevalue#1{%
   \ifcsname my@data@\detokenize{#1}\endcsname
@@ -95,7 +98,7 @@
 }
 \providecommand{\usedatareset}{
 \addvalue\smsgen{}
-\addvalue\dsc{}  
+\addvalue\dsc{}
 \addvalue\gspphot{}
 \addvalue\gspspec{}
 \addvalue\espels{}
@@ -107,21 +110,21 @@
 \addvalue\tge{}
 \addvalue\oa{}
 \addvalue\ugc{}
-\addvalue\qsoc{} 
+\addvalue\qsoc{}
 }
 
 % \usedata\dsc will set the \checkmark with DSC
 \providecommand{\usedata}[1]{\addvalue#1\checkmark}
 
-% Generate the Table of module / checkmarks 
+% Generate the Table of module / checkmarks
 \providecommand{\showuseddata}{
 \begin{center}
     \begin{tabular}{r|c|c|c|c|c|c|c|c|c|c|c|c|c|c}
  Data             & \rot\smsgen & \rot\dsc   & \rot\gspphot & \rot\gspspec & \rot\espels & \rot\esphs & \rot\espcs & \rot\espucd & \rot\flame & \rot\msc   & \rot\tge   & \rot\oa    & \rot\ugc   & \rot\qsoc  \\
 \hline
-\currenttitle     & 
+\currenttitle     &
 \usevalue\smsgen  &
-\usevalue\dsc     &  
+\usevalue\dsc     &
 \usevalue\gspphot &
 \usevalue\gspspec &
 \usevalue\espels  &
@@ -140,7 +143,7 @@
 }
 
 % Generates the main macro
-% \useddatalist{\oa}{\dsc}{...} 
+% \useddatalist{\oa}{\dsc}{...}
 % which will set which datasets were used and make the table
 \makeatletter
 \newcommand{\useddatalist}[1]{%
@@ -184,7 +187,7 @@
 % ========================================================================
 % Other macros
 % ========================================================================
-\RequirePackage{tikz} 
+\RequirePackage{tikz}
 
 \newcommand{\framedbox}[4]{
     \begin{figure}[h]
@@ -200,7 +203,7 @@
 % ========================================================================
 % Applicable documents list
 %
-% Usage: 
+% Usage:
 %  add entries with \addApplicableDocument{name}{value}
 %  list entries with \listApplicableDocuments as an itemize list
 %
