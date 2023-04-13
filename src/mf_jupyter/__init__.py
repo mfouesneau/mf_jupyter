@@ -8,3 +8,8 @@ try:
 except PackageNotFoundError:
     # package is not installed
     pass
+
+# load paths
+from . import matplotlib
+from .nbconvert import convert
+from . import notebook
