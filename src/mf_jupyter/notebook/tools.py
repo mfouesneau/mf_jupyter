@@ -274,7 +274,7 @@ class Table(DisplayObject):
         """)
 
         if self.label:
-            strings.append(r"\caption{" + self.caption + "}")
+            strings.append(r"\caption{" + markdown2latex(self.caption) + "}")
             strings.append(r"\label{tab:" + self.label + "}")
 
         if self.fontsize:
@@ -499,7 +499,9 @@ class Acknowledgements(Markdown):
         Markdown.__init__(self, '**acknowledgements**\n' + text)
 
     def _repr_latex_(self):
-        return '\n' + r'\begin{acknowledgements}' + '\n' + self.text + '\n' + r'\end{acknowledgements}'
+        return ('\n' + r'\begin{acknowledgements}' +
+                '\n' + markdown2latex(self.text) +
+                '\n' + r'\end{acknowledgements}')
 
 
 class LatexFigure(object):
@@ -585,7 +587,7 @@ class LatexFigure(object):
             \label{{fig:{label:s}}}
             \end{{{env:s}}}
             """.format(env=environment, args=args, options=self.options,
-                       fname=self.filename, caption=self.caption,
+                       fname=self.filename, caption=markdown2latex(self.caption),
                        label=self.label)
 
     def __repr__(self):
@@ -645,7 +647,7 @@ class LatexMultiFigures(object):
             strings.append(latex.format(options=f.options, fname=f.filename))
 
         strings.append(r"""
-            \caption{""" + self.caption + r"""}
+            \caption{""" + markdown2latex(self.caption) + r"""}
             \label{fig:""" + self.label + r"""}
         \end{""" + environment + """}
         """)
