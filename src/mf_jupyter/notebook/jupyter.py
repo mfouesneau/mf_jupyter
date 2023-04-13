@@ -11,10 +11,26 @@ from IPython.display import Javascript, display, HTML
 from IPython.core.magic import register_cell_magic, register_line_cell_magic
 import json
 
+class InvisibleJavascript(Javascript):
+    """ A class that removes representations """
+    def __init__(self, *args, **kwargs):
+        super(InvisibleJavascript, self).__init__(*args, **kwargs)
+
+    def _repr_latex_(self):
+        return ''
+
+    def __str__(self):
+        return ''
+
+    def __repr__(self):
+        return ''
+
+
+
 def register_magic():
     """ Add magic function tag, hide, and abstract to the kernel. """
 
-    display(Javascript("""
+    display(InvisibleJavascript("""
     define('setTags', function() {
         return function(element, tags) {
             var cell_element = element.parents('.cell');
@@ -45,7 +61,7 @@ def register_magic():
 
     def _set_tags(tags):
         assert all(map(lambda t: isinstance(t, str), tags))
-        display(Javascript(
+        display(InvisibleJavascript(
             """
             require(['setTags'], function(setTags) {
                 setTags(element, %s);
@@ -55,7 +71,7 @@ def register_magic():
 
     def _set_hide(tags):
         assert all(map(lambda t: isinstance(t, str), tags))
-        display(Javascript(
+        display(InvisibleJavascript(
             """
             require(['setHide'], function(setHide) {
                 setHide(element, %s);
@@ -64,7 +80,7 @@ def register_magic():
         ))
 
     def _set_abstract():
-        display(Javascript(
+        display(InvisibleJavascript(
             """
             require(['setAbstract'], function(setAbstract) {
                 setAbstract(element);
@@ -89,7 +105,7 @@ def display_toolbar():
     """ Programmatically display the mf_jupyter toolbar. """
     from IPython.display import Javascript
 
-    display(Javascript("""
+    display(InvisibleJavascript("""
         IPython.CellToolbar.activate_preset("mf_jupyter");
         IPython.CellToolbar.global_show();
     """))
