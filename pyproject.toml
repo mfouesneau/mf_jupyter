@@ -29,7 +29,7 @@ dependencies = [
     "ipython",
     "jupyter",
     "matplotlib",
-    "nbconvert",
+    "nbconvert>=7.0",
     "notebook",
     "numpy",
     "pandas",

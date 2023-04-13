@@ -5,7 +5,7 @@ A package to offer tools to create and convert a notebook into TeX files for fur
 
 This package provides a collection of tools to automate validation procedures in the CU8 activities.
 
-This version relies on `nbconvert >= 6.0`
+This version relies on `nbconvert >= 7.0`
 
 
 ## Manual command
