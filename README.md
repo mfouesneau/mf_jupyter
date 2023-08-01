@@ -68,7 +68,7 @@ All templates are usable with make using their name, for example, `make mnras`.
 python has now a built-in virtual environment that can be used similarly to `conda`.
 
 ```shell
-python -m venv --prompt cu8val venv
+python -m venv --prompt myenv venv
 source venv/bin/activate
 pip install --upgrade pip
 pip install .
