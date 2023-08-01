@@ -126,16 +126,17 @@ def disp_markdown(*args):
     return display(Markdown(*args))
 
 
-def load_latex_macros():
+def load_latex_macros(fname=None):
     """ Read in the latex_macro file provided with the package and display it as Markdown
 
     The file contains latex macro definitions that MathJax will use to render the notebook.
 
     Note: You may want to hide the cell from the exports to avoid redefinition of macros.
     """
-    mf_nbconvert_pkg_path = os.path.abspath(pkg_resources.resource_filename('mf_jupyter', 'notebook'))
-    macrofile = os.path.join(mf_nbconvert_pkg_path, 'latex_macros')
-    return disp_markdown(open(macrofile).read())
+    if fname is None:
+        mf_nbconvert_pkg_path = os.path.abspath(pkg_resources.resource_filename('mf_jupyter', 'notebook'))
+        fname = os.path.join(mf_nbconvert_pkg_path, 'latex_macros')
+    return disp_markdown(open(fname).read())
 
 
 def _remove_indent(txt: str) -> str:
