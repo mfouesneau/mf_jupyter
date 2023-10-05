@@ -26,7 +26,10 @@
 % =========================
 ((* block docclass *))
 % Basic setup. Most papers should leave these options alone.
-\documentclass[a4paper,fleqn,usenatbib,useAMS]{aa}
+\documentclass{aa}
+\usepackage{natbib}
+\bibpunct{(}{)}{;}{a}{}{,} % to follow the A&A style
+
 ((* endblock docclass *))
 
 ((* block title *))
@@ -36,9 +39,9 @@
 ((* endblock author *))
 
 ((* block bibliography *))
-\bibliographystyle{yahapj}
-% \bibliographystyle{apj}
-\bibliography{bibliography}
+% for the bibliography, at the end
+\bibliographystyle{aa} % style aa.bst
+\bibliography{\documentBibliography}
 ((* endblock bibliography *))
 
 ((* block margins *))
@@ -168,7 +171,8 @@
 % ======================
 ((*- block markdowncell -*))
   ((*- if cell.metadata.hide -*))
-  ((*- elif cell.metadata.abstract -*))
+  ((*- elif 'hide' in cell.metadata.get("tags", []) -*))
+  ((*- elif 'abstract' in cell.metadata.get("tags",[]) -*))
 	\label{firstpage}
     \abstract{
     ((( cell.source | citation2latex | strip_files_prefix | latex_internal_refs | markdown2latex | newline_block)))}
@@ -186,7 +190,8 @@
 
 ((*- block output -*))
   ((*- if cell.metadata.hide -*))
-  ((*- elif cell.metadata.abstract -*))
+  ((*- elif 'hide' in cell.metadata.get("tags",[]) -*))
+  ((*- elif 'abstract' in cell.metadata.get("tags",[]) -*))
     \abstract{
     ((( cell.source | citation2latex | strip_files_prefix | latex_internal_refs | markdown2latex | newline_block)))}
   ((*- else -*))

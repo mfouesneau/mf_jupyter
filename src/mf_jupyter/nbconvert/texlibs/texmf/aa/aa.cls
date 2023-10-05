@@ -1,10 +1,14 @@
-% This is aa.cls
-% A&A DOCUMENT CLASS -- version 6.1 for LaTeX2e
-%
-% LaTeX document class for Astronomy and Astrophysics journal
-%
 %%
+%% This is file `aa.cls',
+%% generated with the docstrip utility.
 %%
+%% The original source files were:
+%%
+%% aa.dtx  (with options: `aa')
+%% 
+%% aa.dtx
+%% Copyright EDP Sciences, E-press (2016), J.-C. Charpentier (2010), all rights reserved.
+%% Class `aa' to use with LaTeX 2e
 %% \CharacterTable
 %%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -20,43 +24,94 @@
 %%   Right bracket \]     Circumflex    \^     Underscore    \_
 %%   Grave accent  \`     Left brace    \{     Vertical bar  \|
 %%   Right brace   \}     Tilde         \~}
-\NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{aa}[2006/06/01 v6.1
-^^JLaTeX document class for Astronomy and Astrophysics journal]
-\newcommand\@ptsize{}
-\newif\if@restonecol
-\newif\if@titlepage
-\@titlepagefalse
-\newif\if@longauth
-\@longauthfalse
-\newif\if@online
-\@onlinefalse
-\newif\if@rnote
-\@rnotefalse
-\newif\if@oldversion
-\@oldversionfalse
-\newif\if@letter
-\@letterfalse
-
+%%
+\def\filedate{2016/09/01}
+\let\aafiledate\filedate
+\def\fileversion{9.1}
+\let\aafileversion\fileversion
+\NeedsTeXFormat{LaTeX2e}[1995/06/01]
+\ProvidesClass{aa}
+         [\filedate{} v\fileversion{} Class for AA journal]
+\LoadClass[fleqn]{article}
+\newif\ifaa@letter
+\DeclareOption{letter}{\aa@lettertrue}
+\newif\ifaa@onlletter
+\DeclareOption{onlletter}{\aa@onllettertrue}
+\newif\ifaa@online
+\DeclareOption{online}{\aa@onlinetrue}
+\newif\ifaa@referee
+\DeclareOption{referee}{\aa@refereetrue}
+\newif\ifaa@contents
+\DeclareOption{contents}{\aa@contentstrue}
+\newif\ifaa@contentsAut
+\DeclareOption{contentsAut}{\aa@contentsAuttrue}
+\newlength\aa@fullwidth
+\newlength\aa@fullheight
+\DeclareOption{a4paper}{%
+  \renewcommand*\aa@paper{a4paper}%
+  \setlength\aa@fullwidth{184mm}%
+  \renewcommand*\aa@leftmarginpaper{(21cm-\aa@fullwidth)/2}%
+  \setlength\aa@fullheight{705pt}%
+}
+\DeclareOption{letterpaper}{%
+  \renewcommand*\aa@paper{letterpaper}
+  \setlength\aa@fullwidth{184mm}%
+  \renewcommand*\aa@leftmarginpaper{(8.5in-\aa@fullwidth)/2}%
+  \setlength\aa@fullheight{705pt-1.76cm}%
+}
+\DeclareOption{legalpaper}{%
+  \renewcommand*\aa@paper{legalpaper}%
+  \setlength\aa@fullwidth{184mm}%
+  \renewcommand*\aa@leftmarginpaper{(8.5in-\aa@fullwidth)/2}%
+  \setlength\aa@fullheight{705pt}%
+}
+\newcommand*\aa@paper{}
+\newcommand*\aa@leftmarginpaper{}
+\newif\ifaa@twocolumn
+\DeclareOption{onecolumn}{%
+  \aa@twocolumnfalse
+  \renewcommand*\aa@column{onecolumn}%
+}
+\DeclareOption{twocolumn}{%
+  \aa@twocolumntrue
+  \renewcommand*\aa@column{twocolumn}%
+}
+\newcommand*\aa@column{}
+\newif\if@wideboxfn
+\@wideboxfnfalse
+\DeclareOption{wideboxfn}{\@wideboxfntrue}
 %
-\DeclareOption{a4paper}
-   {\setlength\paperheight {297mm}% 
-    \setlength\paperwidth  {210mm}}
-\DeclareOption{letterpaper}
-   {\setlength\paperheight {11in}%
-    \setlength\paperwidth  {8.5in}}
-\DeclareOption{legalpaper}
-   {\setlength\paperheight {14in}%
-    \setlength\paperwidth  {8.5in}}
-\DeclareOption{10pt}{\renewcommand\@ptsize{0}}
-\DeclareOption{11pt}{\renewcommand\@ptsize{1}}
-\DeclareOption{12pt}{\renewcommand\@ptsize{2}}
-\DeclareOption{twoside}{\@twosidetrue  \@mparswitchtrue}
-\DeclareOption{draft}{\setlength\overfullrule{5pt}}
-\DeclareOption{final}{\setlength\overfullrule{0pt}}
-\DeclareOption{twocolumn}{\@twocolumntrue}
-\DeclareOption{leqno}{\input{leqno.clo}}
-\DeclareOption{fleqn}{\input{fleqn.clo}}
+\newif\ifaa@longfn
+\DeclareOption{longfn}{\aa@longfntrue}
+\newif\ifaa@longauth
+\DeclareOption{longauth}{\aa@longauthtrue}
+\let\if@myobjects\iffalse
+\DeclareOption{ascii}{%
+  \def\aa@inputenc{\RequirePackage[ascii]{inputenc}}%
+}
+\DeclareOption{latin1}{%
+  \def\aa@inputenc{\RequirePackage[latin1]{inputenc}}%
+}
+\DeclareOption{latin9}{%
+  \def\aa@inputenc{\RequirePackage[latin9]{inputenc}}%
+}
+\DeclareOption{ansinews}{%
+  \def\aa@inputenc{\RequirePackage[ansinews]{inputenc}}%
+}
+\DeclareOption{applemac}{%
+  \def\aa@inputenc{\RequirePackage[applemac]{inputenc}}%
+}
+\DeclareOption{utf8}{%
+  \def\aa@inputenc{\RequirePackage[utf8]{inputenc}}%
+}
+\newcommand*\aa@font{}
+\DeclareOption{cm}{%
+  \def\aa@font{%
+    \RequirePackage{textcomp}%
+  }%
+}
+\DeclareOption{showoverfull}{\setlength\overfullrule{5\p@}}
+\DeclareOption{hideoverfull}{\setlength\overfullrule{\z@}}
 \DeclareOption{openbib}{%
   \AtEndOfPackage{%
    \renewcommand\@openbib@code{%
@@ -67,632 +122,1025 @@
       }%
    \renewcommand\newblock{\par}}%
 }
-%
-\DeclareOption{longauth}{\@longauthtrue}
-\DeclareOption{rnote}{\@rnotetrue}
-\DeclareOption{oldversion}{\@oldversiontrue}
-%% January 2008 - abstract
-\DeclareOption{traditabstract}{\@oldversiontrue}
-\DeclareOption{structabstract}{\@oldversionfalse}
-\DeclareOption{letter}{\@lettertrue}
-%
-\let\if@runhead\iffalse
-\DeclareOption{runningheads}{\let\if@runhead\iftrue}
-\let\if@envcntreset\iffalse
-\DeclareOption{envcountreset}{\let\if@envcntreset\iftrue}
-\let\if@envcntsect\iffalse
-\DeclareOption{envcountsect}{\let\if@envcntsect\iftrue}
-\let\if@referee\iffalse
-\DeclareOption{referee}{\let\if@referee\iftrue}
-\let\if@onecolumn\iffalse
-\DeclareOption{onecolumn}{\let\if@onecolumn\iftrue}
-\let\if@nyobjects\iffalse
-%
-\ExecuteOptions{a4paper,twoside,twocolumn,fleqn,final,10pt,runningheads}
+\newif\ifaa@bibnumber
+\DeclareOption{bibnumber}{\aa@bibnumbertrue%
+  \def\aa@biblio{%
+    \RequirePackage[sort&compress]{natbib}
+    \bibpunct{[}{]}{,}{n}{}{,}%
+    \def\@biblabel##1{##1.}%
+    \bibliographystyle{plainnat}%
+    \def\bibfont{\aa@bibliographyfont}%
+    \setlength{\bibsep}{\z@}%
+  }
+}
+\DeclareOption{bibauthoryear}{%
+  \def\aa@biblio{%
+    \RequirePackage{natbib}
+    \bibpunct{(}{)}{;}{a}{}{,}%
+    \def\bibfont{\aa@bibliographyfont}%
+    \setlength{\bibsep}{\z@}%
+  }%
+}
+\DeclareOption{bibyear}{%
+  \def\aa@biblio{%
+    \def\@biblabel##1{}%
+    \def\@cite##1##2{{##1\if@tempswa , ##2\fi}}%
+  }
+}
+\ExecuteOptions{a4paper,twocolumn,utf8,hideoverfull,bibauthoryear}
 \ProcessOptions
-\AtEndOfClass{\mathindent\z@}
+\RequirePackage{calc}
+\RequirePackage{etex}
+\RequirePackage[T1]{fontenc}
+\aa@inputenc
+\aa@font
+\ifaa@referee
+\RequirePackage{xcolor}
+\RequirePackage{marginnote}
+\AtEndOfClass{
+\setlength{\marginparwidth}{50mm}
+\setlength{\marginparsep}{5mm}
+}
 %
-\if\@ptsize 0
-%
-   \renewcommand\normalsize{%
-      \@setfontsize\normalsize\@xpt{11}%
-      \abovedisplayskip 8.55\p@ \@plus4\p@ \@minus5\p@
-      \abovedisplayshortskip \z@ \@plus3\p@
-      \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
-      \belowdisplayskip \abovedisplayskip
-      \let\@listi\@listI}
-   \normalsize
-   \newcommand\small{%
-      \@setfontsize\small\@ixpt{10}%
-      \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
-      \abovedisplayshortskip \z@ \@plus2\p@
-      \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
-      \def\@listi{\leftmargin\leftmargini
-                  \parsep 0\p@ \@plus1\p@ \@minus\p@
-                  \topsep 8\p@ \@plus2\p@ \@minus4\p@
-                  \itemsep0\p@}%
-      \belowdisplayskip \abovedisplayskip
-   }
-   \newcommand\scriptsize{\@setfontsize\scriptsize\@viipt\@viiipt}
-   \newcommand\tiny{\@setfontsize\tiny\@viiipt\@ixpt} 
-   \newcommand\large{\@setfontsize\large\@xipt{13}}
-   \newcommand\Large{\@setfontsize\Large\@xivpt{16}}
-   \newcommand\LARGE{\@setfontsize\LARGE\@xviipt{20}}
-   \newcommand\huge{\@setfontsize\huge\@xxpt{24}}
-   \newcommand\Huge{\@setfontsize\Huge\@xxvpt{30}}
-   %
-   \setlength\parindent{15\p@}
-   \setlength\smallskipamount{3\p@ \@plus 1\p@ \@minus 1\p@}
-   \setlength\medskipamount{6\p@ \@plus 2\p@ \@minus 2\p@}
-   \setlength\bigskipamount{12\p@ \@plus 4\p@ \@minus 4\p@}
-   \setlength\headheight{12\p@}
-   \setlength\headsep   {12\p@} % 
-   \setlength\topskip   {10\p@}
-   \setlength\footskip{30\p@}
-   \setlength\maxdepth{.5\topskip}
-   %
-   \@settopoint\textwidth
-   \setlength\marginparsep {10\p@}
-   \setlength\marginparpush{5\p@}
-   \setlength\oddsidemargin   {-30\p@}
-   \setlength\evensidemargin  {-30\p@}
-   \setlength\marginparwidth  {48\p@}
-   \setlength\topmargin{-40pt}
-   \setlength\footnotesep{8\p@}
-   \setlength{\skip\footins}{9\p@ \@plus 4\p@ \@minus 2\p@}
-   \setlength\floatsep    {12\p@ \@plus 2\p@ \@minus 2\p@}
-   \setlength\textfloatsep{18\p@ \@plus 8\p@ \@minus 6\p@}
-   \setlength\intextsep   {18\p@ \@plus 2\p@ \@minus 2\p@}
-   \setlength\dblfloatsep    {12\p@ \@plus 2\p@ \@minus 2\p@}
-   \setlength\dbltextfloatsep{18\p@ \@plus 8\p@ \@minus 6\p@}
-   \setlength\@fptop{0\p@ }
-   \setlength\@fpsep{12\p@ }
-   \setlength\@fpbot{0\p@ \@plus 1fil}
-   \setlength\@dblfptop{0\p@ }
-   \setlength\@dblfpsep{12\p@ }
-   \setlength\@dblfpbot{0\p@ \@plus 1fil}
-   \setlength\partopsep{2\p@ \@plus 1\p@ \@minus 1\p@}
-   \def\@listi{\leftmargin\leftmargini
-               \parsep \z@
-               \topsep 8\p@ \@plus2\p@ \@minus4\p@
-               \itemsep\parsep}
-   \let\@listI\@listi
-   \@listi
-   \def\@listii {\leftmargin\leftmarginii
-                 \labelwidth\leftmarginii
-                 \advance\labelwidth-\labelsep
-                 \topsep    \z@
-                 \parsep    \topsep
-                 \itemsep   \parsep}
-   \def\@listiii{\leftmargin\leftmarginiii
-                 \labelwidth\leftmarginiii
-                 \advance\labelwidth-\labelsep
-                 \topsep    \z@
-                 \parsep    \topsep
-                 \itemsep   \parsep}
-   \def\@listiv {\leftmargin\leftmarginiv
-                 \labelwidth\leftmarginiv
-                 \advance\labelwidth-\labelsep}
-   \def\@listv  {\leftmargin\leftmarginv
-                 \labelwidth\leftmarginv
-                 \advance\labelwidth-\labelsep}
-   \def\@listvi {\leftmargin\leftmarginvi
-                 \labelwidth\leftmarginvi
-                 \advance\labelwidth-\labelsep}
-\else
-   \input{size1\@ptsize.clo}
+\newcounter{lenote}
+\AtBeginDocument{%
+\@ifpackageloaded{hyperref}%
+{\newcommand{\LEm}[1]{\texorpdfstring{\protect\stepcounter{lenote}{\normalfont\textbf{\color{red}[Note \arabic{lenote}] }}
+\protect\marginnote{\baselineskip3ex{\normalsize{\normalfont\textbf{\color{red}[Note \arabic{lenote}: #1]}}}}}{}}
+\newcommand{\LEt}[1]{\texorpdfstring{\protect\stepcounter{lenote}\normalfont\textbf{\color{red}[Note \arabic{lenote}: #1] }}{}}}%
+{\newcommand{\LEm}[1]{\protect\stepcounter{lenote}{\normalfont\textbf{\color{red}[Note \arabic{lenote}] }}
+\protect\marginnote{\baselineskip3ex{\normalsize{\normalfont\textbf{\color{red}[Note \arabic{lenote}: #1]}}}}}
+\newcommand{\LEt}[1]{\protect\stepcounter{lenote}\normalfont\textbf{\color{red}[Note \arabic{lenote}: #1] }}}%
+}
+  \renewcommand*\aa@column{onecolumn}
+  \aa@twocolumnfalse
+  \setlength{\aa@fullwidth}{0.75\aa@fullwidth}
+  \renewcommand*\aa@leftmarginpaper{15mm}
+  \if!\csname appendix\endcsname!\AtEndDocument{\listofobjects}\fi
 \fi
-%
+\ifx\pdfoutput\undefined
+  \newcount\pdfoutput
+\fi
+\ifnum\pdfoutput=\z@
+  \newcommand\aa@driver{dvips}
+\else
+  \newcommand\aa@driver{pdftex}
+\fi
+\RequirePackage[\aa@driver, \aa@paper, left=\aa@leftmarginpaper,
+                \ifaa@twocolumn\aa@column\fi, \ifaa@referee\else twoside,\fi
+                textheight=\aa@fullheight,headheight=12pt,headsep=12pt,
+                footskip=20pt,
+                textwidth=\aa@fullwidth, columnsep=4mm,
+                marginpar=0in, marginparsep=0in]{geometry}
+\RequirePackage{setspace}
+\ifaa@referee
+  \doublespacing
+\fi
+\RequirePackage{fancyhdr}
+\RequirePackage{cuted}
+\RequirePackage[tbtags,fleqn]{amsmath}
+\RequirePackage{amssymb}
+\setlength{\mathindent}{\z@}
+\ifaa@letter
+  \RequirePackage{xcolor}
+\fi
+\RequirePackage{url, enumerate}
+\RequirePackage{longtable}
+\renewcommand*\LT@makecaption[3]{%
+  \LT@mcol\LT@cols
+  c{\hbox to\z@{%
+      \hss\parbox[t]\LTcapwidth{%
+        \aa@longtablecaptionfont
+        \sbox\@tempboxa{%
+          #1{{\aa@longtableheadcaptionfont#2.} }#3%
+        }%
+        \ifdim\wd\@tempboxa>\hsize
+          #1{{\aa@longtableheadcaptionfont#2.} }#3%
+        \else
+          \hbox to\hsize{\box\@tempboxa\hfil}%
+        \fi
+        \endgraf\vskip\baselineskip
+      }%
+      \hss
+    }%
+  }%
+}
+\aa@biblio
+\RequirePackage{xspace}
+\RequirePackage[english]{babel}
+\def\aatolm#1{\gdef\@aatolm{#1}}
+\def\@aatolm{}
+\renewenvironment{appendix}{\par\clearpage\aatolm{1}
+\def\@hangfrom##1{\setbox\@tempboxa\hbox{{##1}}%
+      \hangindent \parindent\noindent\box\@tempboxa}
+\def\sectcounterend{:}
+\def\@seccntformat##1{\csname theap##1\endcsname%
+                      \hskip\betweenumberspace}
+  \setcounter{section}{0}%
+  \setcounter{subsection}{0}%
+  \setcounter{figure}{0}%
+  \setcounter{table}{0}%
+  \newcommand\theapsection{\appendixname\ \@Alph\c@section\sectcounterend}%
+  \newcommand\theapsubsection{\@Alph\c@section.\@arabic\c@subsection.}%
+  \newcommand\theapsubsubsection{\theapsubsection\@arabic\c@subsubsection.}%
+  \renewcommand\thesection{\@Alph\c@section}%
+  \renewcommand\thesubsection{\@Alph\c@section.\@arabic\c@subsection}%
+  \renewcommand\thesubsubsection{\thesubsection.\@arabic\c@subsubsection}%
+  \renewcommand\theequation{\@Alph\c@section.\@arabic\c@equation}%
+  \renewcommand\thefigure{\@Alph\c@section.\@arabic\c@figure}%
+  \renewcommand\thetable{\@Alph\c@section.\@arabic\c@table}%
+  \@addtoreset{equation}{section}%
+  \@addtoreset{figure}{section}%
+  \@addtoreset{table}{section}}
+{
+  \setcounter{section}{0}%
+  \setcounter{subsection}{0}%
+  \setcounter{figure}{0}%
+  \setcounter{table}{0}%
+  \renewcommand\thesection{\@arabic\c@section}%
+  \renewcommand\thesubsection{\@arabic\c@subsection}%
+  \renewcommand\thesubsubsection{\@arabic\c@subsubsection}%
+  \renewcommand\theequation{\@arabic\c@equation}%
+  \renewcommand\thefigure{\@arabic\c@figure}%
+  \renewcommand\thetable{\@arabic\c@table}%
+}
+\RequirePackage[figuresright]{rotating}
+\newcount\aa@cnta
+\newcount\aa@cntb
+\newcount\aa@nbwords
+\newcount\aa@nbauthors
+\newcount\aa@nbinstitutes
+\newcommand*\aa@traditabstractmax{300}
+\newcommand*\aa@structabstractmax{300}
+\newcommand*\aa@keywordsmax{6}
+\newcounter{aa@institutecnt}
+\newcount\aa@savecounter
+\newlength{\aa@dima}
+\newlength{\aa@dimb}
+\newlength{\aa@dimc}
+\newcommand*\aa@removefootnoteindentspace{-1.5em}
+\newcommand*\aa@removefootnotewbindentspace{-2.25em}
+\newcommand*\aa@logoruleindent{8\p@}
+\newcommand*\aa@logoruleraise{4\p@}
+\newcommand*\aa@logorulelength{78\p@}
+\newcommand*\aa@logorulethick{1\p@}
+\newcommand*\aa@logoraise{25\p@}
+\newcommand*\aa@logoraiserest{14.5\p@}
+\newlength{\VSpaceBeforeTheorem}
+\setlength{\VSpaceBeforeTheorem}{8\p@ \@plus 2\p@ \@minus 2\p@}
+\newlength{\VSpaceAfterTheorem}
+\setlength{\VSpaceAfterTheorem}{8\p@ \@plus 2\p@ \@minus 2\p@}
+\newlength{\HSpaceIndentTheorem}
+\setlength{\HSpaceIndentTheorem}{\z@}
+\newlength{\HVSpaceSepTheorem}
+\setlength{\HVSpaceSepTheorem}{0.25em}
+\newlength{\aa@securityheadmargin}
+\setlength{\aa@securityheadmargin}{2cm}
+\newlength{\aa@bleedmargin}
+\setlength{\aa@bleedmargin}{5mm}
+\newlength{\aa@voffsetlettername}
+\setlength{\aa@voffsetlettername}{2.55cm}
+\newlength{\aa@hoffsetlettername}
+\setlength{\aa@hoffsetlettername}{2mm}
+\newlength{\aa@hoffsetgray}
+\setlength{\aa@hoffsetgray}{3mm}
+\newlength{\aa@aftercontentsnameskip}
+\setlength{\aa@aftercontentsnameskip}{12\p@}
+\newlength{\aa@aftercontentsAutnameskip}
+\setlength{\aa@aftercontentsAutnameskip}{12\p@}
+\newlength{\aa@beforeheadboxskip}
+\setlength{\aa@beforeheadboxskip}{-20\p@}
+\newlength{\aa@afterheadboxskip}
+\setlength{\aa@afterheadboxskip}{49\p@}
+\newlength{\aa@beforetopicsskip}
+\setlength{\aa@beforetopicsskip}{18\p@}
+\newlength{\aa@aftertopicsskip}
+\setlength{\aa@aftertopicsskip}{32\p@}
+\newlength{\aa@afterletternameskip}
+\setlength{\aa@afterletternameskip}{6mm}
+\newlength{\aa@beforeletternameskip}
+\setlength{\aa@beforeletternameskip}{-4.8mm}
+\newlength{\aa@beforeheadnoteskip}
+\setlength{\aa@beforeheadnoteskip}{-12\p@}
+\newlength{\aa@afterheadnoteskip}
+\setlength{\aa@afterheadnoteskip}{3.5mm}
+\newlength{\aa@aftertitleskip}
+\setlength{\aa@aftertitleskip}{10\p@}
+\newlength{\aa@beforesubtitleskip}
+\setlength{\aa@beforesubtitleskip}{7\p@}
+\newlength{\aa@aftersubtitleskip}
+\setlength{\aa@aftersubtitleskip}{10\p@}
+\newlength{\aa@afterauthorskip}
+\setlength{\aa@afterauthorskip}{16.5\p@}
+\newlength{\aa@beforedefaultheadnoteskip}
+\setlength{\aa@beforedefaultheadnoteskip}{2pt}
+\newlength{\aa@headingleftmargin}
+\setlength{\aa@headingleftmargin}{8mm}
+\newlength{\aa@headingrightmargin}
+\setlength{\aa@headingrightmargin}{8mm}
+\newlength{\aa@afterinstituteskip}
+\setlength{\aa@afterinstituteskip}{8\p@}
+\newlength{\aa@instituteindent}
+\newlength{\aa@afterdateskip}
+\setlength{\aa@afterdateskip}{16.5\p@}
+\newlength{\aa@afterdedicationskip}
+\setlength{\aa@afterdedicationskip}{16.5\p@}
+\newlength{\aa@afterabstractnameskip}
+\setlength{\aa@afterabstractnameskip}{9\p@}
+\newlength{\aa@afterabstractskip}
+\setlength{\aa@afterabstractskip}{6\p@}
+\newlength{\aa@aftersubabstractskip}
+\setlength{\aa@aftersubabstractskip}{\z@}
+\newlength{\aa@afterkeywordsskip}
+\setlength{\aa@afterkeywordsskip}{24\p@}
+\newlength{\aa@beforeacknowledgementsskip}
+\setlength{\aa@beforeacknowledgementsskip}{6pt}
+\newlength{\aa@afteracknowledgementsskip}
+\setlength{\aa@afteracknowledgementsskip}{6pt}
+\newlength{\aa@figgap}
+\setlength{\aa@figgap}{12pt}
+\newlength{\aa@sidecaptionminwidth}
+\setlength{\aa@sidecaptionminwidth}{5cm}
+\newlength{\aa@sidecaptionwidth}
+\newlength{\VSpaceBeforeFigCaption}
+\setlength{\VSpaceBeforeFigCaption}{5pt}
+\newlength{\VSpaceAfterTabCaption}
+\setlength{\VSpaceAfterTabCaption}{10pt}
+\newlength{\VSpaceBeforeTabBib}
+\setlength{\VSpaceBeforeTabBib}{2ex}
+\newlength{\VSpaceBeforeTabFoot}
+\setlength{\VSpaceBeforeTabFoot}{2ex}
+\newlength{\aftertext}
+\setlength{\aftertext}{5pt}
+\newlength{\aa@entryboxwidth}
+\setlength{\aa@entryboxwidth}{8mm}
+\newlength{\betweenumberspace}
+\setlength{\betweenumberspace}{3.33pt}
+\newif\ifaa@structabstract
+\newif\ifaa@numberedtheorem
+\newif\ifaa@firstonline
+\aa@firstonlinetrue
+\newcommand*\journalname[1]{\renewcommand*\aa@journalname{#1}}
+\newcommand*\aa@journalname{Astronomy \& Astrophysics}
+\newcommand*\aa@manuscriptname{%
+  manuscript no. \jobname
+  \hspace{\stretch{1}}%
+  \copyright ESO \the\year
+}
+\def\Num{1}
+\def\Vol{1}
+\def\Month{JANUARY~I}
+\newcommand*\AANum[1]{\renewcommand*\aa@numarticle{#1}%
+\gdef\@AANum{#1}}
+\newcommand*\@AANum{}
+\newcommand*\aa@numarticle{Article number}
+\newcommand*\doi[1]{%
+  \renewcommand*\aa@doi{DOI: #1}%
+  \renewcommand*\aa@doifig{#1}%
+}
+\newcommand*\aa@doi{(DOI: will be inserted by hand later)}
+\newcommand*\aa@doifig{(to add)}
+\newcommand*\AALogo{%
+  \settowidth{\aa@dima}{\aa@logo@astrophysicsfont Astrophysics}%
+  \setbox0=\hbox{%
+    \begin{minipage}{\aa@dima}
+      \aa@logo@astronomyfont Astronomy\\
+      \raisebox{\aa@logoraise}{%
+        \parbox[c][0pt]{\z@}{%
+          \rlap{%
+            \hspace*{\aa@logoruleindent}%
+            \aa@logo@andfont \&%
+            \rule[\aa@logoruleraise]{\aa@logorulelength}{\aa@logorulethick}%
+          }%
+        }%
+      }%
+      \raisebox{\aa@logoraiserest}{\aa@logo@astrophysicsfont Astrophysics}
+    \end{minipage}%
+  }%
+  \copy0%
+}
+\newcommand*\aa@pageof{, page \thepage{} of \pageref{LastPage}}
+\newcommand*{\aa@publishlink}{\hfil%
+ Article published by EDP Sciences%
+ \hfil}
+\newcommand*\aa@topicsname{Special feature}
+\newcommand*\aa@offprintsname{Send offprint requests to\/}
+\newcommand*\listobjectname{List of Objects}
+\addto\captionsenglish{\renewcommand*\figurename{Fig.}}
+\newcommand*\aa@figtype{figure}
+\newcommand*\aa@tabtype{table}
+\newcommand*\lettername{Letter to the Editor}
+\newcommand*\noteaddname{Note added in proof.}
+\def\noteadd{\par\addvspace{17pt}\rm
+\trivlist\item[\hskip\labelsep
+{\it\noteaddname}]}
+\def\endnoteadd{\endtrivlist\addvspace{6pt}}
+\newcommand*\andname{\unskip, }
+\newcommand*\andlastname{\unskip, and }
+\newcommand*\andtwoname{\unskip\ and }
+\newcommand*\etalname{et al.}
+\newcommand*\aa@contentsname{Contents sorted by section}
+\newcommand*\aa@contentsAutname{Contents sorted by first author}
+\newcommand*\aa@pagename{page}
+\newcommand*\aa@AAname{A\&A}
+\newcommand*\aa@copyrightname{\copyright~ESO}
+\newcommand*\aa@subabstractiname{Context}
+\newcommand*\aa@subabstractiiname{Aims}
+\newcommand*\aa@subabstractiiiname{Methods}
+\newcommand*\aa@subabstractivname{Results}
+\newcommand*\aa@subabstractvname{Conclusions}
+\newcommand*\aa@keywordname{Key words}
+\newcommand*\aa@acknowledgementsname{Acknowledgements}
+\newcommand*\aa@floatcounterend{.~}
+\newcommand*\aa@tablebibname{References}
+\newcommand*\aa@tablefootname{Notes}
+\renewcommand\normalsize{%
+  \@setfontsize\normalsize\@xpt{11}%
+  \abovedisplayskip 8.55\p@ \@plus4\p@ \@minus5\p@
+  \abovedisplayshortskip \z@ \@plus3\p@
+  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+  \belowdisplayskip \abovedisplayskip
+  \let\@listi\@listI}
+\normalsize
+\renewcommand\small{%
+  \@setfontsize\small\@ixpt{10}%
+  \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus2\p@
+  \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+  \def\@listi{\leftmargin\leftmargini
+    \parsep 0\p@ \@plus1\p@ \@minus1\p@
+    \topsep 8\p@ \@plus2\p@ \@minus4\p@
+    \itemsep0\p@}%
+  \belowdisplayskip \abovedisplayskip
+}
 \let\footnotesize\small
-%
-\setlength{\textwidth}{184mm}
-\setlength{\textheight}{705pt} 
-%
-\setlength\lineskip{1\p@}
-\setlength\normallineskip{1\p@}
-\renewcommand\baselinestretch{}
-\setlength\parskip{0\p@ \@plus \p@}
-\@lowpenalty   51
-\@medpenalty  151
-\@highpenalty 301
-%
-\setcounter{topnumber}{4}
-\renewcommand\topfraction{.9}
-\setcounter{bottomnumber}{2}
-\renewcommand\bottomfraction{.5}
-\setcounter{totalnumber}{6}
-\renewcommand\textfraction{.05}
-\renewcommand\floatpagefraction{.95}
-\setcounter{dbltopnumber}{3}
-\renewcommand\dbltopfraction{.9}
-\renewcommand\dblfloatpagefraction{.95}
-%
-\def\ps@headings{%
-    \let\@oddfoot\@empty\let\@evenfoot\@empty
-    \def\@evenhead{\small\rlap{\thepage}\hfil\leftmark\hfil}%
-    \def\@oddhead{\small\hfil\rightmark\hfil\llap{\thepage}}%
-    \let\@mkboth\@gobbletwo
-    \let\sectionmark\@gobble
-    \let\subsectionmark\@gobble
-    }
-% make indentations changeable
-\def\setitemindent#1{\settowidth{\labelwidth}{#1}%
-        \leftmargini\labelwidth
-        \advance\leftmargini\labelsep
-   \def\@listi{\leftmargin\leftmargini
-        \labelwidth\leftmargini\advance\labelwidth by -\labelsep
-        \parsep=\parskip
-        \topsep=\medskipamount
-        \itemsep=\parskip \advance\itemsep by -\parsep}}
-\def\setitemitemindent#1{\settowidth{\labelwidth}{#1}%
-        \leftmarginii\labelwidth
-        \advance\leftmarginii\labelsep
-\def\@listii{\leftmargin\leftmarginii
-        \labelwidth\leftmarginii\advance\labelwidth by -\labelsep
-        \parsep=\parskip
-        \topsep=\z@
-        \itemsep=\parskip \advance\itemsep by -\parsep}}
-% labels of description
-\def\descriptionlabel#1{\hspace\labelsep #1\hfil}
-% adjusted environment "description"
-% if an optional parameter (at the first two levels of lists)
-% is present, its width is considered to be the widest mark
-% throughout the current list.
-\def\description{\@ifnextchar[{\@describe}{\list{}{\labelwidth\z@
-          \itemindent-\leftmargin \let\makelabel\descriptionlabel}}}
-\let\enddescription\endlist
-%
-\def\describelabel#1{#1\hfil}
-\def\@describe[#1]{\relax\ifnum\@listdepth=0
-\setitemindent{#1}\else\ifnum\@listdepth=1
-\setitemitemindent{#1}\fi\fi
-\list{--}{\let\makelabel\describelabel}}
-%
-\newdimen\logodepth
-\logodepth=1.3cm
-\newdimen\headerboxheight
-\headerboxheight=143pt
-\newdimen\betweenumberspace          % dimension for space between
-\betweenumberspace=3.33pt            % number and text of titles.
-\newdimen\aftertext                  % dimension for space after
-\aftertext=5pt                       % text of title.
-\newdimen\headlineindent             % dimension for space between
-\headlineindent=1.166cm              % number and text of headings.
-\def\andname{and}
-\def\keywordname{Key words.}
-\def\lastandname{, and}
-\def\mailname{{\it Correspondence to\/}:}
-\def\email#1{{e-mail: \tt#1}}
-% Used only by the publisher
-\def\AASection#1{}
-%
-\newcounter{inst}
-\newcounter{auth}
-\newdimen\instindent
-\newbox\authrun
-\newtoks\authorrunning
-\newbox\titrun
-\newtoks\titlerunning
-
-\def\journalname#1{\gdef\@journalname{#1}}
-\gdef\@journalname{Astronomy \&\ Astrophysics}
-
-\def\headnote#1{\gdef\@headnote{#1}}
-\def\@headnote{}
-
-\def\dedication#1{\gdef\@dedic{#1}}
-\def\@dedic{}
-
-\let\@date\undefined
-
-\if@oldversion
-\long\def\abstract#1{\gdef\@abstract{#1}}
-\else
-\long\def\abstract#1#2#3#4#5{\gdef\@abstract{\number@fw@rds=0%
-         \if!#1!\advance\number@fw@rds-1 \else{\sffamily\itshape Context.}\ \pickupw@rd#1\\\let\WC@go\relax\fi
-         {\sffamily\itshape Aims.}\
-         \if!#2! \@latex@error{The second heading "Aims" is mandatory in the abstract}{}
-           {\it The second heading "Aims" is mandatory in the abstract}\\
-           \else\advance\number@fw@rds+1\pickupw@rd#2\\\let\WC@go\relax\fi
-         {\sffamily\itshape Methods.}\
-         \if!#3! \@latex@error{The third heading "Methods" is mandatory in the abstract}{}
-           {\it The third heading "Methods" is mandatory in the abstract}\\
-           \else\advance\number@fw@rds+1\pickupw@rd#3\\\let\WC@go\relax\fi
-         {\sffamily\itshape Results.}\
-         \if!#4! \@latex@error{The forth heading "Results" is mandatory in the abstract}{}
-           {\it The forth heading "Results" is mandatory in the abstract}\\
-            \else\advance\number@fw@rds+1\pickupw@rd#4\let\WC@go\relax\fi
-         \if!#5! \else\\\advance\number@fw@rds+1{\sffamily\itshape Conclusions.}\ \pickupw@rd#5\let\WC@go\relax\fi
-         \ifnum\number@fw@rds>400
-         \@latex@error{Around \number\number@fw@rds\space words in the abstract instead of 300}{}
-         \else\relax\fi}}
+\renewcommand\scriptsize{\@setfontsize\scriptsize\@viipt\@viiipt}
+\renewcommand\tiny{\@setfontsize\tiny\@viiipt\@ixpt}
+\renewcommand\large{\@setfontsize\large\@xipt{13}}
+\renewcommand\Large{\@setfontsize\Large\@xivpt{16}}
+\renewcommand\LARGE{\@setfontsize\LARGE\@xviipt{20}}
+\renewcommand\huge{\@setfontsize\huge\@xxpt{24}}
+\renewcommand\Huge{\@setfontsize\Huge\@xxvpt{30}}
+\newcommand*\aa@headfont{\small}
+\newcommand*\aa@footfont{\small}
+\newcommand*\aa@subabstractfont{\small\sffamily\itshape}
+\newcommand*\aa@abstractfont{\small}
+\newcommand*\aa@offprintsnamefont{\itshape}
+\newcommand*\aa@logo@astronomyfont{\fontsize{18}{21}\sffamily\bfseries}
+\newcommand*\aa@logo@andfont{\fontsize{16}{12}\sffamily\mdseries}
+\newcommand*\aa@logo@astrophysicsfont{\fontsize{18}{21}\sffamily\bfseries}
+\newcommand*\aa@letternamefont{\sffamily\fontsize{19.2\p@}{21\p@}\bfseries}
+\newcommand*\aa@headletternamefont{\large\scshape}
+\newcommand*\aa@contentsnamefont{\Large\sffamily\bfseries}
+\newcommand*\aa@contentsAutnamefont{\Large\sffamily\bfseries}
+\newcommand*\aa@journalnamefont{\slshape}
+\newcommand*\aa@manuscriptnamefont{}
+\newcommand*\aa@todayheadboxfont{}
+\newcommand*\aa@msnrheadboxfont{\LARGE\bfseries\smash}
+\newcommand*\aa@textidlineempty{{\slshape A\&A proofs:}\ manuscript no.~\jobname}
+\newcommand*\aa@idlinefont{}
+\newcommand*\aa@doifont{}
+\newcommand*\aa@copyrightfont{\small}
+\ifaa@letter
+  \definecolor{aa@colorletter}{gray}{0.6}
 \fi
-
-\def\keywords#1{\gdef\@keywords{#1}}
-%% January 2007
-\def\topics#1{\gdef\@topics{#1}}
-\def\@topics{}
-
-
-\def\institute#1{\gdef\@institute{#1}}
-
-\def\institutename{\par
- \begingroup
- \parindent=0pt
- \parskip=0pt
- \setcounter{inst}{1}%
- \def\and{\par\stepcounter{inst}%
- \hangindent\instindent
- \noindent
- \hbox to\instindent{\hss$^{\theinst}$\enspace}\ignorespaces}%
- \setbox0=\vbox{\def\thanks##1{}\@institute}
- \ifnum\value{inst}>9\relax\setbox0=\hbox{$^{88}$\enspace}%
-                 \else\setbox0=\hbox{$^{8}$\enspace}\fi
- \instindent=\wd0\relax
- \ifnum\value{inst}=1\relax
- \else
-   \setcounter{inst}{1}%
-   \hangindent\instindent
-   \noindent
-   \hbox to\instindent{\hss$^{\theinst}$\enspace}\ignorespaces
- \fi
- \small
- \ignorespaces
- \@institute\par
- \endgroup}
-
-\def\offprints#1{\begingroup
-\def\protect{\noexpand\protect\noexpand}\xdef\@thanks{\@thanks
-\protect\footnotetext[0]{\unskip\hskip-1.5em{\it Send offprint requests
-to\/}: \ignorespaces#1}}\endgroup\ignorespaces}
-
-\def\mail#1{\gdef\@mail{#1}}
-\def\@mail{}
-
-\def\@thanks{}
-
-\def\@fnsymbol#1{\ifcase#1\or\star\or{\star\star}\or{\star\star\star}%
-   \or \dagger\or \ddagger\or
-   \mathchar "278\or \mathchar "27B\or \|\or **\or \dagger\dagger
-   \or \ddagger\ddagger \else\@ctrerr\fi\relax}
-
-\def\inst#1{\unskip$^{#1}$}
-\def\fnmsep{\unskip$^,$}
-
-\def\subtitle#1{\gdef\@subtitle{#1}}
-\def\@subtitle{}
-
-\def\msnr#1{\gdef\@msnr{#1}}
-\def\@msnr{}
-
-\def\idline#1#2{\gdef\@idline{#1}\setcounter{page}{#2}}
-\def\@idline{}
-\def\doi#1{\gdef\@doi{DOI: 10.1051/0004-6361:#1}}
-\def\@doi{(DOI: will be inserted by hand later)}
-
-\def\headnote#1{\gdef\@headnote{#1}}
-\def\@headnote{}
-
-\def\ch@ckobl#1#2{\@ifundefined{@#1}
- {\typeout{A\string&A warning: Missing
-\expandafter\string\csname#1\endcsname}%
-  \csname #1\endcsname{#2}}
- {}}
-
-\def\ch@ckoblabs#1#2#3#4#5#6{\@ifundefined{@#1}
- {\typeout{A\string&A warning: Missing
-\expandafter\string\csname#1\endcsname}%
-  \csname #1\endcsname{#2}{#3}{#4}{#5}{#6}}
- {}}
-
-\newif\if@normhead \@normheadtrue
-\def\hugehead{\@normheadfalse
-\onecolumn
-\let\thanks=\footnote
-\long\def\@makefntext##1{\parindent\bibindent
-     \columnwidth\textwidth\advance\columnwidth -\columnsep
-     \divide\columnwidth\tw@\hsize\columnwidth \linewidth\columnwidth
-     \noindent\hbox to\parindent{\hss$\m@th^{\@thefnmark}$ }##1}%
+\newcommand*\aa@topicsfont{\fontsize{12}{14}\sffamily\itshape}
+\newcommand*\aa@topicsnamefont{\fontsize{17}{20}\sffamily}
+\newcommand*\aa@headnotefont{\LARGE\itshape}
+\newcommand*\aa@defaultheadnotefont{\LARGE\sffamily\bfseries\itshape}
+\newcommand*\aa@titlefont{\LARGE \sffamily\bfseries\boldmath}
+\newcommand*\aa@subtitlefont{\Large \sffamily\bfseries\boldmath}
+\newcommand*\aa@authorfont{\large}
+\newcommand*\aa@institutefont{\small}
+\newcommand*\aa@datefont{\small}
+\newcommand*\aa@dedicationfont{\itshape}
+\newcommand*\aa@abstractnamefont{\small\sffamily\bfseries\MakeUppercase}
+\newcommand*\aa@keywordnamefont{\small\sffamily\bfseries}
+\newcommand*\aa@keywordfont{\small}
+\newcommand*\aa@longauthfont{\centering\small\itshape}
+\newcommand*\aa@longauthname{Affiliations can be found after the references}
+\newcommand*\aa@longauthopen{(}
+\newcommand*\aa@longauthclose{)}
+\newcommand*\aa@acknowledgementsfont{\tiny}
+\newcommand*\aa@acknowledgementsnamefont{\itshape}
+\newcommand*\aa@bibliographyfont{\tiny}
+\newcommand*\aa@captionfont{\normalfont\small}
+\newcommand*\aa@headcaptionfont{\bfseries}
+\newcommand*\aa@tablebibfont{\small}
+\newcommand*\aa@tablebibnamefont{\small\bfseries}
+\newcommand*\aa@tablefootfont{\small}
+\newcommand*\aa@tablefootnamefont{\small\bfseries}
+\newcommand*\aa@descriptionlabelfont{}
+\newcommand\aa@longtablecaptionfont{\small}
+\newcommand\aa@longtableheadcaptionfont{\small\bfseries}
+\newcommand*\aa@emailfont{\ttfamily}
+\newcommand*\aa@entryifont{\itshape}
+\newcommand*\aa@entryiifont{\bfseries}
+\newtoks\authorlink
+\newtoks\yearCop
+\newbox\aa@stripbox
+\newbox\aa@outputbox
+\newenvironment{aa@strip}
+{%
+  \onecolumn\parindent0mm
+  \setbox\aa@stripbox=\vbox\bgroup
 }
-
-\newcommand\errorref{\@latex@error{Citations are not allowed in the abstract}{}}
-\newenvironment{stopref}{\let\cite\errorref\let\citet\errorref\let\citep\errorref}{}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% This counts the words. This is an extract of  "gvol.sty,
-% written by Ivan Andrus (gvol@math.byu.edu)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-  \newcount\number@fw@rds
-  \long\def\pickupw@rd#1 {%
-    \let\WC@go\pickupw@rd #1
-    \advance\number@fw@rds+1
-    \expandafter\WC@go
-   }
-% End of wordcount section
-
-\def\maketitle{\par
-\ch@ckobl{journalname}{Noname}
-\ch@ckobl{date}{Preprint online version: \today}
-\ch@ckobl{title}{A title should be given}
-\ch@ckobl{author}{Name(s) and initial(s) of author(s) should be given}
-\ch@ckobl{institute}{Address(es) of author(s) should be given}
-\if@oldversion
-\ch@ckobl{abstract}{An abstract should be given}
+{%
+  \egroup
+  \aa@@strip
+}
+\def\aa@@strip{%
+  \ifdim\ht\aa@stripbox>\textheight
+    \global\setbox\aa@outputbox=\vsplit\aa@stripbox to \textheight
+    \dp\aa@outputbox \z@
+    \box\aa@outputbox\clearpage
+    \expandafter\aa@@strip
+  \else
+    \dp\aa@stripbox \z@
+    \twocolumn[\box\aa@stripbox]
+  \fi
+}
+\newcommand{\ErratumOf}[3][]{}
+\newcommand{\NoteFor}[3][]{}
+\renewcommand*\@fnsymbol[1]{%
+  \ensuremath{%
+    \ifcase#1
+    \or\star
+    \or{\star}{\star}
+    \or{\star}{\star}{\star}%
+    \or{\star}{\star}{\star}{\star}
+    \or \dagger
+    \or \ddagger
+    \or \mathsection
+    \or \mathparagraph
+    \or \|
+    \or **
+    \or \dagger\dagger
+    \or \ddagger\ddagger
+    \else \@ctrerr
+    \fi
+  }%
+}
+\newcommand\longempty{}
+\newcommand*\aa@cntwords[1]{%
+  \protected@edef\aa@cntwords@arg{#1\space\noexpand\aa@nil\space}%
+  \aa@nbwords \z@
+  \let\@@protect\protect
+  \let\protect\@unexpandable@protect
+  \expandafter\aa@@cntwords\aa@cntwords@arg
+  \restore@protect
+}
+\newcommand*\aa@nnil{\aa@nil}
+\long\def\aa@@cntwords#1 {%
+  \def\aa@arg{#1}%
+  \ifx\aa@arg\aa@nnil
+  \else
+    \advance\aa@nbwords \@ne
+    \expandafter\aa@@cntwords
+  \fi
+}
+\newcommand*\aa@roheadletter{%
+  \setlength{\aa@dima}
+            {1in + \topmargin + \headheight - \dp\strutbox +
+              2\aa@bleedmargin}%
+  \setlength{\aa@dimb}
+            {\paperwidth - (1in + \oddsidemargin + \textwidth) +
+              \aa@bleedmargin - \aa@hoffsetgray}%
+  \setbox0=\hbox{\aa@letternamefont \lettername}%
+  \setlength{\aa@dimc}
+            {\paperheight - \aa@dima - \wd0 + 2\aa@bleedmargin}%
+  \addtolength{\aa@voffsetlettername}{0.5cm}
+  \leavevmode
+  \hbox to0pt{%
+    \hspace*{\aa@hoffsetgray}%
+    \vbox to0pt{%
+      \hsize=\aa@dimb
+      \vskip-\aa@dima
+      \colorbox{aa@colorletter}{%
+        \vtop{%
+          \vspace*{\aa@voffsetlettername}%
+          \hspace*{\aa@hoffsetlettername}%
+          \rotatebox{90}{\aa@letternamefont \lettername}%
+          \hfill\null
+          \vspace*{\aa@dimc}%
+        }%
+      }%
+      \vss
+    }%
+    \hss
+  }%
+}
+\newcommand*\aa@leheadletter{%
+  \setlength{\aa@dima}
+            {1in + \topmargin + \headheight - \dp\strutbox +
+              2\aa@bleedmargin}%
+  \setlength{\aa@dimb}
+            {1in + \oddsidemargin + \aa@bleedmargin - \aa@hoffsetgray}%
+  \setbox0=\hbox{\aa@letternamefont \lettername}%
+  \setlength{\aa@dimc}
+            {\paperheight-\aa@dima-\wd0+2\aa@bleedmargin}%
+  \addtolength{\aa@voffsetlettername}{0.5cm}
+  \leavevmode
+  \hspace*{-2\fboxsep}%
+  \hbox to0pt{%
+    \hss
+    \vbox to0pt{%
+      \hsize=\aa@dimb
+      \vskip-\aa@dima
+      \colorbox{aa@colorletter}{%
+        \vtop{%
+          \vspace*{\aa@voffsetlettername}%
+          \hfill
+          \rotatebox{90}{\aa@letternamefont \lettername}%
+          \hspace*{\aa@hoffsetlettername}%
+          \vspace*{\aa@dimc}%
+        }%
+      }%
+      \vss
+    }%
+    \hspace*{\aa@hoffsetgray}%
+  }%
+}
+\ifaa@online
+  \fancypagestyle{firstpage}{%
+    \fancyhf{}%
+    \renewcommand*{\headrulewidth}{\z@}%
+    \renewcommand*{\footrulewidth}{\z@}%
+    \fancyfoot[RO]{\aa@footfont\aa@publishlink\aa@numarticle\aa@pageof}%
+    \fancyfoot[LE]{\aa@footfont\aa@numarticle\aa@pageof\qquad\aa@publishlink}%
+  }
 \else
-\ch@ckoblabs{abstract}{An abstract should be given}{An abstract should be given}
-{An abstract should be given}{An abstract should be given}{An abstract should be given}
+  \fancypagestyle{firstpage}{%
+    \fancyhf{}%
+    \renewcommand*{\headrulewidth}{\z@}%
+    \renewcommand*{\footrulewidth}{\z@}%
+    \fancyfoot[RO]{\aa@footfont \aa@numarticle\aa@pageof}%
+    \fancyfoot[LE]{\aa@footfont \aa@numarticle\aa@pageof}%
+  }
 \fi
-\ch@ckobl{keywords}{Keywords should be given}
-\begingroup
-    \begin{stopref}
-    \renewcommand\thefootnote{\@fnsymbol\c@footnote}%
-    \def\@makefnmark{$^{\@thefnmark}$}%
- \def\lastand{\ifnum\value{inst}=2\relax
-                 \unskip{} \andname\
-              \else
-                 \unskip, \andname\
-              \fi}%
- \def\and{\stepcounter{auth}\relax
-          \ifnum\value{auth}=\value{inst}%
-             \lastand
-          \else
-             \unskip,
-          \fi}%
- \ifnum \col@number=\@ne
-   \@maketitle
- \else
-   \twocolumn[\@maketitle]%
- \fi
- \thispagestyle{empty}
- \global\@topnum\z@
- \if@normhead
+\ifaa@contents
+  \fancypagestyle{otherpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\aa@AAname}%
+    \fancyfoot[C]{\aa@contentsname, \aa@pagename\space \thepage}%
+    \renewcommand*{\headrulewidth}{\z@}%
+    \renewcommand*{\footrulewidth}{\z@}%
+  }
+\else\ifaa@contentsAut
+  \fancypagestyle{otherpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\aa@AAname}%
+    \fancyfoot[C]{\aa@contentsAutname, \aa@pagename\space \thepage}%
+    \renewcommand*{\headrulewidth}{\z@}%
+    \renewcommand*{\footrulewidth}{\z@}%
+  }
+\else
+  \fancypagestyle{otherpage}{%
+    \fancyhf{}%
+    \fancyhead[CO]{\aa@headfont \aa@headings}%
+    \fancyhead[CE]{\aa@headfont \ifx\aa@idline\empty\aa@textidlineempty\else\aa@idline\fi}%
+    \fancyfoot[RO]{\aa@footfont \aa@numarticle\aa@pageof}%
+    \fancyfoot[LE]{\aa@footfont \aa@numarticle\aa@pageof}%
+    \renewcommand*{\headrulewidth}{\z@}%
+    \renewcommand*{\footrulewidth}{\z@}%
+  }
+\fi\fi
+\pagestyle{otherpage}
+\newcommand*\aa@headings{}
+\renewcommand*\date[1]{\renewcommand*\aa@date{#1}}%
+\newcommand*\aa@date{\today}
+\renewcommand*\title[1]{\renewcommand*\aa@title{#1}}%
+\newcommand*\aa@title{}
+\newcommand*\subtitle[1]{\renewcommand*\aa@subtitle{#1}}
+\newcommand*\aa@subtitle{}
+\renewcommand*\author[1]{%
+  \renewcommand*\aa@author{#1}%
+  \begingroup
+    \let\and\relax
+    \renewcommand*\inst[1]{}%
+    \renewcommand*\thanks[1]{}%
+    \renewcommand*\email[1]{}%
+    \let\@@protect\protect
+    \let\protect\@unexpandable@protect
+    \global\aa@nbauthors \z@
+    \expandafter\aa@cntauthors\aa@author\and\aa@nil\and
+    \restore@protect
+  \endgroup
+}%
+\newcommand*\aa@author{}
+\def\aa@cntauthors#1\and{%
+  \def\aa@arg{#1}%
+  \ifx\aa@arg\aa@nnil
+  \else
+    \global\advance\aa@nbauthors \@ne
+    \expandafter\aa@cntauthors
+  \fi
+}
+\newcommand*\institute[1]{%
+  \renewcommand*\aa@institute{#1}
+  \begingroup
+    \let\and\relax
+    \renewcommand*\inst[1]{}%
+    \renewcommand*\thanks[1]{}%
+    \renewcommand*\email[1]{}%
+    \let\@@protect\protect
+    \let\protect\@unexpandable@protect
+    \global\aa@nbinstitutes \z@
+    \expandafter\aa@cntinstitutes\aa@institute\and\aa@nil\and
+    \restore@protect
+  \endgroup
+}%
+\newcommand*\aa@institute{}
+\def\aa@cntinstitutes#1\and{%
+  \def\aa@arg{#1}%
+  \ifx\aa@arg\aa@nnil
+  \else
+    \global\advance\aa@nbinstitutes \@ne
+    \expandafter\aa@cntinstitutes
+  \fi
+}
+\newcommand*\inst[1]{\unskip\hbox{\@textsuperscript{\normalfont$#1$}}}
+\newcommand*\fnmsep{\unskip\hbox{\@textsuperscript{\normalfont,}}}
+\newcommand*\email[1]{e-mail: {\aa@emailfont #1}}
+\let\endabstract\relax
+\renewcommand\abstract[1]{%
+  \renewcommand\aa@abstract@i{#1}%
+  \@ifnextchar\bgroup{\aa@abstract@next}{\aa@abstract@one}
+}
+\newcommand\aa@abstract@next[4]{%
+  \aa@structabstracttrue
+  \renewcommand\aa@abstract@ii{#1}%
+  \renewcommand\aa@abstract@iii{#2}%
+  \renewcommand\aa@abstract@iv{#3}%
+  \renewcommand\aa@abstract@v{#4}%
+  \begingroup
+    \renewcommand\thanks[1]{}%
+    \protected@xdef\aa@abstractwords{%
+      \aa@abstract@i \space
+      \aa@abstract@ii \space
+      \aa@abstract@iii \space
+      \aa@abstract@iv \space
+      \aa@abstract@v \space
+    }%
+  \endgroup
+  \aa@cnta \z@
+  \aa@cntb \aa@structabstractmax
+  \aa@abstract@cnt
+}
+\newcommand*\aa@abstract@one{%
+  \protected@xdef\aa@abstractwords{\aa@abstract@i}%
+  \aa@cnta \z@
+  \aa@cntb \aa@traditabstractmax
+  \aa@abstract@cnt
+}
+\def\aa@abstract@cnt{%
+  \aa@cntwords\aa@abstractwords
+  \advance\aa@nbwords \aa@cnta\relax
+  \ifnum\aa@nbwords>\aa@cntb
+  \typeout{^^J^^JIMPORTANT}
+    \ClassWarning{aa}
+      {Around \the\aa@nbwords\space words in the abstract instead
+        of \the\aa@cntb\space (max). You should rewrite your abstract}
+  \typeout{IMPORTANT
+  ^^J}
+  \fi
+}
+\newcommand\aa@abstract@i{}
+\newcommand\aa@abstract@ii{}
+\newcommand\aa@abstract@iii{}
+\newcommand\aa@abstract@iv{}
+\newcommand\aa@abstract@v{}
+\newcommand*\keywords[1]{%
+  \renewcommand*\aa@keywords{#1}%
+  \aa@keywords@cnt
+  \ifnum\aa@nbwords>\aa@keywordsmax
+    \ClassWarning{aa}
+      {\the\aa@nbwords\space keywords instead of a maximum of
+        \aa@keywordsmax\space}
+  \fi
+}
+\newcommand*\aa@keywords{}
+\newcommand*\aa@doublehyphen{--}
+\newcommand*\aa@keywords@cnt{%
+  \protected@edef\aa@@keywords{\aa@keywords--\noexpand\aa@nil--}%
+  \aa@nbwords \z@
+  \let\@@protect\protect
+  \let\protect\@unexpandable@protect
+  \expandafter\aa@@keywords@cnt\aa@@keywords
+  \restore@protect
+}
+\def\aa@@keywords@cnt#1--{%
+  \def\aa@arg{#1}%
+  \ifx\aa@arg\aa@nnil
+  \else
+    \advance\aa@nbwords \@ne
+    \expandafter\aa@@keywords@cnt
+  \fi
+}
+\newcommand*\topics[1]{\renewcommand*\aa@topics{#1}}
+\newcommand*\aa@topics{}
+\newcommand*\titlerunning[1]{%
+  \renewcommand*\aa@titlerunning{#1}
+}
+\newcommand*\aa@titlerunning{}
+\newcommand*\authorrunning[1]{%
+  \renewcommand*\aa@authorrunning{#1}
+}
+\newcommand*\aa@authorrunning{}
+\newcommand*\offprints[1]{%
+  \protected@edef\@thanks{%
     \@thanks
- \else
-    \twocolumn[\vspace{\@tempdima}]
-    \addtocounter{page}{-1}
-    \if!\the\authorrunning!
-       \authorrunning{ }%
-    \fi
- \fi
- \if!\@mail!\else
-    \footnotetext[0]{\kern-\bibindent\mailname\
-    \ignorespaces\@mail}%
- \fi
-%
- \if@runhead
-    \def\\{\unskip\ \ignorespaces}\def\inst##1{\unskip{}}%
-    \def\thanks##1{\unskip{}}\def\fnmsep{\unskip}%
-    \def\object##1{##1}%
-    \instindent=\textwidth
-    \advance\instindent by-2\headlineindent
-    \if!\the\titlerunning!\else
-      \edef\@title{\the\titlerunning}%
-    \fi
-    \global\setbox\titrun=\hbox{\small\rm\unboldmath\ignorespaces\@title}%
-    \ifdim\wd\titrun>\instindent
-       \typeout{^^JA\string&A Warning: Title too long for running head.}%
-       \typeout{Please supply a shorter form with \string\titlerunning
-                \space prior to \string\maketitle}%
-       \global\setbox\titrun=\hbox{\small\rm
-       Title Suppressed Due to Excessive Length}%
-    \fi
-    \xdef\@title{\copy\titrun}%
-%
-    \if!\the\authorrunning!
-    \else
-      \setcounter{auth}{1}%
-      \edef\@author{\the\authorrunning}%
-    \fi
-    \ifnum\value{auth}>2
-       \def\stripauthor##1\and##2\endauthor{%
-       \protected@xdef\@author{##1\unskip\unskip\if!##2!\else
-       \ et al.\fi}}%
-       \expandafter\stripauthor\@author\and\endauthor
-    \else
-       \gdef\and{\unskip\ and \ignorespaces}%
-       {\def\and{\noexpand\protect\noexpand\and}%
-       \protected@xdef\@author{\@author}}
-    \fi
-    \global\setbox\authrun=\hbox{\small\unboldmath\@author\unskip:
-                                 \unhbox\titrun\if@rnote~\itshape\rnotname\fi}%
-    \ifdim\wd\authrun>\instindent
-    \typeout{^^JA\string&A Warning: The running head built automatically
-             from \string\author\space and \string\title
-             ^^Jexceeds the pagewidth, please supply a shorter form
-             ^^Jwith \string\authorrunning\space and/or
-             \string\titlerunning\space prior to \string\maketitle}%
-    \global\setbox\authrun=\hbox{\small\rm Please give a shorter version
-       with: {\tt\string\authorrunning\space}and/or{\tt\space
-       \string\titilerunning\space}prior to{\tt\space\string\maketitle}}%
-    \fi
-    \xdef\@author{\copy\authrun}%
-    \markboth{\@author}{\@author}%
- \fi
-%
- \end{stopref}
- \endgroup
- \setcounter{footnote}{0}
- \setcounter{footnote}{0}%
- \global\let\thanks\relax
- \global\let\maketitle\relax
- \global\let\@maketitle\relax
- \global\let\@thanks\@empty
- \global\let\@author\@empty
- \global\let\@date\@empty
- \global\let\@title\@empty
- \global\let\@subtitle\@empty
- \global\let\@abstract\@empty
-%%January 2007
- \global\let\@topics\@empty
- \global\let\@keywords\@empty
- \global\let\keywords\relax
- \global\let\title\relax
- \global\let\author\relax
- \global\let\abstract\relax
- \global\let\date\relax
- \global\let\and\relax}
-
-\def\AALogo{\setbox254=\hbox{
-\setlength{\tabcolsep}{0pt}
-\begin{tabular}{l}
-\\[-30pt]
-{\fontsize{18}{21}\selectfont\sffamily\bfseries Astronomy} \\[-2.5pt]
-{\fontsize{16}{12}\selectfont\sffamily\mdseries \kern8pt\&\raisebox{4pt}{\rule{78pt}{1pt}}} \\[-5pt]
-{\fontsize{18}{21}\selectfont\sffamily\bfseries Astrophysics}
-\end{tabular}}\copy254}
-
-\def\makeheadbox{{
-\hbox to\textwidth{%
-\if!\@idline!
-\hbox to0pt{\vbox{\hsize=40cc
-\baselineskip=12pt\hrule\hbox
-{\vrule\kern3pt\vbox{\kern3pt
-\hb@xt@ 40cc{{\sl\@journalname}\ manuscript no.~\jobname \hfill\copyright~ESO~\the\year}
-\if!\@msnr!\hbox{\today}\else
-\hb@xt@ 30cc{\hfil\strut\LARGE\bfseries\smash{\@msnr}}\fi
-\kern3pt}\hfil\kern3pt\vrule}\hrule}\hss}\hfill
-\else
-\vbox{\baselineskip=11pt
-\hbox{\@idline}
-\hbox{\@doi}
-\hbox{\small\rm \copyright~ESO~\the\year}}
-\hfill\AALogo
-\fi}}}
-
-\def\@maketitle{\newpage
- \normalfont
- \vbox to0pt{\vskip-20pt
- \nointerlineskip
- \makeheadbox\vss}\nointerlineskip
- \if@normhead
-    \setbox\authrun=\vbox\bgroup
- \fi
-%% January 2007
- \if!\@topics!\vskip32pt\else
- \vskip24pt
- {\fontsize{12}{14}\selectfont\sffamily {\itshape \@topics} \hfill \fontsize{17}{20}\selectfont\sffamily Special feature}
- \vskip12pt
- \fi
- \begin{center}
-%% Januray 2007
-%% \vskip24pt
- \if@letter{\large \lettername}\fi
- {\LARGE \sffamily\bfseries\boldmath
-  \hrule\@height\logodepth\@width\z@
-  \pretolerance=10000
-  \vspace*{-12pt}
-  \pretolerance=10000
- \if!\@headnote!\else
-   \noindent
-   {\normalfont\itshape\ignorespaces\@headnote\par}\vskip 3.5mm
- \fi
-  \noindent\ignorespaces
-  \@title
-  \if@rnote \\ \itshape \rnotename \fi
-  \par}
- \vskip 8pt\relax
- \if!\@subtitle!\else
-   {\Large \sffamily\bfseries\boldmath
-   \pretolerance=10000
-   \noindent\ignorespaces\@subtitle \par}\vskip 10pt
- \fi
-%% \lineskip .5em
- \setbox0=\vbox{\setcounter{auth}{1}\def\and{\stepcounter{auth} }%
-                \hfuzz=2\textwidth\def\thanks##1{}\@author}%
- \value{inst}=\value{auth}%
- \setcounter{auth}{1}%
- {\large \rmfamily\mdseries \noindent\ignorespaces\@author}
- \if@longauth \else \end{center} \fi
- \vskip6pt
-\small\rm
- \if@longauth {\it (Affiliations can be found after the references)}  \else
- \leftskip=.8cm\rightskip=\leftskip
- \institutename\fi
- \vskip 8pt \noindent\@date
- \if!\@dedic!\else
-    \par
-    \normalsize\it
-    \addvspace\baselineskip
-    \noindent\@dedic
- \fi
- \if@longauth \end{center} \fi
- \vskip 8pt
- \small\rm
- \if!\@abstract!\else
-  \begin{center}
-   {\sffamily\bfseries\abstractname}\par
-  \end{center}
-  \@abstract
- \fi
- \vskip 6pt
- \small\rm
- \if!\@keywords!\else
- \noindent{\sffamily\bfseries\keywordname}\ \@keywords
- \fi
-%
- \if@normhead
-    \egroup % end of header box
-    \@tempdima=\headerboxheight
-    \advance\@tempdima by-\ht\authrun
-%   \advance\@tempdima by-\pagetotal
-    \ifdim\@tempdima>0pt
-       \vrule width0pt height\@tempdima
-    \fi
-    \unvbox\authrun
-    \global\@minipagetrue
-    \global\everypar{\global\@minipagefalse\global\everypar{}}
- \else
-    \typeout{\the\c@auth\space author names and}
-    \typeout{\the\c@inst\space institutes processed}
-    \global\@tempdima=\pagetotal
-    \global\advance\@tempdima by24pt
- \fi
- \vskip24pt
+    \protect\footnotetext[0]{%
+      \unskip%
+      \if@wideboxfn%
+        \hspace{\aa@removefootnotewbindentspace}%
+      \else%
+        \hspace{\aa@removefootnoteindentspace}%
+      \fi
+      {%
+        \aa@offprintsnamefont
+        \aa@offprintsname
+      }: \ignorespaces#1%
+    }%
+  }%
 }
-%
-\DeclareMathAlphabet{\mathsc}{OT1}{cmr}{m}{sc}
-\def\testbx{bx}%
-\DeclareRobustCommand{\ion}[2]{%
-\relax\ifmmode
-\ifx\testbx\f@series
-{\mathbf{#1\,\mathsc{#2}}}\else
-{\mathrm{#1\,\mathsc{#2}}}\fi
-\else\textup{#1\,{\mdseries\textsc{#2}}}%
-\fi}
-%
-\def\clearelargs{\def\1{}\def\2{}\def\3{}\def\4{}\count255=0}
-\def\druck@lement#1{{}^{\2}_{\3}\mathrm{#1}{}^{\1}_{\4}{}\if@tempswa$\fi}
-\DeclareRobustCommand{\element}{\relax\ifmmode\@tempswafalse
-\else$\@tempswatrue\fi\clearelargs\def\?{\phantom{0}}\@lement}
-\def\@lement#1{\if#1[\expandafter\f@@dargs\else\druck@lement{#1}\fi}
-\def\f@@dargs#1]{\advance\count255by\@ne
-\expandafter\def\csname\number\count255\endcsname{#1}\@lement}
-%
-%\def\vec#1{\ensuremath{\mathbf{#1}}}
-\def\vec#1{\ensuremath{\mathchoice{\mbox{\boldmath$\displaystyle#1$}}
-{\mbox{\boldmath$\textstyle#1$}}
-{\mbox{\boldmath$\scriptstyle#1$}}
-{\mbox{\boldmath$\scriptscriptstyle#1$}}}}
-%
-\def\tens#1{\ensuremath{\mathsf{#1}}}
-%
-\setcounter{secnumdepth}{3}
-\newcounter {section}
-\newcounter {subsection}[section]
-\newcounter {subsubsection}[subsection]
-\newcounter {paragraph}[subsubsection]
-\newcounter {subparagraph}[paragraph]
-\renewcommand\thesection      {\@arabic\c@section}
-\renewcommand\thesubsection   {\thesection.\@arabic\c@subsection}
-\renewcommand\thesubsubsection{\thesubsection .\@arabic\c@subsubsection}
-\renewcommand\theparagraph    {\thesubsubsection.\@arabic\c@paragraph}
-\renewcommand\thesubparagraph {\theparagraph.\@arabic\c@subparagraph}
-%
+\def\aainstitutename{\par
+  \begingroup
+  \renewcommand*\and{%
+      \par\refstepcounter{aa@institutecnt}%
+      \hangindent\aa@instituteindent
+      \noindent
+      \hbox to\aa@instituteindent{%
+        \hss
+        \hbox{\@textsuperscript{\normalfont\theaa@institutecnt}}%
+        \enspace
+      }%
+      \ignorespaces
+    }%
+    \ifnum\aa@nbinstitutes>99
+      \setbox0=\hbox{\hbox{\@textsuperscript{\normalfont888}}\enspace}%
+    \else\ifnum\aa@nbinstitutes>9
+      \setbox0=\hbox{\hbox{\@textsuperscript{\normalfont88}}\enspace}%
+    \else
+      \setbox0=\hbox{\hbox{\@textsuperscript{\normalfont8}}\enspace}%
+    \fi\fi
+    \aa@instituteindent \wd0
+    {%
+      \aa@institutefont
+      \par\refstepcounter{aa@institutecnt}%
+      \ifnum\aa@nbinstitutes=1\relax
+      \noindent\ignorespaces
+      \else
+        \hangindent\aa@instituteindent
+        \noindent
+        \hbox to\aa@instituteindent{%
+          \hss
+          \hbox{\@textsuperscript{\normalfont\theaa@institutecnt}}%
+          \enspace
+        }\ignorespaces%
+      \fi%
+      \aa@institute\par
+    }
+  \endgroup}
+\newcommand*\mail[1]{\renewcommand*\aa@mail{#1}}
+\newcommand*\aa@mail{}
+\newcommand*\msnr[1]{\renewcommand*\aa@msnr{#1}}
+\newcommand*\aa@msnr{}
+\newcommand*\idline[1]{\renewcommand*\aa@idline{#1}}
+\newcommand*\aa@idline{}
+\newcommand*\headnote[1]{\renewcommand*\aa@headnote{#1}}
+\newcommand*\aa@headnote{}
+\newcommand*\aa@defaultheadnote{Corrigendum}
+\newcommand*\dedication[1]{\renewcommand*\aa@dedication{#1}}
+\newcommand*\aa@dedication{}
+\renewcommand*\maketitle{%
+  \thispagestyle{firstpage}
+\begingroup
+    \if@wideboxfn
+    \setlength\bibindent{1.4\parindent}
+    \else
+    \setlength\bibindent{\parindent}
+    \fi
+    \renewcommand*\thefootnote{\@fnsymbol\c@footnote}%
+    \renewcommand\@makefntext[1]{%
+    \ifaa@longfn\hsize\textwidth\fi
+    \noindent
+    \hb@xt@\bibindent{\hss\@makefnmark\enspace}##1}
+  \ifaa@twocolumn
+  \begingroup
+    \twocolumn[\aa@maketitle]
+    \@thanks
+  \endgroup
+  \else
+    \begingroup
+      \let\thanks\footnote
+      \aa@maketitle
+    \endgroup
+  \fi
+\endgroup
+  \setcounter{footnote}{0}%
+}
+\newcommand*\aa@maketitle{%
+  \ifaa@contents
+    {\aa@contentsnamefont \aa@contentsname\par}
+    \addvspace{\aa@aftercontentsnameskip}
+  \else\ifaa@contentsAut
+    {\aa@contentsAutnamefont \aa@contentsAutname\par}
+    \addvspace{\aa@aftercontentsAutnameskip}
+  \else
+    \vbox to0pt{\vskip\aa@beforeheadboxskip
+    \nointerlineskip
+  \ifx\aa@idline\empty
+    \noindent
+    \fbox{%
+      \begin{minipage}{\linewidth-2\fboxsep-2\fboxrule}
+        \strut
+        {\aa@journalnamefont \aa@journalname}
+        {\aa@manuscriptnamefont \aa@manuscriptname}\\
+        \ifx\aa@msnr\empty
+          {\strut\aa@todayheadboxfont \today}%
+        \else
+          \makebox[0.75\linewidth][r]{%
+            \strut
+            {\aa@msnrheadboxfont \aa@msnr}%
+          }%
+        \fi
+      \end{minipage}%
+    }%
+  \else
+    \begin{tabular}[b]{@{}l@{}}
+      \aa@idlinefont \aa@idline\\
+      \aa@doifont \aa@doi\\
+      \aa@copyrightfont \aa@copyrightname~\if!\the\yearCop!\the\year\else\the\yearCop\fi
+    \end{tabular}
+    \hfill\AALogo
+  \fi\vss}
+  \par
+  \ifx\aa@topics\empty%
+    \addvspace{\aa@afterheadboxskip}
+  \else
+    \addvspace{\aa@beforetopicsskip}
+    {\noindent\aa@topicsfont \aa@topics}%
+    \hfill
+    {\aa@topicsnamefont \aa@topicsname\par}
+    \addvspace{\aa@aftertopicsskip}
+  \fi
+  \begingroup
+    \centering
+    \ifaa@letter
+      \ifx\aa@topics\empty
+      \addvspace{1.8\aa@beforeletternameskip}
+      \else
+      \addvspace{\aa@beforeletternameskip}
+      \fi
+      {\aa@headletternamefont \lettername\par}
+      \addvspace{\aa@afterletternameskip}
+    \fi
+    \ifx\aa@headnote\empty\else
+      \ifx\aa@headnote\aa@defaultheadnote\else
+        {\aa@headnotefont \aa@headnote\par}
+        \addvspace{\aa@afterheadnoteskip}
+      \fi
+    \fi
+    {\aa@titlefont \aa@title\par}
+    \ifx\aa@subtitle\empty%
+      \ifx\aa@headnote\aa@defaultheadnote
+        {\aa@defaultheadnotefont (\aa@headnote)\par}
+      \fi
+    \addvspace{\aa@aftertitleskip}
+    \else
+    \addvspace{\aa@aftertitleskip}
+      {\aa@subtitlefont \aa@subtitle\par}
+      \ifx\aa@headnote\aa@defaultheadnote
+        \addvspace{\aa@beforedefaultheadnoteskip}
+        {\aa@defaultheadnotefont (\aa@headnote)\par}
+      \fi
+      \addvspace{\aa@aftersubtitleskip}
+    \fi
+    \ifnum\aa@nbauthors=\tw@
+      \let\and\andtwoname
+    \else
+      \renewcommand\and{%
+        \advance\aa@cnta \@ne
+        \ifnum\aa@cnta=\aa@nbauthors
+          \andlastname
+        \else
+          \andname
+        \fi
+      }
+    \fi
+    \aa@cnta \@ne
+    {\aa@authorfont \aa@author\par}
+    \addvspace{\aa@afterauthorskip}
+  \endgroup
+  \begingroup
+    \ifaa@longauth\addvspace{-10pt}
+      {\noindent\aa@longauthfont%
+       \aa@longauthopen\aa@longauthname\aa@longauthclose\par}
+    \else
+    \leftskip \aa@headingleftmargin
+    \rightskip \aa@headingrightmargin
+      \aainstitutename
+    \fi
+    \vspace{\aa@afterinstituteskip}
+    {\noindent\aa@datefont\ifaa@longauth\centering\fi \aa@date\par}
+    \ifx\aa@dedication\empty
+      \vspace{\aa@afterdateskip}
+    \else
+    \addvspace\baselineskip
+      {\noindent\aa@dedicationfont \aa@dedication\par}
+      \vspace{\aa@afterdedicationskip}
+    \fi
+    {\centering\aa@abstractnamefont \abstractname\par}
+    \vspace{\aa@afterabstractnameskip}
+    \ifaa@structabstract
+      \ifx\aa@abstract@i\longempty\else
+        {\noindent\aa@subabstractfont \aa@subabstractiname. }%
+        {\aa@abstractfont \ignorespaces\aa@abstract@i\par}
+        \vspace{\aa@aftersubabstractskip}
+      \fi
+      {\noindent\aa@subabstractfont \aa@subabstractiiname. }%
+      {\aa@abstractfont \ignorespaces\aa@abstract@ii\par}
+      \vspace{\aa@aftersubabstractskip}
+      {\noindent\aa@subabstractfont \aa@subabstractiiiname. }%
+      {\aa@abstractfont \ignorespaces\aa@abstract@iii\par}
+      \vspace{\aa@aftersubabstractskip}
+      {\noindent\aa@subabstractfont \aa@subabstractivname. }%
+      {\aa@abstractfont \ignorespaces\aa@abstract@iv\par}
+      \vspace{\aa@aftersubabstractskip}
+      \ifx\aa@abstract@v\longempty\else
+        {\noindent\aa@subabstractfont \aa@subabstractvname. }%
+        {\aa@abstractfont \ignorespaces\aa@abstract@v\par}
+      \fi
+    \else
+      {\noindent\aa@abstractfont \ignorespaces\aa@abstract@i\par}
+    \fi
+    \vspace{\aa@afterabstractskip}
+    \ifx\aa@keywords\empty\else
+      \noindent
+      {\aa@keywordnamefont \aa@keywordname. }
+      {\aa@keywordfont \ignorespaces\aa@keywords\par}
+      \vspace{\aa@afterkeywordsskip}
+    \fi
+  \endgroup
+  \renewcommand*\thanks[1]{}%
+  \renewcommand*\inst[1]{}%
+  \renewcommand*\fnmsep{}%
+  \renewcommand*\and{, }%
+  \renewcommand*\\{ }%
+  \renewcommand*\vspace[1]{}%
+  \renewcommand*\offprints[1]{}%
+  \protected@xdef\aa@PDFauthor{\if!\the\authorlink!\aa@author\else\the\authorlink\fi}%
+  \protected@xdef\aa@PDFtitle{\noexpand\protect\noexpand\aa@title}%
+  \def\object##1{##1}%
+  \ifx\aa@authorrunning\empty
+    \let\and\relax
+    \renewcommand*\\{\unskip\space\ignorespaces}%
+    \ifnum\aa@nbauthors=1
+      \expandafter\aa@extractoneauthor\aa@author\and\aa@nil
+    \else\ifnum\aa@nbauthors=2
+      \expandafter\aa@extracttwoauthor\aa@author\and\aa@nil
+    \else
+      \expandafter\aa@extractoneauthor\aa@author\and\aa@nil
+      \protected@xdef\aa@headings{\aa@headings\unskip\space\etalname\space}%
+    \fi\fi
+  \else
+    \xdef\aa@headings{\aa@authorrunning}%
+  \fi
+  \ifx\aa@titlerunning\empty
+    \protected@xdef\aa@headings{\aa@headings\unskip: \aa@title}%
+  \else
+    \protected@xdef\aa@headings{\aa@headings\unskip: \aa@titlerunning}%
+  \fi
+  \setbox0=\hbox{%
+    \hspace*{\aa@securityheadmargin}%
+    \aa@headfont \aa@headings
+  }%
+  \ifdim\wd0>\aa@fullwidth
+    \typeout{^^J^^JIMPORTANT}
+    \ClassWarning{aa}
+               {The running head built automatically
+                 from \string\author\space and \string\title
+                 exceeds the pagewidth, please supply a shorter form
+                 with \string\authorrunning\space and/or
+                 \string\titlerunning\space prior to \string\maketitle}
+               {Use \string\titlerunning\space to supply a shorter
+                 title and/or \string\authorrunning\space to supply a
+                 shorter list of authors.}%
+    \typeout{IMPORTANT
+    ^^J}
+  \fi
+  \fi\fi
+}
+\def\aa@extractoneauthor#1\and#2\aa@nil{%
+  \gdef\aa@headings{#1}%
+}
+\def\aa@extracttwoauthor#1\and#2\and#3\aa@nil{%
+  \gdef\aa@headings{#1\andtwoname#2}%
+}
 \def\sectcounterend{.}
-
 \def\@seccntformat#1{\csname the#1\endcsname\sectcounterend
 \hskip\betweenumberspace}
-
 \def\@sect#1#2#3#4#5#6[#7]#8{%
   \ifnum #2>\c@secnumdepth
     \let\@svsec\@empty
@@ -727,19 +1175,870 @@ to\/}: \ignorespaces#1}}\endgroup\ignorespaces}
         #7}}%
   \fi
   \@xsect{#5}}
-
-%
-% measures and setting of sections
-%
-\def\section{\@startsection{section}{1}{\z@}%
-    {-16dd plus-4pt minus-4pt}{6dd}{\large\sffamily\bfseries}}
-\def\subsection{\@startsection{subsection}{2}{\z@}%
-    {-16dd}{6dd}{\normalsize\sffamily\itshape}}
-\def\subsubsection{\@startsection{subsubsection}{3}{\z@}%
-    {-16dd}{6dd}{\normalsize\sffamily}}
-\def\paragraph{\@startsection{paragraph}{4}{\z@}%
-    {-16dd}{-1pt}{\normalsize\sffamily}}
-
+\ifaa@contentsAut
+  \renewcommand\section{%
+    \@startsection{section}
+                  {1}
+                  {\z@}
+                  {-16dd \@plus-4\p@ \@minus-4\p@}
+                  {6dd}
+                  {\large\bfseries\boldmath\MakeUppercase}%
+  }
+\else\ifaa@contents
+  \renewcommand\section{%
+    \@startsection{section}
+                  {1}
+                  {\z@}
+                  {-16dd \@plus-4\p@ \@minus-4\p@}
+                  {6dd}
+                  {\large\bfseries\boldmath\MakeUppercase}%
+  }
+\else
+  \renewcommand\section{%
+    \@startsection{section}
+                  {1}
+                  {\z@}
+                  {-16dd\@plus-4\p@ \@minus-4\p@}
+                  {6dd}
+                  {\large\sffamily\bfseries\boldmath}%
+  }
+\fi\fi
+\renewcommand\subsection{%
+  \@startsection{subsection}
+                {2}
+                {\z@}
+                {-16dd}
+                {6dd}
+                {\normalsize\sffamily\itshape}%
+}
+\renewcommand\subsubsection{%
+  \@startsection{subsubsection}
+                {3}
+                {\z@}
+                {-16dd}
+                {6dd}
+                {\normalsize\sffamily}%
+}
+\renewcommand\paragraph{%
+  \@startsection{paragraph}
+                {4}
+                {\z@}
+                {-16dd}
+                {-\fontdimen2\font
+                  \@plus-\fontdimen3\font
+                  \@minus-\fontdimen4\font}
+                {\normalsize\sffamily}%
+}
+\renewcommand\subparagraph{%
+  \ClassError{aa}{Command \string\subparagrap\space isn't allowed}
+                          {Only commands from \string\section\space to
+                            \string\paragraph\space are allowed.}
+}
+\renewcommand\part{%
+  \ClassError{aa}{Command \string\part\space isn't allowed}
+                          {Only commands from \string\section\space to
+                            \string\paragraph\space are allowed.}
+}
+\frenchspacing
+\clubpenalty=10000
+\widowpenalty=10000
+\flushbottom
+\ifaa@twocolumn
+  \sloppy
+\fi
+\newenvironment{nopar}
+  {\let\par\relax%
+    \aa@acknowledgementsfont
+      {%
+        \noindent\aa@acknowledgementsnamefont
+        \aa@acknowledgementsname.%
+      }%
+  \hskip.5em
+  }{}
+\newenvironment{acknowledgements}
+  {%
+   \par\addvspace{\aa@beforeacknowledgementsskip}
+   \begin{spacing}{0.81}
+   \begin{nopar}
+  }
+  {%
+   \end{nopar}
+   \end{spacing}
+   \addvspace{\aa@afteracknowledgementsskip}
+  }
+\let\acknowledgement\acknowledgements
+\let\endacknowledgement\endacknowledgements
+\renewcommand\@makefntext[1]{%
+    \noindent
+    \hb@xt@\bibindent{\hss\@makefnmark\enspace}#1}
+\newcommand\listofobjects{\if@myobjects%
+  \section*{\listobjectname}
+  \@starttoc{obj}\fi%
+}
+\newcommand*\l@obj[2]{\noindent`#1' on page #2\par}
+\DeclareRobustCommand{\object}[1]{%
+   #1\global\let\if@myobjects\iftrue%
+   \addcontentsline{obj}{obj}{#1}%
+}
+\newcommand\longtab[2][]{%
+\if!\@aatolm!
+  \aalongfloat{table}{#2}%
+\else
+  \aalongfloat[#1]{section}{#2}%
+\fi
+}
+\newcommand\aalongfloat[3][]{%
+  \AtEndDocument{%
+    \aa@savecounter \csname c@#2\endcsname \relax
+    \csname c@#2\endcsname
+  }%
+  \edef\aa@nombre{\number\csname c@#2\endcsname}%
+\if!\@aatolm!
+  \expandafter\AtEndDocument\expandafter{%
+    \aa@nombre\relax
+    \setlength{\LTcapwidth}{\textwidth}
+    \onecolumn
+    #3%
+    \twocolumn
+    \csname c@#2\endcsname \aa@savecounter \relax
+  }%
+  \stepcounter{#2}%
+\else
+  \expandafter\AtEndDocument\expandafter{%
+    \aa@nombre\relax
+    \setlength{\LTcapwidth}{\textwidth}
+    \onecolumn
+\setcounter{table}{#1}\addtocounter{table}{-1}
+\renewcommand\thesection{\Alph{section}}%
+\renewcommand\thetable{\thesection.\arabic{table}}
+    #3%
+    \twocolumn
+    \csname c@#2\endcsname \aa@savecounter \relax
+  }%
+  \setcounter{table}{#1}
+\fi
+}
+\renewcommand*\enddocument{%
+   \let\AtEndDocument\@firstofone
+   \@enddocumenthook
+   \clearpage
+   \advance\c@page \m@ne
+   \immediate\write\@auxout{\string\newlabel{LastPage}{{\thepage}{\thepage}{}{}{}}}
+   \@checkend{document}%
+   \clearpage
+   \begingroup
+     \if@filesw
+       \immediate\closeout\@mainaux
+       \let\@setckpt\@gobbletwo
+       \let\@newl@bel\@testdef
+       \@tempswafalse
+       \makeatletter \input\jobname.aux
+     \fi
+     \@dofilelist
+     \ifdim \font@submax >\fontsubfuzz\relax
+       \@font@warning{Size substitutions with differences\MessageBreak
+                  up to \font@submax\space have occurred.\@gobbletwo}%
+     \fi
+     \@defaultsubs
+     \@refundefined
+     \if@filesw
+       \ifx \@multiplelabels \relax
+         \if@tempswa
+           \@latex@warning@no@line{Label(s) may have changed.
+               Rerun to get cross-references right}%
+         \fi
+       \else
+         \@multiplelabels
+       \fi
+     \fi
+   \endgroup
+   \deadcycles\z@\@@end}
+\newcommand*\aa@defineentry{%
+  \newcommand{\entry}[3]{%
+    \par\noindent
+    {\aa@entryiifont ##2}%
+    \par
+    {%
+      \noindent
+      \raggedright
+      {\aa@entryifont ##1}%
+      \hfill
+      \rlap{\makebox[\aa@entryboxwidth][l]{\hfill##3}}%
+      \par
+    }%
+    \vspace{\aftertext}
+  }
+}
+\ifaa@contents \aa@defineentry \fi
+\ifaa@contentsAut \aa@defineentry \fi
+\renewcommand\@listi{%
+  \leftmargin \leftmargini
+  \parsep \z@ \@plus\p@ \@minus\p@
+  \topsep 8\p@ \@plus2\p@ \@minus4\p@
+  \itemsep \parsep
+}
+\let\listI\@listi
+\@listi
+\AtBeginDocument{%
+  \let\@listi\listI
+  \@listi
+}
+\renewcommand\@listii{%
+  \leftmargin \leftmarginii
+  \labelwidth \leftmarginii
+  \advance\labelwidth -\labelsep
+  \topsep \z@
+  \parsep \z@
+  \itemsep \z@
+}
+\renewcommand\@listiii{%
+  \leftmargin \leftmarginiii
+  \labelwidth \leftmarginiii
+  \advance\labelwidth -\labelsep
+  \topsep \z@
+  \parsep \z@
+  \itemsep \z@
+  \partopsep \p@ \@minus\p@
+ }
+\newcommand*\aa@setitemindent[1]{%
+  \settowidth{\labelwidth}{\aa@descriptionlabelfont #1}%
+  \leftmargini \labelwidth
+  \advance\leftmargini \labelsep
+  \renewcommand*\@listi{%
+    \leftmargin \leftmargini
+    \labelwidth \leftmargini
+    \advance\labelwidth -\labelsep
+    \parsep \parskip
+    \topsep \medskipamount
+    \itemsep \parskip
+    \advance\itemsep -\parsep
+  }%
+}
+\newcommand*\aa@setitemitemindent[1]{%
+  \settowidth{\labelwidth}{\aa@descriptionlabelfont #1}%
+  \leftmarginii \labelwidth
+  \advance\leftmarginii \labelsep
+  \renewcommand*\@listii{%
+    \leftmargin \leftmarginii
+    \labelwidth \leftmarginii
+    \advance\labelwidth -\labelsep
+    \parsep \parskip
+    \topsep \z@
+    \itemsep \parskip
+    \advance\itemsep -\parsep
+  }%
+}
+\renewcommand*\descriptionlabel[1]{\hspace\labelsep #1\hfil}
+\renewcommand*\description{%
+  \@ifnextchar[{\aa@description} % ] (pour Emacs)
+               {%
+                 \list{}{%
+                   \labelwidth\z@
+                   \itemindent -\leftmargin
+                   \let\makelabel\descriptionlabel
+                 }%
+               }%
+}
+\newcommand\aa@description[1][]{%
+  \relax\ifnum\@listdepth=0
+    \aa@setitemindent{#1}%
+  \else\ifnum\@listdepth=1
+    \aa@setitemitemindent{#1}%
+  \fi\fi
+  \list{--}{\let\makelabel\aa@descriptionlabel}%
+}
+\newcommand*\aa@descriptionlabel[1]{%
+  \aa@descriptionlabelfont
+  #1%
+  \hfil
+}
+\newcommand*\aa@theorem@aftercount{.}
+\newcommand*\aa@theorem@aftertitle{.}
+\renewcommand*\newtheorem{%
+  \@ifstar{\aa@theorem@withstar}{\aa@theorem@nostar}%
+}
+\newcommand*\aa@theorem@nostar{%
+  \aa@numberedtheoremtrue
+  \aa@newtheorem
+}
+\newcommand*\aa@theorem@withstar{%
+  \aa@numberedtheoremfalse
+  \aa@newtheorem
+}
+\newcommand*\aa@newtheorem[1]{%
+  \def\aa@theorem@name{#1}%
+  \expandafter\newif\csname ifaa@theorem@#1@numbered\endcsname
+  \ifaa@numberedtheorem
+    \csname aa@theorem@#1@numberedtrue\endcsname
+  \fi
+  \aa@@newtheorem
+}
+\newif\ifaa@newcounter
+\newcommand*\aa@@newtheorem[2][]{%
+  \def\aa@arg{#1}%
+  \ifx\aa@arg\empty
+    \expandafter\edef
+      \csname aa@theorem@\aa@theorem@name @counter\endcsname
+      {AA\aa@theorem@name}%
+    \aa@newcountertrue
+  \else
+    \expandafter\ifx
+        \csname aa@theorem@#1@title\endcsname
+        \relax
+      \ClassError{aa}
+                 {#1 isn't a theorem-like environment}
+                 {You have to create #1 with \string\newtheorem\space
+                   before use its counter.}%
+      \expandafter\edef
+        \csname aa@theorem@\aa@theorem@name @counter\endcsname
+        {AA\aa@theorem@name}%
+      \aa@newcountertrue
+    \else
+      \expandafter\def
+        \csname aa@theorem@\aa@theorem@name @counter\endcsname
+        {AA#1}%
+      \aa@newcounterfalse
+    \fi
+  \fi
+  \expandafter\newcommand
+    \csname aa@theorem@\aa@theorem@name @title\endcsname
+    {#2}%
+  \aa@@@newtheorem
+}
+\newcommand*\aa@@@newtheorem[3][]{%
+  \ifaa@newcounter
+    \def\aa@arg{#1}%
+    \ifx\aa@arg\empty
+      \newcounter{\csname aa@theorem@\aa@theorem@name @counter\endcsname}%
+    \else
+      \newcounter{\csname aa@theorem@\aa@theorem@name @counter\endcsname}[#1]%
+      \expandafter\xdef
+        \csname theaa@theorem@\aa@theorem@name @counter\endcsname{%
+          \expandafter\noexpand\csname the#1\endcsname.%
+          \noexpand\arabic{aa@theorem@\aa@theorem@name @counter}%
+      }%
+    \fi
+  \fi
+  \expandafter\newcommand
+    \csname aa@theorem@\aa@theorem@name @titlefont\endcsname{#2}%
+  \expandafter\newcommand
+    \csname aa@theorem@\aa@theorem@name @bodyfont\endcsname{#3}%
+  \newenvironment{\aa@theorem@name}[1][]{%
+    \def\aa@theorem@optionnal{##1}%
+    \par\addvspace{\VSpaceBeforeTheorem}%
+    \noindent\hspace*{\HSpaceIndentTheorem}%
+    \begingroup
+      \csname aa@theorem@\@currenvir @titlefont\endcsname
+      \csname aa@theorem@\@currenvir @title\endcsname
+      \csname ifaa@theorem@\@currenvir @numbered\endcsname
+        \refstepcounter{\csname aa@theorem@\@currenvir @counter\endcsname}%
+        \space
+        \csname the\csname aa@theorem@\@currenvir @counter\endcsname\endcsname
+      \fi
+      \ifx\aa@theorem@optionnal\empty
+         \aa@theorem@aftercount
+      \else
+        \space(\aa@theorem@optionnal)%
+        \aa@theorem@aftertitle
+      \fi
+    \endgroup
+    \ifdim\HVSpaceSepTheorem<\z@
+      \par\nobreak
+      \vspace{-\HVSpaceSepTheorem}%
+      \noindent\hspace*{\HSpaceIndentTheorem}%
+    \else
+      \hspace*{\HVSpaceSepTheorem}%
+    \fi
+    \csname aa@theorem@\@currenvir @bodyfont\endcsname
+  }%
+  {%
+    \par\addvspace{\VSpaceAfterTheorem}
+  }%
+}
+\newtheorem*{proof}{Proof}{\itshape}{\rmfamily}
+\newtheorem{theorem}{Theorem}[section]{\bfseries}{\itshape}
+\newtheorem{corollary}[theorem]{Corollary}{\bfseries}{\itshape}
+\newtheorem{definition}[theorem]{Definition}{\bfseries}{\rmfamily}
+\newtheorem{example}[theorem]{Example}{\itshape}{\rmfamily}
+\newtheorem{exercise}[theorem]{Exercise}{\itshape}{\rmfamily}
+\newtheorem{lemma}[theorem]{Lemma}{\bfseries}{\itshape}
+\newtheorem{note}[theorem]{Note}{\itshape}{\rmfamily}
+\newtheorem{problem}[theorem]{Problem}{\itshape}{\rmfamily}
+\newtheorem{proposition}[theorem]{Proposition}{\bfseries}{\itshape}
+\newtheorem{question}[theorem]{Question}{\itshape}{\rmfamily}
+\newtheorem{remark}[theorem]{Remark}{\itshape}{\rmfamily}
+\newtheorem{solution}[theorem]{Solution}{\itshape}{\rmfamily}
+\setlength{\textfloatsep}{18\p@ \@plus 2\p@ \@minus 4\p@}
+\setlength{\dbltextfloatsep}{18\p@ \@plus 2\p@ \@minus 4\p@}
+\setlength{\@fptop}{\z@}
+\setlength{\@fpsep}{12\p@}
+\setlength{\@dblfptop}{\z@}
+\setlength{\@dblfpsep}{12\p@}
+\setcounter{topnumber}{4}
+\renewcommand*\topfraction{.9}
+\setcounter{bottomnumber}{2}
+\renewcommand*\bottomfraction{.5}
+\setcounter{totalnumber}{6}
+\renewcommand*\textfraction{.05}
+\renewcommand*\floatpagefraction{.95}
+\setcounter{dbltopnumber}{3}
+\renewcommand*\dbltopfraction{.9}
+\renewcommand*\dblfloatpagefraction{.95}
+\renewcommand*\fps@figure{tbp}
+\renewcommand*\fps@table{tbp}
+\def\sidecaption#1\caption{%
+  \setbox0=\hbox{\ignorespaces#1\unskip}%
+  \aa@sidecaptionwidth=\linewidth
+  \advance\aa@sidecaptionwidth -\wd0
+  \advance\aa@sidecaptionwidth -\aa@figgap
+  \ifdim\aa@sidecaptionwidth<\aa@sidecaptionminwidth
+    \ClassWarning{aa}{%
+      No sufficient room for the legend;
+      using normal \string\caption.%
+    }%
+    \let\aa@caption\@caption
+    \unhbox0
+  \else
+    \let\aa@caption\aa@sidecaption
+    \dimen0 \dp0
+    \advance\dimen0 \ht0
+    \dp0 \dp\strutbox
+    \advance\dimen0-\dp0
+    \ht0 \dimen0
+    \unhbox0\hspace{\aa@figgap}%
+  \fi
+  \refstepcounter\@captype
+  \@dblarg{\aa@caption\@captype}%
+}
+\long\def\aa@sidecaption#1[#2]#3{%
+  \addcontentsline
+    {\csname ext@#1\endcsname}
+    {#1}
+    {\protect\numberline{\csname the#1\endcsname}{\ignorespaces #2}}%
+  \begingroup
+    \@parboxrestore
+    \aa@makesidecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}%
+    \par
+  \endgroup
+}
+\newcommand*\aa@capstrut{%
+  \leavevmode
+  \vrule \@width\z@ \@height\ht\strutbox \@depth\z@
+}
+\def\aa@@makecaption#1{%
+    {\aa@headcaptionfont #1\aa@floatcounterend}%
+}
+\long\def\aa@makesidecaption#1#2{%
+  \parbox[b]{\aa@sidecaptionwidth}{%
+    \aa@captionfont
+    \aa@@makecaption{#1}
+    \aa@capstrut
+    #2%
+  }%
+}
+\renewcommand\@makecaption[2]{%
+  \aa@captionfont
+  \ifx\@captype\aa@figtype
+    \par\vskip\VSpaceBeforeFigCaption
+    \aa@@makecaption{#1}%
+    \aa@capstrut%
+    #2%
+    \par
+  \else
+    {\aa@headcaptionfont #1\aa@floatcounterend}%
+    \aa@capstrut
+    #2%
+    \par
+    \vskip\VSpaceAfterTabCaption
+  \fi
+}
+\newcommand\tablebib[1]{\VSpaceBeforeTabFoot=1ex%
+  \par\vspace{\VSpaceBeforeTabBib}
+  \noindent
+  \begin{minipage}{\linewidth}
+    {\aa@tablebibnamefont\aa@tablebibname.}~%
+    \aa@tablebibfont
+    \ignorespaces
+    #1%
+  \end{minipage}%
+}
+\newcommand\tablefoot[1]{\VSpaceBeforeTabBib=1ex%
+  \par\vspace{\VSpaceBeforeTabFoot}
+  \noindent
+  \begin{minipage}{\linewidth}
+    {\aa@tablefootnamefont\aa@tablefootname.}~%
+    \aa@tablefootfont
+    \ignorespaces
+    #1%
+  \end{minipage}%
+}
+\newcommand*\tablefootmark[1]{%
+  \unskip
+  \hbox{\@textsuperscript{\normalfont\itshape\ignorespaces#1}}%
+  \,%
+  \ignorespaces
+}
+\newcommand\tablefoottext[2]{%
+  \hbox{\@textsuperscript{\normalfont({\itshape\ignorespaces#1})}}%
+  ~%
+  \ignorespaces
+  #2\ \ignorespaces%
+}
+\setlength\bibindent{1em}
+\renewenvironment{thebibliography}[1]{%
+  \begingroup
+  \section*{\refname}%
+  \@mkboth{\refname}{\refname}%
+  \aa@bibliographyfont
+  \list{\@biblabel{\@arabic\c@enumiv}}%
+  {%
+    \settowidth\labelwidth{\@biblabel{#1}}%
+    \ifaa@bibnumber
+    \leftmargin\labelwidth
+    \advance\leftmargin\labelsep
+    \else
+    \leftmargin\bibindent
+    \setlength{\itemindent}{-\leftmargin}
+    \fi
+    \@openbib@code
+    \usecounter{enumiv}%
+    \let\p@enumiv\@empty
+    \renewcommand\theenumiv{\@arabic\c@enumiv}%
+  }%
+  \sloppy
+  \clubpenalty4000
+  \@clubpenalty \clubpenalty
+  \widowpenalty4000%
+  \sfcode`\.\@m
+}{%
+  \endlist\par\endgroup%
+  \ifaa@longauth\kern6pt\hrule\kern6pt\aainstitutename\aa@longauthfalse\fi%
+  \ifaa@referee\if!\csname appendix\endcsname!\relax\else\listofobjects\fi\fi
+  \def\@noitemerr{\ClassWarning{aa}{Empty `thebibliography' environment}}%
+}
+\def \@floatboxreset {%
+     \reset@font
+     \ifx\@captype\aa@tabtype
+       \small
+       \spacetab
+     \fi
+     \@setnobreak
+     \@setminipage
+}
+\def\spacetab{%
+\abovedisplayshortskip-10pt%
+\belowdisplayshortskip0pt%
+}
+\DeclareRobustCommand{\ion}[2]{\textup{#1\,\textsc{\lowercase{#2}}}}
+\newcommand*\element[1][]{%
+  \def\aa@element@tr{#1}%
+  \aa@element
+}
+\newcommand*\aa@element[1][]{%
+  \def\aa@element@tl{#1}%
+  \aa@@element
+}
+\newcommand*\aa@@element[1][]{%
+  \def\aa@element@bl{#1}%
+  \aa@@@element
+}
+\newcommand*\aa@@@element[2][]{%
+  \def\aa@element@br{#1}%
+  \ensuremath{%
+    \vphantom{x}^{\aa@element@tl}_{\aa@element@bl}
+    \mathrm{#2}
+    \vphantom{x}^{\aa@element@tr}_{\aa@element@br}
+  }%
+}
+\renewcommand*\vec[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand*\tens[1]{\ensuremath{\mathsf{#1}}}
+\newcommand*\sq{%
+  \ifmmode
+    \Box
+  \else
+    \begingroup
+      \unskip\nobreak
+      \hfil
+      \penalty50
+      \hskip1em
+      \null\nobreak\hfil$\Box$%
+      \parfillskip=0pt
+      \finalhyphendemerits=0
+      \endgraf
+    \endgroup
+  \fi
+}
+\newcommand*\sun{\ensuremath{\odot}}
+\newcommand*\degr{\ensuremath{^\circ}}
+\newcommand*\arcmin{\ensuremath{^\prime}}
+\newcommand*\arcsec{\ensuremath{^{\prime\prime}}}
+\def\utw{\ensuremath{\smash{\rlap{\lower5pt\hbox{$\sim$}}}}}
+\def\udtw{\ensuremath{\smash{\rlap{\lower6pt\hbox{$\approx$}}}}}
+\newcommand*\fd{\ensuremath{\overset{\text{d}}{.}}}
+\newcommand*\fh{\ensuremath{\overset{\text{h}}{.}}}
+\newcommand*\fm{\ensuremath{\overset{\text{m}}{.}}}
+\newcommand*\fs{\ensuremath{\overset{\text{s}}{.}}}
+\newcommand*\fdg{\ensuremath{\overset{\circ}{.}}}
+\newcommand*\farcm{\ensuremath{\overset{\prime}{.}}}
+\newcommand*\farcs{\ensuremath{\overset{\prime\prime}{.}}}
+\newcommand*\fp{\ensuremath{\overset{\scriptscriptstyle\text{p}}{.}}}
+\newcommand*\cor{\ensuremath{\mathrel{\widehat{=}}}}
+\newcommand*\aa@centerstack[2]{%
+  \ensuremath{%
+    \mathrel{%
+      \mathchoice{%
+        \vcenter{%
+          \offinterlineskip
+          \halign{\hfil$\displaystyle##$\hfil\cr#1\cr#2\cr}%
+        }%
+      }
+      {%
+        \vcenter{%
+          \offinterlineskip
+          \halign{\hfil$\textstyle##$\hfil\cr#1\cr#2\cr}%
+        }%
+      }
+      {%
+        \vcenter{%
+          \offinterlineskip
+          \halign{\hfil$\scriptstyle##$\hfil\cr#1\cr#2\cr}%
+        }%
+      }
+      {%
+        \vcenter{%
+          \offinterlineskip
+          \halign{\hfil$\scriptscriptstyle##$\hfil\cr#1\cr#2\cr}%
+        }%
+      }%
+    }%
+  }%
+}
+\newcommand*\la{\aa@centerstack{<}{\sim}}
+\newcommand*\ga{\aa@centerstack{>}{\sim}}
+\newcommand*\sol{\aa@centerstack{\sim}{<}}
+\newcommand*\sog{\aa@centerstack{\sim}{>}}
+\newcommand*\lse{\aa@centerstack{<}{\simeq}}
+\newcommand*\gse{\aa@centerstack{>}{\simeq}}
+\newcommand*\aa@centerstackskip[6]{%
+  \ensuremath{%
+    \mathrel{%
+      \mathchoice{%
+        \vcenter{%
+          \offinterlineskip
+          \halign{\hfil$\displaystyle##$\hfil\cr
+            #1\cr\noalign{\vskip#3}#2\cr}%
+        }%
+      }
+      {%
+        \vcenter{%
+          \offinterlineskip
+          \halign{\hfil$\textstyle##$\hfil\cr
+            #1\cr\noalign{\vskip#4}#2\cr}%
+        }%
+      }
+      {%
+        \vcenter{%
+          \offinterlineskip
+          \halign{\hfil$\scriptstyle##$\hfil\cr
+            #1\cr\noalign{\vskip#5}#2\cr}%
+        }%
+      }
+      {%
+        \vcenter{%
+          \offinterlineskip
+          \halign{\hfil$\scriptscriptstyle##$\hfil\cr
+            #1\cr\noalign{\vskip#6}#2\cr}%
+        }%
+      }%
+    }%
+  }%
+}
+\newcommand*\grole{\aa@centerstackskip{>}{<}{-1.5\p@}{-1.5\p@}{-1\p@}{-.5\p@}}
+\newcommand*\leogr{\aa@centerstackskip{<}{>}{-1.5\p@}{-1.5\p@}{-1\p@}{-.5\p@}}
+\newcommand*\loa{\aa@centerstack{<}{\approx}}
+\newcommand*\goa{\aa@centerstack{>}{\approx}}
+\newcommand*\diameter{%
+  \ensuremath{%
+    \mathchoice{%
+      \ooalign{%
+        \hfil\hbox{$\displaystyle/$}\hfil\crcr
+        {\hbox{$\displaystyle\mathchar"20D$}}%
+      }%
+    }
+    {%
+      \ooalign{%
+        \hfil\hbox{$\textstyle/$}\hfil\crcr
+        {\hbox{$\textstyle\mathchar"20D$}}%
+      }%
+    }
+    {%
+      \ooalign{%
+        \hfil\hbox{$\scriptstyle/$}\hfil\crcr
+        {\hbox{$\scriptstyle\mathchar"20D$}}%
+      }%
+    }
+    {%
+      \ooalign{%
+        \hfil\hbox{$\scriptscriptstyle/$}\hfil\crcr
+        {\hbox{$\scriptscriptstyle\mathchar"20D$}}%
+      }%
+    }%
+  }%
+}
+\let\olddiameter\diameter
+\newcommand*\getsto{\aa@centerstack{\gets}{\to}}
+\newcommand*\lid{\aa@centerstackskip{<}{=}{1.2\p@}{1.2\p@}{1\p@}{0.9\p@}}
+\newcommand*\gid{\aa@centerstackskip{>}{=}{1.2\p@}{1.2\p@}{1\p@}{0.9\p@}}
+\newcommand*\bbbone{%
+  \ensuremath{%
+    \mathchoice{\mathrm 1\mskip-4mu l}
+               {\mathrm 1\mskip-4mu l}
+               {\mathrm 1\mskip-4.5mu l}
+               {\mathrm 1\mskip-5mu l}%
+  }%
+}
+\newcommand*\aap{A\&A}
+\let\astap=\aap
+\newcommand*\aapr{A\&A~Rev.}
+\newcommand*\aaps{A\&AS}
+\newcommand*\actaa{Acta Astron.}
+\newcommand*\aj{AJ}
+\newcommand*\ao{Appl.~Opt.}
+\let\applopt\ao
+\newcommand*\apj{ApJ}
+\newcommand*\apjl{ApJ}
+\let\apjlett\apjl
+\newcommand*\apjs{ApJS}
+\let\apjsupp\apjs
+\newcommand*\aplett{Astrophys.~Lett.}
+\newcommand*\apspr{Astrophys.~Space~Phys.~Res.}
+\newcommand*\apss{Ap\&SS}
+\newcommand*\araa{ARA\&A}
+\newcommand*\azh{AZh}
+\newcommand*\baas{BAAS}
+\newcommand*\bac{Bull. astr. Inst. Czechosl.}
+\newcommand*\bain{Bull.~Astron.~Inst.~Netherlands}
+\newcommand*\caa{Chinese Astron. Astrophys.}
+\newcommand*\cjaa{Chinese J. Astron. Astrophys.}
+\newcommand*\fcp{Fund.~Cosmic~Phys.}
+\newcommand*\gca{Geochim.~Cosmochim.~Acta}
+\newcommand*\grl{Geophys.~Res.~Lett.}
+\newcommand*\iaucirc{IAU~Circ.}
+\newcommand*\icarus{Icarus}
+\newcommand*\jcap{J. Cosmology Astropart. Phys.}
+\newcommand*\jcp{J.~Chem.~Phys.}
+\newcommand*\jgr{J.~Geophys.~Res.}
+\newcommand*\jqsrt{J.~Quant.~Spectr.~Rad.~Transf.}
+\newcommand*\jrasc{JRASC}
+\newcommand*\memras{MmRAS}
+\newcommand*\memsai{Mem.~Soc.~Astron.~Italiana}
+\newcommand*\mnras{MNRAS}
+\newcommand*\na{New A}
+\newcommand*\nar{New A Rev.}
+\newcommand*\nat{Nature}
+\newcommand*\nphysa{Nucl.~Phys.~A}
+\newcommand*\pasa{PASA}
+\newcommand*\pasj{PASJ}
+\newcommand*\pasp{PASP}
+\newcommand*\physrep{Phys.~Rep.}
+\newcommand*\physscr{Phys.~Scr}
+\newcommand*\planss{Planet.~Space~Sci.}
+\newcommand*\pra{Phys.~Rev.~A}
+\newcommand*\prb{Phys.~Rev.~B}
+\newcommand*\prc{Phys.~Rev.~C}
+\newcommand*\prd{Phys.~Rev.~D}
+\newcommand*\pre{Phys.~Rev.~E}
+\newcommand*\prl{Phys.~Rev.~Lett.}
+\newcommand*\procspie{Proc.~SPIE}
+\newcommand*\qjras{QJRAS}
+\newcommand*\rmxaa{Rev. Mexicana Astron. Astrofis.}
+\newcommand*\skytel{S\&T}
+\newcommand*\solphys{Sol.~Phys.}
+\newcommand*\sovast{Soviet~Ast.}
+\newcommand*\ssr{Space~Sci.~Rev.}
+\newcommand*\zap{ZAp}
+\DeclareMathAlphabet{\mathsfsl}{OT1}{txss}{m}{sl}
+\g@addto@macro{\endlongtable}{\addvspace{-3.5mm}}
+\AtBeginDocument{%
+\@ifpackageloaded{lscape}{%
+\g@addto@macro{\landscape}{\centering\setlength{\LTcapwidth}{\aa@fullheight}}}{}
+\@ifpackageloaded{pdflscape}{%
+\g@addto@macro{\landscape}{\centering\setlength{\LTcapwidth}{\aa@fullheight}}}{}
+\@ifpackageloaded{aalongtable}%
+{\def\LS@rot{%
+  \setbox\@outputbox\vbox
+  to\aa@fullheight{\vfill\centerline{\rotatebox{90}{\box\@outputbox}}\vfill}}}{}
+\@ifpackageloaded{subfigure}%
+{\renewcommand*{\thesubfigure}{\alph{subfigure}}
+\renewcommand*{\@thesubfigure}{(\thesubfigure)\hskip\subfiglabelskip}
+\renewcommand*{\@@thesubfigure}{(\thesubfigure)}%
+\renewcommand*{\thesubtable}{\alph{subtable}}
+\renewcommand*{\@thesubtable}{(\thesubtable)\hskip\subfiglabelskip}
+\renewcommand*{\@@thesubtable}{(\thesubtable)}}{}
+\@ifpackageloaded{wasysym}%
+{\let\diameter\olddiameter}{}
+\@ifpackageloaded{txfonts}%
+{%
+  \newcommand*\bbba{\ensuremath{\varmathbb{A}}}
+  \newcommand*\bbbb{\ensuremath{\varmathbb{B}}}
+  \newcommand*\bbbc{\ensuremath{\varmathbb{C}}}
+  \newcommand*\bbbd{\ensuremath{\varmathbb{D}}}
+  \newcommand*\bbbe{\ensuremath{\varmathbb{E}}}
+  \newcommand*\bbbf{\ensuremath{\varmathbb{F}}}
+  \newcommand*\bbbg{\ensuremath{\varmathbb{G}}}
+  \newcommand*\bbbh{\ensuremath{\varmathbb{H}}}
+  \newcommand*\bbbi{\ensuremath{\varmathbb{I}}}
+  \newcommand*\bbbj{\ensuremath{\varmathbb{J}}}
+  \newcommand*\bbbk{\ensuremath{\varmathbb{K}}}
+  \newcommand*\bbbl{\ensuremath{\varmathbb{L}}}
+  \newcommand*\bbbm{\ensuremath{\varmathbb{M}}}
+  \newcommand*\bbbn{\ensuremath{\varmathbb{N}}}
+  \newcommand*\bbbo{\ensuremath{\varmathbb{O}}}
+  \newcommand*\bbbp{\ensuremath{\varmathbb{P}}}
+  \newcommand*\bbbq{\ensuremath{\varmathbb{Q}}}
+  \newcommand*\bbbr{\ensuremath{\varmathbb{R}}}
+  \newcommand*\bbbs{\ensuremath{\varmathbb{S}}}
+  \newcommand*\bbbt{\ensuremath{\varmathbb{T}}}
+  \newcommand*\bbbu{\ensuremath{\varmathbb{U}}}
+  \newcommand*\bbbv{\ensuremath{\varmathbb{V}}}
+  \newcommand*\bbbw{\ensuremath{\varmathbb{W}}}
+  \newcommand*\bbbx{\ensuremath{\varmathbb{X}}}
+  \newcommand*\bbby{\ensuremath{\varmathbb{Y}}}
+  \newcommand*\bbbz{\ensuremath{\varmathbb{Z}}}}%
+{%
+  \newcommand*\bbba{\ensuremath{\mathbf{A}}}
+  \newcommand*\bbbb{\ensuremath{\mathbf{B}}}
+  \newcommand*\bbbc{\ensuremath{\mathbf{C}}}
+  \newcommand*\bbbd{\ensuremath{\mathbf{D}}}
+  \newcommand*\bbbe{\ensuremath{\mathbf{E}}}
+  \newcommand*\bbbf{\ensuremath{\mathbf{F}}}
+  \newcommand*\bbbg{\ensuremath{\mathbf{G}}}
+  \newcommand*\bbbh{\ensuremath{\mathbf{H}}}
+  \newcommand*\bbbi{\ensuremath{\mathbf{I}}}
+  \newcommand*\bbbj{\ensuremath{\mathbf{J}}}
+  \newcommand*\bbbk{\ensuremath{\mathbf{K}}}
+  \newcommand*\bbbl{\ensuremath{\mathbf{L}}}
+  \newcommand*\bbbm{\ensuremath{\mathbf{M}}}
+  \newcommand*\bbbn{\ensuremath{\mathbf{N}}}
+  \newcommand*\bbbo{\ensuremath{\mathbf{O}}}
+  \newcommand*\bbbp{\ensuremath{\mathbf{P}}}
+  \newcommand*\bbbq{\ensuremath{\mathbf{Q}}}
+  \newcommand*\bbbr{\ensuremath{\mathbf{R}}}
+  \newcommand*\bbbs{\ensuremath{\mathbf{S}}}
+  \newcommand*\bbbt{\ensuremath{\mathbf{T}}}
+  \newcommand*\bbbu{\ensuremath{\mathbf{U}}}
+  \newcommand*\bbbv{\ensuremath{\mathbf{V}}}
+  \newcommand*\bbbw{\ensuremath{\mathbf{W}}}
+  \newcommand*\bbbx{\ensuremath{\mathbf{X}}}
+  \newcommand*\bbby{\ensuremath{\mathbf{Y}}}
+  \newcommand*\bbbz{\ensuremath{\mathbf{Z}}}}
+\@ifpackageloaded{hyperref}%
+{}{\RequirePackage[colorlinks=true,
+    linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue]{hyperref}}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Macro ORCID %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\orcid}[1]{\unskip\protect\href{https://orcid.org/#1}{\protect\includegraphics[width=8pt,clip]{logo_orcid}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}
 \setlength\leftmargini  {\parindent}
 \leftmargin  \leftmargini
 \setlength\leftmarginii {\parindent}
@@ -750,944 +2049,33 @@ to\/}: \ignorespaces#1}}\endgroup\ignorespaces}
 \setlength  \labelsep  {.5em}
 \setlength  \labelwidth{\leftmargini}
 \addtolength\labelwidth{-\labelsep}
-\@beginparpenalty -\@lowpenalty
-\@endparpenalty   -\@lowpenalty
-\@itempenalty     -\@lowpenalty
 \renewcommand\theenumi{\@arabic\c@enumi}
 \renewcommand\theenumii{\@alph\c@enumii}
 \renewcommand\theenumiii{\@roman\c@enumiii}
 \renewcommand\theenumiv{\@Alph\c@enumiv}
-\newcommand\labelenumi{\theenumi.}
-\newcommand\labelenumii{(\theenumii)}
-\newcommand\labelenumiii{\theenumiii.}
-\newcommand\labelenumiv{\theenumiv.}
+\renewcommand\labelenumi{\theenumi.}
+\renewcommand\labelenumii{(\theenumii)}
+\renewcommand\labelenumiii{\theenumiii.}
+\renewcommand\labelenumiv{\theenumiv.}
 \renewcommand\p@enumii{\theenumi}
 \renewcommand\p@enumiii{\theenumi(\theenumii)}
 \renewcommand\p@enumiv{\p@enumiii\theenumiii}
-\newcommand\labelitemi{\normalfont\bfseries --}
-\newcommand\labelitemii{\normalfont\bfseries --}
-\newcommand\labelitemiii{$\m@th\bullet$}
-\newcommand\labelitemiv{$\m@th\cdot$}
-
-% redefinition of the "\newtheorem" command.
-%
-% Usage now:
-%
-%     \newtheorem{env_nam}{caption}[within]{cap_font}{body_font}
-% or  \newtheorem{env_nam}[numbered_like]{caption}{cap_font}{body_font}
-% or  \newtheorem*{env_nam}{caption}{cap_font}{body_font}
-%
-% New is "cap_font" and "body_font". It stands for
-% fontdefinition of the caption and the text itself.
-%
-% "\newtheorem*" gives a theorem without number.
-%
-% A defined newthoerem environment is used as described
-% by Lamport.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\def\@thmcountersep{}
-\def\@thmcounterend{.}
-
-\def\newtheorem{\@ifstar{\@sthm}{\@Sthm}}
-
-% definition of \newtheorem with number
-
-\def\@Sthm#1{\@ifnextchar[{\@othm{#1}}{\@nthm{#1}}}
-
-\def\@xnthm#1#2[#3]#4#5{\expandafter\@ifdefinable\csname #1\endcsname
-   {\@definecounter{#1}\@addtoreset{#1}{#3}%
-   \expandafter\xdef\csname the#1\endcsname{\expandafter\noexpand
-     \csname the#3\endcsname \noexpand\@thmcountersep \@thmcounter{#1}}%
-   \expandafter\xdef\csname #1name\endcsname{#2}%
-   \global\@namedef{#1}{\@thm{#1}{\csname #1name\endcsname}{#4}{#5}}%
-                              \global\@namedef{end#1}{\@endtheorem}}}
-
-\def\@ynthm#1#2#3#4{\expandafter\@ifdefinable\csname #1\endcsname
-   {\@definecounter{#1}%
-   \expandafter\xdef\csname the#1\endcsname{\@thmcounter{#1}}%
-   \expandafter\xdef\csname #1name\endcsname{#2}%
-   \global\@namedef{#1}{\@thm{#1}{\csname #1name\endcsname}{#3}{#4}}%
-                               \global\@namedef{end#1}{\@endtheorem}}}
-
-\def\@othm#1[#2]#3#4#5{%
-  \@ifundefined{c@#2}{\@latexerr{No theorem environment `#2'
-  defined}\@eha}%
-  {\expandafter\@ifdefinable\csname #1\endcsname
-  {\global\@namedef{the#1}{\@nameuse{the#2}}%
-  \expandafter\xdef\csname #1name\endcsname{#3}%
-  \global\@namedef{#1}{\@thm{#2}{\csname #1name\endcsname}{#4}{#5}}%
-  \global\@namedef{end#1}{\@endtheorem}}}}
-
-\def\@thm#1#2#3#4{\refstepcounter
-    {#1}\@ifnextchar[{\@ythm{#1}{#2}{#3}{#4}}{\@xthm{#1}{#2}{#3}{#4}}}
-
-\def\@xthm#1#2#3#4{\@begintheorem{#2}{\csname the#1\endcsname}{#3}{#4}%
-                    \ignorespaces}
-
-\def\@ythm#1#2#3#4[#5]{\@opargbegintheorem{#2}{\csname
-       the#1\endcsname}{#5}{#3}{#4}\ignorespaces}
-
-\def\@begintheorem#1#2#3#4{\trivlist
-                 \item[\hskip\labelsep{#3#1\ #2\@thmcounterend}]#4}
-
-\def\@opargbegintheorem#1#2#3#4#5{\trivlist
-      \item[\hskip\labelsep{#4#1\ #2\ (#3)\@thmcounterend}]#5}
-
-% definition of \newtheorem* without number
-
-\def\@sthm#1#2{\@Ynthm{#1}{#2}}
-
-\def\@Ynthm#1#2#3#4{\expandafter\@ifdefinable\csname #1\endcsname
-   {\global\@namedef{#1}{\@Thm{\csname #1name\endcsname}{#3}{#4}}%
-    \expandafter\xdef\csname #1name\endcsname{#2}%
-    \global\@namedef{end#1}{\@endtheorem}}}
-
-\def\@Thm#1#2#3{\@ifnextchar[{\@Ythm{#1}{#2}{#3}}{\@Xthm{#1}{#2}{#3}}}
-
-\def\@Xthm#1#2#3{\@Begintheorem{#1}{#2}{#3}\ignorespaces}
-
-\def\@Ythm#1#2#3[#4]{\@Opargbegintheorem{#1}
-       {#4}{#2}{#3}\ignorespaces}
-
-\def\@Begintheorem#1#2#3{#3\trivlist
-                           \item[\hskip\labelsep{#2#1\@thmcounterend}]}
-
-\def\@Opargbegintheorem#1#2#3#4{#4\trivlist
-      \item[\hskip\labelsep{#3#1\ (#2)\@thmcounterend}]}
-
-% definition of divers theorem environments
-
-\if@envcntsect
-   \def\@thmcountersep{.}
-   \newtheorem{theorem}{Theorem}[section]{\bf}{\it}
-\else
-   \newtheorem{theorem}{Theorem}{\bf}{\it}
-   \if@envcntreset
-      \@addtoreset{theorem}{section}
-   \else
-      \@addtoreset{theorem}{chapter}
-   \fi
-\fi
-\newtheorem*{proof}{Proof}{\it}{\rm}
-\newtheorem{corollary}[theorem]{Corollary}{\bf}{\it}
-\newtheorem{definition}[theorem]{Definition}{\bf}{\rm}
-\newtheorem{example}[theorem]{Example}{\it}{\rm}
-\newtheorem{exercise}[theorem]{Exercise}{\it}{\rm}
-\newtheorem{lemma}[theorem]{Lemma}{\bf}{\it}
-\newtheorem{note}[theorem]{Note}{\it}{\rm}
-\newtheorem{problem}[theorem]{Problem}{\it}{\rm}
-\newtheorem{proposition}[theorem]{Proposition}{\bf}{\it}
-\newtheorem{question}[theorem]{Question}{\it}{\rm}
-\newtheorem{remark}[theorem]{Remark}{\it}{\rm}
-\newtheorem{solution}[theorem]{Solution}{\it}{\rm}
-
-\def\@takefromreset#1#2{%
-    \def\@tempa{#1}%
-    \let\@tempd\@elt
-    \def\@elt##1{%
-        \def\@tempb{##1}%
-        \ifx\@tempa\@tempb\else
-            \@addtoreset{##1}{#2}%
-        \fi}%
-    \expandafter\expandafter\let\expandafter\@tempc\csname cl@#2\endcsname
-    \expandafter\def\csname cl@#2\endcsname{}%
-    \@tempc
-    \let\@elt\@tempd}
-
-\def\theopargself{\def\@opargbegintheorem##1##2##3##4##5{\trivlist
-      \item[\hskip\labelsep{##4##1\ ##2\ ##3}]##5}
-                  \def\@Opargbegintheorem##1##2##3##4{##4\trivlist
-      \item[\hskip\labelsep{##3##1\ ##2}]}
-      }
-
-\def\squareforqed{\hbox{\rlap{$\sqcap$}$\sqcup$}}
-\def\qed{\ifmmode\else\unskip\quad\fi\squareforqed}
-%
-\newdimen\figgap\figgap=1cc
-\long\def\@makesidecaption#1#2{%
-   \parbox[b]{\@tempdima}{\captionstyle{\floatlegendstyle
-                                         #1\floatcounterend}~#2}}
-\def\sidecaption#1\caption{%
-\setbox\@tempboxa=\hbox{#1\unskip}%
-\if@twocolumn
- \ifdim\hsize<\textwidth\else
-   \ifdim\wd\@tempboxa<\columnwidth
-      \typeout{Double column float fits into single column -
-            ^^Jyou'd better switch the environment. }%
-   \fi
- \fi
-\fi
-\@tempdima=\hsize
-\advance\@tempdima by-\figgap
-\advance\@tempdima by-\wd\@tempboxa
-\ifdim\@tempdima<3cm
-    \typeout{\string\sidecaption: No sufficient room for the legend;
-             using normal \string\caption. }%
-   \unhbox\@tempboxa
-   \let\@capcommand=\@caption
-\else
-   \let\@capcommand=\@sidecaption
-   \leavevmode
-   \unhbox\@tempboxa
-   \hfill
-\fi
-\refstepcounter\@captype
-\@dblarg{\@capcommand\@captype}}
-
-\long\def\@sidecaption#1[#2]#3{\addcontentsline{\csname
-  ext@#1\endcsname}{#1}{\protect\numberline{\csname
-  the#1\endcsname}{\ignorespaces #2}}\begingroup
-    \@parboxrestore
-    \@makesidecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
-  \endgroup}
-%
-% Online material
-\long\def\onlfig#1#2{\AtEndDocument{\Online\setcounter{figure}{#1}\addtocounter{figure}{-1}#2}\setcounter{figure}{#1}}
-\long\def\onltab#1#2{\AtEndDocument{\Online\setcounter{table}{#1}\addtocounter{table}{-1}#2}\setcounter{table}{#1}}
-\long\def\onllongtab#1#2{\AtEndDocument{\Online\setlength{\LTcapwidth}{\textwidth}\setcounter{table}{#1}%
-\addtocounter{table}{-1}\onecolumn#2\twocolumn}\setcounter{table}{#1}}
-\long\def\onllongtabL#1#2{\AtEndDocument{\Online\setlength{\LTcapwidth}{\textheight}\setcounter{table}{#1}%
-\addtocounter{table}{-1}\onecolumn#2\twocolumn}\setcounter{table}{#1}}
-\long\def\longtab#1#2{\setlength{\LTcapwidth}{\textwidth}%
-\setcounter{table}{#1}\addtocounter{table}{-1}\onecolumn#2\twocolumn\setcounter{table}{#1}}
-\long\def\longtabL#1#2{\setlength{\LTcapwidth}{\textheight}%
-\setcounter{table}{#1}\addtocounter{table}{-1}\onecolumn#2\twocolumn\setcounter{table}{#1}}
-%
-% Define \acknowledgements
-\def\acknowledgements{\par\addvspace{6pt}\tiny\rm
-\trivlist\item[\hskip\labelsep{\em Acknowledgements.\/}]}
-\def\endacknowledgements{\endtrivlist\addvspace{6pt}}
-%
-\newenvironment{verse}
-               {\let\\\@centercr
-                \list{}{\itemsep      \z@
-                        \itemindent   -1.5em%
-                        \listparindent\itemindent
-                        \rightmargin  \leftmargin
-                        \advance\leftmargin 1.5em}%
-                \item\relax}
-               {\endlist}
-\newenvironment{quotation}
-               {\list{}{\listparindent 1.5em%
-                        \itemindent    \listparindent
-                        \rightmargin   \leftmargin
-                        \parsep        \z@ \@plus\p@}%
-                \item\relax}
-               {\endlist}
-\newenvironment{quote}
-               {\list{}{\rightmargin\leftmargin}%
-                \item\relax}
-               {\endlist}
-\if@compatibility
-\newenvironment{titlepage}
-    {%
-      \if@twocolumn
-        \@restonecoltrue\onecolumn
-      \else
-        \@restonecolfalse\newpage
-      \fi
-      \thispagestyle{empty}%
-      \setcounter{page}\z@
-    }%
-    {\if@restonecol\twocolumn \else \newpage \fi
-    }
-\else
-\newenvironment{titlepage}
-    {%
-      \if@twocolumn
-        \@restonecoltrue\onecolumn
-      \else
-        \@restonecolfalse\newpage
-      \fi
-      \thispagestyle{empty}%
-      \setcounter{page}\@ne
-    }%
-    {\if@restonecol\twocolumn \else \newpage \fi
-     \if@twoside\else
-        \setcounter{page}\@ne
-     \fi
-    }
-\fi
-% Appendix
-\newcounter{append}
-\setcounter{append}{0}
-\newenvironment{appendix}{\par
-\def\@hangfrom##1{\setbox\@tempboxa\hbox{{##1}}%
-      \hangindent \parindent\noindent\box\@tempboxa}
-\def\@seccntformat##1{\csname theap##1\endcsname\hskip\betweenumberspace}
-  \setcounter{section}{\value{append}}%
-  \setcounter{subsection}{0}%
-  \setcounter{figure}{0}%
-  \setcounter{table}{0}%
-  \newcommand\theapsection{Appendix \@Alph\c@section:}%
-  \newcommand\theapsubsection{\@Alph\c@section.\@arabic\c@subsection.}%
-  \newcommand\theapsubsubsection{\theapsubsection\@arabic\c@subsubsection.}%
-  \renewcommand\thesection{\@Alph\c@section}%
-  \renewcommand\thesubsection{\@Alph\c@section.\@arabic\c@subsection}%
-  \renewcommand\thesubsubsection{\thesubsection.\@arabic\c@subsubsection}%
-  \renewcommand\theequation{\@Alph\c@section.\@arabic\c@equation}%
-  \renewcommand\thefigure{\@Alph\c@section.\@arabic\c@figure}%
-  \renewcommand\thetable{\@Alph\c@section.\@arabic\c@table}%
-  \@addtoreset{equation}{section}%
-  \@addtoreset{figure}{section}%
-  \@addtoreset{table}{section}%
-  \def\subfigures{\stepcounter{figure}\setcounter{auth}{\value{figure}}%
-  \setcounter{figure}{0}%
-  \def\thefigure{\@Alph\c@section\@arabic\c@auth\alph{figure}}%
-  \def\resetsubfig{\setcounter{figure}{\value{auth}}}}}
-{
-  \setcounter{section}{0}%
-  \setcounter{subsection}{0}%
-  \setcounter{figure}{0}%
-  \setcounter{table}{0}%
-  \renewcommand\thesection{\c@section}%
-  \renewcommand\thesubsection{\@arabic\c@subsection}%
-  \renewcommand\thesubsubsection{\@arabic\c@subsubsection}%
-  \renewcommand\theequation{\@arabic\c@equation}%
-  \renewcommand\thefigure{\@arabic\c@figure}%
-  \renewcommand\thetable{\@arabic\c@table}%
-  \addtocounter{append}{1}
+\renewcommand\labelitemi{\normalfont\bfseries --}
+\renewcommand\labelitemii{\normalfont\bfseries --}
+\renewcommand\labelitemiii{$\m@th\bullet$}
+\renewcommand\labelitemiv{$\m@th\cdot$}
+\def\arxivprefixe{arXiv}
+\def\arxivprefixesep{:}
+\def\arxiv#1{%
+{\tt \arxivprefixe\arxivprefixesep\ignorespaces#1}%
 }
-%
-\setlength\arraycolsep{2.5\p@}
-\setlength\tabcolsep{6\p@}
-\setlength\arrayrulewidth{.4\p@}
-\setlength\doublerulesep{2\p@}
-\setlength\tabbingsep{\labelsep}
-\skip\@mpfootins = \skip\footins
-\setlength\fboxsep{3\p@}
-\setlength\fboxrule{.4\p@}
-\renewcommand\theequation{\@arabic\c@equation}
-\newcounter{figure}
-\renewcommand\thefigure{\@arabic\c@figure}
-\def\fps@figure{tbp}
-\def\ftype@figure{1}
-\def\ext@figure{lof}
-\def\fnum@figure{\figurename\,\thefigure}
-\newenvironment{figure}
-               {\@float{figure}}
-               {\resetsubfig\end@float}
-\newenvironment{figure*}
-               {\@dblfloat{figure}}
-               {\resetsubfig\end@dblfloat}
-\let\resetsubfig\relax
-\def\subfigures{\stepcounter{figure}\setcounter{auth}{\value{figure}}%
-\setcounter{figure}{0}\def\thefigure{\@arabic\c@auth\alph{figure}}%
-\def\resetsubfig{\setcounter{figure}{\value{auth}}}}
-\newcounter{table}
-\renewcommand\thetable{\@arabic\c@table}
-\def\fps@table{tbp}
-\def\ftype@table{2}
-\def\ext@table{lot}
-\def\fnum@table{\tablename~\thetable}
-\newenvironment{table}
-               {\small\@float{table}}
-               {\end@float}
-\newenvironment{table*}
-               {\small\@dblfloat{table}}
-               {\end@dblfloat}
-
-\def \@floatboxreset {%
-        \reset@font
-        \small
-        \@setnobreak
-        \@setminipage
+\newcommand{\eprint}[2][]{%
+{\tt\if!#1!#2\else#1\arxivprefixesep\ignorespaces#2\fi}%
 }
-
-\newlength\abovecaptionskip
-\newlength\belowcaptionskip
-\setlength\abovecaptionskip{10\p@}
-\setlength\belowcaptionskip{0\p@}
-\newcommand\leftlegendglue{}
-
-\def\fig@type{figure}
-
-\newdimen\figcapgap\figcapgap=5pt
-\newdimen\tabcapgap\tabcapgap=10pt
-
-\@ifundefined{floatlegendstyle}{\def\floatlegendstyle{\bf}}{}
-\def\floatcounterend{.}
-
-\long\def\@caption#1[#2]#3{\par\addcontentsline{\csname
-  ext@#1\endcsname}{#1}{\protect\numberline{\csname
-  the#1\endcsname}{\ignorespaces #2}}\begingroup
-    \@parboxrestore
-    \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
-  \endgroup}
-
-\def\capstrut{\vrule\@width\z@\@height\topskip}
-\@ifundefined{captionstyle}{\def\captionstyle{\normalfont\small}}{}
-
-\long\def\@makecaption#1#2{%
- \ifx\@captype\fig@type
-   \vskip\figcapgap
-   \setbox\@tempboxa\hbox{{\floatlegendstyle #1\floatcounterend}
-   \capstrut #2}%
-   \ifdim \wd\@tempboxa >\hsize
-     {\floatlegendstyle #1\floatcounterend} \capstrut #2\par
-   \else
-     \hbox to\hsize{\leftlegendglue\unhbox\@tempboxa\hfil}%
-   \fi
- \else
-   {\floatlegendstyle #1\floatcounterend} \capstrut #2\par
-   \vskip\tabcapgap
- \fi}
-% Define `acknowledgement' environment
-\def\acknowledgement{\par\addvspace{17pt}\tiny\rm
-\trivlist\item[\hskip\labelsep
-{\it\ackname}]}
-\def\endacknowledgement{\endtrivlist\addvspace{6pt}}
-% Define `noteadd' environment
-\def\noteadd{\par\addvspace{17pt}\small\rm
-\trivlist\item[\hskip\labelsep
-{\it\noteaddname}]}
-\def\endnoteadd{\endtrivlist\addvspace{6pt}}
-
-\DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
-\DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
-\DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
-\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
-\DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
-\DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
-\DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
-\DeclareRobustCommand*\cal{\@fontswitch\relax\mathcal}
-\DeclareRobustCommand*\mit{\@fontswitch\relax\mathnormal}
-\newcommand\@pnumwidth{1.55em}
-\newcommand\@tocrmarg{2.55em}
-\newcommand\@dotsep{4.5}
-\setcounter{tocdepth}{3}
-\newcommand\tableofcontents{%
-    \section*{\contentsname
-        \@mkboth{%
-           \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
-    \@starttoc{toc}%
-    }
-\newcommand*\l@part[2]{%
-  \ifnum \c@tocdepth >-2\relax
-    \addpenalty\@secpenalty
-    \addvspace{2.25em \@plus\p@}%
-    \begingroup
-      \setlength\@tempdima{3em}%
-      \parindent \z@ \rightskip \@pnumwidth
-      \parfillskip -\@pnumwidth
-      {\leavevmode
-       \large \bfseries #1\hfil \hb@xt@\@pnumwidth{\hss #2}}\par
-       \nobreak
-       \if@compatibility
-         \global\@nobreaktrue
-         \everypar{\global\@nobreakfalse\everypar{}}%
-      \fi
-    \endgroup
-  \fi}
-\newcommand*\l@section[2]{%
-  \ifnum \c@tocdepth >\z@
-    \addpenalty\@secpenalty
-    \addvspace{1.0em \@plus\p@}%
-    \setlength\@tempdima{1.5em}%
-    \begingroup
-      \parindent \z@ \rightskip \@pnumwidth
-      \parfillskip -\@pnumwidth
-      \leavevmode \bfseries
-      \advance\leftskip\@tempdima
-      \hskip -\leftskip
-      #1\nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
-    \endgroup
-  \fi}
-\newcommand*\l@subsection{\@dottedtocline{2}{1.5em}{2.3em}}
-\newcommand*\l@subsubsection{\@dottedtocline{3}{3.8em}{3.2em}}
-\newcommand*\l@paragraph{\@dottedtocline{4}{7.0em}{4.1em}}
-\newcommand*\l@subparagraph{\@dottedtocline{5}{10em}{5em}}
-\newcommand\listoffigures{%
-    \section*{\listfigurename
-      \@mkboth{\MakeUppercase\listfigurename}%
-              {\MakeUppercase\listfigurename}}%
-    \@starttoc{lof}%
-    }
-\newcommand*\l@figure{\@dottedtocline{1}{1.5em}{2.3em}}
-\newcommand\listoftables{%
-    \section*{\listtablename
-      \@mkboth{%
-          \MakeUppercase\listtablename}{\MakeUppercase\listtablename}}%
-    \@starttoc{lot}%
-    }
-\let\l@table\l@figure
-\newdimen\bibindent
-\setlength\bibindent{\parindent}
-\def\@biblabel#1{}
-\def\@cite#1#2{{#1\if@tempswa , #2\fi}}
-\newenvironment{thebibliography}[1]
-     {\begingroup\section*{{\normalsize\refname}
-        \@mkboth{\refname}{\refname}}\tiny
-      \list{\@biblabel{\@arabic\c@enumiv}}%
-           {\settowidth\labelwidth{\@biblabel{#1}}%
-           \leftmargin\bibindent
-           \setlength{\itemindent}{-\leftmargin}
-           \@openbib@code
-           \usecounter{enumiv}%
-           \let\p@enumiv\@empty
-           \renewcommand\theenumiv{\@arabic\c@enumiv}}%
-      \sloppy\clubpenalty4000\widowpenalty4000%
-      \sfcode`\.\@m}
-     {\endlist\par\endgroup\if@longauth\kern6pt\hrule\kern6pt\institutename\@longauthfalse\fi
-      \def\@noitemerr{\@latex@warning{Empty `thebibliography' environment}}}%
-
-
-\newcommand\newblock{\hskip .11em\@plus.33em\@minus.07em}
-\let\@openbib@code\@empty
-\newenvironment{theindex}
-               {\if@twocolumn
-                  \@restonecolfalse
-                \else
-                  \@restonecoltrue
-                \fi
-                \columnseprule \z@
-                \columnsep 35\p@
-                \twocolumn[\section*{\indexname}]%
-                \@mkboth{\MakeUppercase\indexname}%
-                        {\MakeUppercase\indexname}%
-                \thispagestyle{plain}\parindent\z@
-                \parskip\z@ \@plus .3\p@\relax
-                \let\item\@idxitem}
-               {\if@restonecol\onecolumn\else\clearpage\fi}
-\newcommand\@idxitem{\par\hangindent 40\p@}
-\newcommand\subitem{\@idxitem \hspace*{20\p@}}
-\newcommand\subsubitem{\@idxitem \hspace*{30\p@}}
-\newcommand\indexspace{\par \vskip 10\p@ \@plus5\p@ \@minus3\p@\relax}
-\renewcommand\footnoterule{%
-  \kern-3\p@
-  \hrule\@width.4\columnwidth
-  \kern2.6\p@}
-\newcommand\@makefntext[1]{%
-    \noindent
-    \hb@xt@\bibindent{\hss\@makefnmark\enspace}#1}
-%
-\newcommand\listofobjects{\if@nyobjects
-  \IfFileExists{\jobname.obj}%
-               {\section*{\listobjectname}%
-                \@starttoc{obj}}%
-               {\begingroup
-                   \makeatletter
-                   \if@filesw
-                      \newwrite\tf@obj
-                      \immediate\openout\tf@obj\jobname.obj
-                      \relax
-                   \fi
-                   \global\@nobreakfalse
-                \endgroup}\fi
-               }
-%
-\newcommand*\l@obj[2]{\noindent`#1' on page #2\par}
-%
-\DeclareRobustCommand{\object}[1]{#1\global\let\if@nyobjects\iftrue
-\addcontentsline{obj}{obj}{#1}}
-%
-\newcommand\contentsname{Contents}
-\newcommand\listfigurename{List of Figures}
-\newcommand\listobjectname{List of Objects}
-\newcommand\listtablename{List of Tables}
-\newcommand\refname{References}
-\newcommand\indexname{Index}
-\newcommand\figurename{Fig.}
-\newcommand\tablename{Table}
-\newcommand\partname{Part}
-\newcommand\appendixname{Appendix}
-\newcommand\abstractname{ABSTRACT}
-\newcommand\rnotename{(Research Note)}
-\newcommand\rnotname{(RN)}
-\newcommand\lettername{\textsc{Letter to the Editor}}
-\newcommand\ackname{Acknowledgements.}
-\newcommand\noteaddname{Note added in proof}
-\newcommand\today{}
-\edef\today{\ifcase\month\or
-  January\or February\or March\or April\or May\or June\or
-  July\or August\or September\or October\or November\or December\fi
-  \space\number\day, \number\year}
-\setlength\columnsep{12pt}
-\setlength\columnseprule{0\p@}
-\frenchspacing
-\clubpenalty=10000
-\widowpenalty=10000
-\def\thisbottomragged{\def\@textbottom{\vskip\z@ plus.0001fil
-\global\let\@textbottom\relax}}
-\pagestyle{headings}
-\pagenumbering{arabic}
-\if@referee
-  \setlength{\textwidth}{0.75\textwidth}
-  \def\baselinestretch{1.5}
-  \let\AALogo\relax
-  \onecolumn
-  \AtEndDocument{\listofobjects}
-\else
-\if@onecolumn
-\onecolumn
-\else
-  \twocolumn
-\fi\fi
-\sloppy
-\flushbottom
-\def\squareforqed{\hbox{\rlap{$\sqcap$}$\sqcup$}}
-\def\sq{\ifmmode\squareforqed\else{\unskip\nobreak\hfil
-\penalty50\hskip1em\null\nobreak\hfil\squareforqed
-\parfillskip=0pt\finalhyphendemerits=0\endgraf}\fi}
-
-\def\sun{\hbox{$\odot$}}
-\def\la{\mathrel{\mathchoice {\vcenter{\offinterlineskip\halign{\hfil
-$\displaystyle##$\hfil\cr<\cr\sim\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\textstyle##$\hfil\cr
-<\cr\sim\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptstyle##$\hfil\cr
-<\cr\sim\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptscriptstyle##$\hfil\cr
-<\cr\sim\cr}}}}}
-\def\ga{\mathrel{\mathchoice {\vcenter{\offinterlineskip\halign{\hfil
-$\displaystyle##$\hfil\cr>\cr\sim\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\textstyle##$\hfil\cr
->\cr\sim\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptstyle##$\hfil\cr
->\cr\sim\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptscriptstyle##$\hfil\cr
->\cr\sim\cr}}}}}
-\def\degr{\hbox{$^\circ$}}
-\def\arcmin{\hbox{$^\prime$}}
-\def\arcsec{\hbox{$^{\prime\prime}$}}
-\def\utw{\smash{\rlap{\lower5pt\hbox{$\sim$}}}}
-\def\udtw{\smash{\rlap{\lower6pt\hbox{$\approx$}}}}
-\def\fd{\hbox{$.\!\!^{\rm d}$}}
-\def\fh{\hbox{$.\!\!^{\rm h}$}}
-\def\fm{\hbox{$.\!\!^{\rm m}$}}
-\def\fs{\hbox{$.\!\!^{\rm s}$}}
-\def\fdg{\hbox{$.\!\!^\circ$}}
-\def\farcm{\hbox{$.\mkern-4mu^\prime$}}
-\def\farcs{\hbox{$.\!\!^{\prime\prime}$}}
-\def\fp{\hbox{$.\!\!^{\scriptscriptstyle\rm p}$}}
-\def\cor{\mathrel{\mathchoice {\hbox{$\widehat=$}}{\hbox{$\widehat=$}}
-{\hbox{$\scriptstyle\hat=$}}
-{\hbox{$\scriptscriptstyle\hat=$}}}}
-\def\sol{\mathrel{\mathchoice {\vcenter{\offinterlineskip\halign{\hfil
-$\displaystyle##$\hfil\cr\sim\cr<\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\textstyle##$\hfil\cr\sim\cr
-<\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptstyle##$\hfil\cr\sim\cr
-<\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptscriptstyle##$\hfil\cr
-\sim\cr<\cr}}}}}
-\def\sog{\mathrel{\mathchoice {\vcenter{\offinterlineskip\halign{\hfil
-$\displaystyle##$\hfil\cr\sim\cr>\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\textstyle##$\hfil\cr\sim\cr
->\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptstyle##$\hfil\cr
-\sim\cr>\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptscriptstyle##$\hfil\cr
-\sim\cr>\cr}}}}}
-\def\lse{\mathrel{\mathchoice {\vcenter{\offinterlineskip\halign{\hfil
-$\displaystyle##$\hfil\cr<\cr\simeq\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\textstyle##$\hfil\cr
-<\cr\simeq\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptstyle##$\hfil\cr
-<\cr\simeq\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptscriptstyle##$\hfil\cr
-<\cr\simeq\cr}}}}}
-\def\gse{\mathrel{\mathchoice {\vcenter{\offinterlineskip\halign{\hfil
-$\displaystyle##$\hfil\cr>\cr\simeq\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\textstyle##$\hfil\cr
->\cr\simeq\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptstyle##$\hfil\cr
->\cr\simeq\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptscriptstyle##$\hfil\cr
->\cr\simeq\cr}}}}}
-\def\grole{\mathrel{\mathchoice {\vcenter{\offinterlineskip\halign{\hfil
-$\displaystyle##$\hfil\cr>\cr\noalign{\vskip-1.5pt}<\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\textstyle##$\hfil\cr
->\cr\noalign{\vskip-1.5pt}<\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptstyle##$\hfil\cr
->\cr\noalign{\vskip-1pt}<\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptscriptstyle##$\hfil\cr
->\cr\noalign{\vskip-0.5pt}<\cr}}}}}
-\def\leogr{\mathrel{\mathchoice {\vcenter{\offinterlineskip\halign{\hfil
-$\displaystyle##$\hfil\cr<\cr\noalign{\vskip-1.5pt}>\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\textstyle##$\hfil\cr
-<\cr\noalign{\vskip-1.5pt}>\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptstyle##$\hfil\cr
-<\cr\noalign{\vskip-1pt}>\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptscriptstyle##$\hfil\cr
-<\cr\noalign{\vskip-0.5pt}>\cr}}}}}
-\def\loa{\mathrel{\mathchoice {\vcenter{\offinterlineskip\halign{\hfil
-$\displaystyle##$\hfil\cr<\cr\approx\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\textstyle##$\hfil\cr
-<\cr\approx\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptstyle##$\hfil\cr
-<\cr\approx\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptscriptstyle##$\hfil\cr
-<\cr\approx\cr}}}}}
-\def\goa{\mathrel{\mathchoice {\vcenter{\offinterlineskip\halign{\hfil
-$\displaystyle##$\hfil\cr>\cr\approx\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\textstyle##$\hfil\cr
->\cr\approx\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptstyle##$\hfil\cr
->\cr\approx\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptscriptstyle##$\hfil\cr
->\cr\approx\cr}}}}}
-\def\diameter{{\ifmmode\mathchoice
-{\ooalign{\hfil\hbox{$\displaystyle/$}\hfil\crcr
-{\hbox{$\displaystyle\mathchar"20D$}}}}
-{\ooalign{\hfil\hbox{$\textstyle/$}\hfil\crcr
-{\hbox{$\textstyle\mathchar"20D$}}}}
-{\ooalign{\hfil\hbox{$\scriptstyle/$}\hfil\crcr
-{\hbox{$\scriptstyle\mathchar"20D$}}}}
-{\ooalign{\hfil\hbox{$\scriptscriptstyle/$}\hfil\crcr
-{\hbox{$\scriptscriptstyle\mathchar"20D$}}}}
-\else{\ooalign{\hfil/\hfil\crcr\mathhexbox20D}}%
-\fi}}
-
-\def\getsto{\mathrel{\mathchoice {\vcenter{\offinterlineskip
-\halign{\hfil
-$\displaystyle##$\hfil\cr\gets\cr\to\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\textstyle##$\hfil\cr\gets
-\cr\to\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptstyle##$\hfil\cr\gets
-\cr\to\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptscriptstyle##$\hfil\cr
-\gets\cr\to\cr}}}}}
-\def\lid{\mathrel{\mathchoice {\vcenter{\offinterlineskip\halign{\hfil
-$\displaystyle##$\hfil\cr<\cr\noalign{\vskip1.2pt}=\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\textstyle##$\hfil\cr<\cr
-\noalign{\vskip1.2pt}=\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptstyle##$\hfil\cr<\cr
-\noalign{\vskip1pt}=\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptscriptstyle##$\hfil\cr
-<\cr
-\noalign{\vskip0.9pt}=\cr}}}}}
-\def\gid{\mathrel{\mathchoice {\vcenter{\offinterlineskip\halign{\hfil
-$\displaystyle##$\hfil\cr>\cr\noalign{\vskip1.2pt}=\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\textstyle##$\hfil\cr>\cr
-\noalign{\vskip1.2pt}=\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptstyle##$\hfil\cr>\cr
-\noalign{\vskip1pt}=\cr}}}
-{\vcenter{\offinterlineskip\halign{\hfil$\scriptscriptstyle##$\hfil\cr
->\cr
-\noalign{\vskip0.9pt}=\cr}}}}}
-\def\bbbr{{\rm I\!R}} %reelle Zahlen
-\def\bbbm{{\rm I\!M}}
-\def\bbbn{{\rm I\!N}} %natuerliche Zahlen
-\def\bbbf{{\rm I\!F}}
-\def\bbbh{{\rm I\!H}}
-\def\bbbk{{\rm I\!K}}
-\def\bbbp{{\rm I\!P}}
-\def\bbbone{{\mathchoice {\rm 1\mskip-4mu l} {\rm 1\mskip-4mu l}
-{\rm 1\mskip-4.5mu l} {\rm 1\mskip-5mu l}}}
-\def\bbbc{{\mathchoice {\setbox0=\hbox{$\displaystyle\rm C$}\hbox{\hbox
-to0pt{\kern0.4\wd0\vrule height0.9\ht0\hss}\box0}}
-{\setbox0=\hbox{$\textstyle\rm C$}\hbox{\hbox
-to0pt{\kern0.4\wd0\vrule height0.9\ht0\hss}\box0}}
-{\setbox0=\hbox{$\scriptstyle\rm C$}\hbox{\hbox
-to0pt{\kern0.4\wd0\vrule height0.9\ht0\hss}\box0}}
-{\setbox0=\hbox{$\scriptscriptstyle\rm C$}\hbox{\hbox
-to0pt{\kern0.4\wd0\vrule height0.9\ht0\hss}\box0}}}}
-\def\bbbq{{\mathchoice {\setbox0=\hbox{$\displaystyle\rm
-Q$}\hbox{\raise
-0.05\ht0\hbox to0pt{\kern0.4\wd0\vrule height0.9\ht0\hss}\box0}}
-{\setbox0=\hbox{$\textstyle\rm Q$}\hbox{\raise
-0.05\ht0\hbox to0pt{\kern0.4\wd0\vrule height0.9\ht0\hss}\box0}}
-{\setbox0=\hbox{$\scriptstyle\rm Q$}\hbox{\raise
-0.05\ht0\hbox to0pt{\kern0.4\wd0\vrule height0.8\ht0\hss}\box0}}
-{\setbox0=\hbox{$\scriptscriptstyle\rm Q$}\hbox{\raise
-0.05\ht0\hbox to0pt{\kern0.4\wd0\vrule height0.8\ht0\hss}\box0}}}}
-\def\bbbt{{\mathchoice {\setbox0=\hbox{$\displaystyle\rm
-T$}\hbox{\hbox to0pt{\kern0.25\wd0\vrule height0.95\ht0\hss}\box0}}
-{\setbox0=\hbox{$\textstyle\rm T$}\hbox{\hbox
-to0pt{\kern0.25\wd0\vrule height0.95\ht0\hss}\box0}}
-{\setbox0=\hbox{$\scriptstyle\rm T$}\hbox{\hbox
-to0pt{\kern0.25\wd0\vrule height0.95\ht0\hss}\box0}}
-{\setbox0=\hbox{$\scriptscriptstyle\rm T$}\hbox{\hbox
-to0pt{\kern0.25\wd0\vrule height0.95\ht0\hss}\box0}}}}
-\def\bbbs{{\mathchoice
-{\setbox0=\hbox{$\displaystyle\rm S$}\hbox{\raise0.5\ht0\hbox
-to0pt{\kern0.38\wd0\vrule height0.45\ht0\hss}\hbox
-to0pt{\kern0.52\wd0\vrule height0.5\ht0\hss}\box0}}
-{\setbox0=\hbox{$\textstyle \rm S$}\hbox{\raise0.5\ht0\hbox
-to0pt{\kern0.38\wd0\vrule height0.45\ht0\hss}\hbox
-to0pt{\kern0.52\wd0\vrule height0.5\ht0\hss}\box0}}
-{\setbox0=\hbox{$\scriptstyle \rm S$}\hbox{\raise0.5\ht0\hbox
-to0pt{\kern0.38\wd0\vrule height0.45\ht0\hss}\raise0.05\ht0\hbox
-to0pt{\kern0.52\wd0\vrule height0.45\ht0\hss}\box0}}
-{\setbox0=\hbox{$\scriptscriptstyle\rm S$}\hbox{\raise0.5\ht0\hbox
-to0pt{\kern0.38\wd0\vrule height0.45\ht0\hss}\raise0.05\ht0\hbox
-to0pt{\kern0.52\wd0\vrule height0.45\ht0\hss}\box0}}}}
-\def\bbbz{{\mathchoice {\hbox{$\sf\textstyle Z\kern-0.4em Z$}}
-{\hbox{$\sf\textstyle Z\kern-0.4em Z$}}
-{\hbox{$\sf\scriptstyle Z\kern-0.3em Z$}}
-{\hbox{$\sf\scriptscriptstyle Z\kern-0.2em Z$}}}}
-\def\ts{\thinspace}
-%
-% Bibliography and bibfile
-\def\aj{AJ}%
-          % Astronomical Journal
-\def\actaa{Acta Astron.}%
-          % Acta Astronomica
-\def\araa{ARA\&A}%
-          % Annual Review of Astron and Astrophys
-\def\apj{ApJ}%
-          % Astrophysical Journal
-\def\apjl{ApJ}%
-          % Astrophysical Journal, Letters
-\def\apjs{ApJS}%
-          % Astrophysical Journal, Supplement
-\def\ao{Appl.~Opt.}%
-          % Applied Optics
-\def\apss{Ap\&SS}%
-          % Astrophysics and Space Science
-\def\aap{A\&A}%
-          % Astronomy and Astrophysics
-\def\aapr{A\&A~Rev.}%
-          % Astronomy and Astrophysics Reviews
-\def\aaps{A\&AS}%
-          % Astronomy and Astrophysics, Supplement
-\def\azh{AZh}%
-          % Astronomicheskii Zhurnal
-\def\baas{BAAS}%
-          % Bulletin of the AAS
-\def\bac{Bull. astr. Inst. Czechosl.}%
-          % Bulletin of the Astronomical Institutes of Czechoslovakia 
-\def\caa{Chinese Astron. Astrophys.}%
-          % Chinese Astronomy and Astrophysics
-\def\cjaa{Chinese J. Astron. Astrophys.}%
-          % Chinese Journal of Astronomy and Astrophysics
-\def\icarus{Icarus}%
-          % Icarus
-\def\jcap{J. Cosmology Astropart. Phys.}%
-          % Journal of Cosmology and Astroparticle Physics
-\def\jrasc{JRASC}%
-          % Journal of the RAS of Canada
-\def\mnras{MNRAS}%
-          % Monthly Notices of the RAS
-\def\memras{MmRAS}%
-          % Memoirs of the RAS
-\def\na{New A}%
-          % New Astronomy
-\def\nar{New A Rev.}%
-          % New Astronomy Review
-\def\pasa{PASA}%
-          % Publications of the Astron. Soc. of Australia
-\def\pra{Phys.~Rev.~A}%
-          % Physical Review A: General Physics
-\def\prb{Phys.~Rev.~B}%
-          % Physical Review B: Solid State
-\def\prc{Phys.~Rev.~C}%
-          % Physical Review C
-\def\prd{Phys.~Rev.~D}%
-          % Physical Review D
-\def\pre{Phys.~Rev.~E}%
-          % Physical Review E
-\def\prl{Phys.~Rev.~Lett.}%
-          % Physical Review Letters
-\def\pasp{PASP}%
-          % Publications of the ASP
-\def\pasj{PASJ}%
-          % Publications of the ASJ
-\def\qjras{QJRAS}%
-          % Quarterly Journal of the RAS
-\def\rmxaa{Rev. Mexicana Astron. Astrofis.}%
-          % Revista Mexicana de Astronomia y Astrofisica
-\def\skytel{S\&T}%
-          % Sky and Telescope
-\def\solphys{Sol.~Phys.}%
-          % Solar Physics
-\def\sovast{Soviet~Ast.}%
-          % Soviet Astronomy
-\def\ssr{Space~Sci.~Rev.}%
-          % Space Science Reviews
-\def\zap{ZAp}%
-          % Zeitschrift fuer Astrophysik
-\def\nat{Nature}%
-          % Nature
-\def\iaucirc{IAU~Circ.}%
-          % IAU Cirulars
-\def\aplett{Astrophys.~Lett.}%
-          % Astrophysics Letters
-\def\apspr{Astrophys.~Space~Phys.~Res.}%
-          % Astrophysics Space Physics Research
-\def\bain{Bull.~Astron.~Inst.~Netherlands}%
-          % Bulletin Astronomical Institute of the Netherlands
-\def\fcp{Fund.~Cosmic~Phys.}%
-          % Fundamental Cosmic Physics
-\def\gca{Geochim.~Cosmochim.~Acta}%
-          % Geochimica Cosmochimica Acta
-\def\grl{Geophys.~Res.~Lett.}%
-          % Geophysics Research Letters
-\def\jcp{J.~Chem.~Phys.}%
-          % Journal of Chemical Physics
-\def\jgr{J.~Geophys.~Res.}%
-          % Journal of Geophysics Research
-\def\jqsrt{J.~Quant.~Spec.~Radiat.~Transf.}%
-          % Journal of Quantitiative Spectroscopy and Radiative Trasfer
-\def\memsai{Mem.~Soc.~Astron.~Italiana}%
-          % Mem. Societa Astronomica Italiana
-\def\nphysa{Nucl.~Phys.~A}%
-          % Nuclear Physics A
-\def\physrep{Phys.~Rep.}%
-          % Physics Reports
-\def\physscr{Phys.~Scr}%
-          % Physica Scripta
-\def\planss{Planet.~Space~Sci.}%
-          % Planetary Space Science
-\def\procspie{Proc.~SPIE}%
-          % Proceedings of the SPIE
-\let\astap=\aap
-\let\apjlett=\apjl
-\let\apjsupp=\apjs
-\let\applopt=\ao
-%
-\uchyph=0
-% 
-\long\def\Online{\if@online\else\@onlinetrue
-\clearpage
-\def\ps@Onlheadings{%
-    \let\@oddfoot\@empty\let\@evenfoot\@empty
-    \def\@evenhead{\hfil\leftmark, {\it Online Material p~\thepage}\hfil}%
-    \def\@oddhead{\hfil\rightmark, {\it Online Material p~\thepage}\hfil}%
-    \let\@mkboth\@gobbletwo
-    \let\sectionmark\@gobble
-    \let\subsectionmark\@gobble
-    }
-\setcounter{page}{1}
-\pagestyle{Onlheadings}
-%% 2008
-%% \twocolumn[\vspace*{4cm}\noindent{\sffamily\bfseries\Huge\centerline{Online Material}}]
-%% \vfill
-%% \clearpage
-\fi}
-\AtBeginDocument{\@ifpackageloaded{natbib}{\let\bibpreamble\relax\newcommand{\bibfont}{\tiny}%
-\renewenvironment{thebibliography}[1]{%
- \bibsection\parindent \z@\bibpreamble\bibfont\list
-   {\@biblabel{\arabic{NAT@ctr}}}{\@bibsetup{#1}%
-    \setcounter{NAT@ctr}{0}}%
-    \ifNAT@openbib
-      \renewcommand\newblock{\par}
-    \else
-      \renewcommand\newblock{\hskip .11em \@plus.33em \@minus.07em}%
-    \fi
-    \sloppy\clubpenalty4000\widowpenalty4000
-    \sfcode`\.=1000\relax
-    \let\citeN\cite \let\shortcite\cite
-    \let\citeasnoun\cite
- }{\if@longauth\kern6pt\hrule\kern6pt\institutename\@longauthfalse\fi\def\@noitemerr{%
-  \PackageWarning{natbib}
-     {Empty `thebibliography' environment}}%
-  \endlist\vskip-\lastskip}}{}
-\@ifpackageloaded{longtable}{%
-\def\LT@makecaption#1#2#3{%
-  \LT@mcol\LT@cols c{\hbox to\z@{\hss\parbox[t]\LTcapwidth{%
-    \small\sbox\@tempboxa{#1{{\bfseries#2.} }#3}%
-    \ifdim\wd\@tempboxa>\hsize
-      #1{{\bfseries#2.} }#3%
-    \else
-      \hbox to\hsize{\box\@tempboxa\hfil}%
-    \fi
-    \endgraf\vskip\baselineskip}%
-  \hss}}}}{}
-}%AtBeginDocument
+% \corr : Mute tag used by LE
+\newcommand{\corr}[1]{#1}
+% Numbering lines in PDF for all options author's versions
+\RequirePackage{linenoaa}
 %
 \endinput
 %%

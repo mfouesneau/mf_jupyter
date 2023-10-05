@@ -19,7 +19,7 @@
 %%
 %% The original source files were:
 %%
-%% merlin.mbs  (with options: `,ay,nat,nm-rev,nmdash,dt-beg,yr-per,note-yr,atit-u,jtit-x,jttl-rm,thtit-a,vnum-x,volp-com,jpg-1,pp-last,btit-rm,add-pub,pub-par,pre-edn,edby,edbyx,blk-com,fin-bare,ppx,ed,abr,ord,jabr,amper,em-x')
+%% merlin.mbs  (with options: `,ay,nat,nm-rev,nmdash,dt-beg,yr-per,note-yr,atit-u,jtit-x,jttl-rm,thtit-a,vnum-x,volp-com,jpg-1,pp-last,btit-rm,add-pub,pub-par,pre-edn,edby,edbyx,blk-com,fin-bare,ppx,ed,abr,ord,jabr,eprint,amper,em-x')
 %% ----------------------------------------
 %% *** Bibliographic Style for ApJ ***
 %% 
@@ -68,6 +68,7 @@
 
 ENTRY
   { address
+    archiveprefix                   %EDP Sciences le 30/11/2014
     author
     booktitle
     chapter
@@ -75,6 +76,7 @@ ENTRY
     editor
     howpublished
     institution
+    eprint                    %EDP Sciences le 30/11/2014
     journal
     key
     month
@@ -125,12 +127,44 @@ FUNCTION {output.nonnull}
   s
 }
 
+%EDP Sciences le 30/11/2014
+FUNCTION {output.eprint}
+{ 's :=
+  output.state mid.sentence =
+    { " " * write$ }
+    { output.state after.block =
+        { add.period$ write$
+          newline$
+          "\newblock " write$
+        }
+        { output.state before.all =
+            'write$
+            { add.period$ " " * write$ }
+          if$
+        }
+      if$
+      mid.sentence 'output.state :=
+    }
+  if$
+  s
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 FUNCTION {output}
 { duplicate$ empty$
     'pop$
     'output.nonnull
   if$
 }
+
+%EDP Sciences le 30/11/2014
+FUNCTION {outputeprint}
+{ duplicate$ empty$
+    'pop$
+    'output.eprint
+  if$
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 FUNCTION {output.check}
 { 't :=
@@ -540,6 +574,21 @@ FUNCTION {format.note}
   if$
 }
 
+%EDP Sciences le 30/11/2014
+FUNCTION {format.eprint}
+{ eprint duplicate$ empty$
+    'skip$
+    { "[\eprint" 
+      archiveprefix empty$
+        'skip$
+        { "[" * archiveprefix * "]" * }
+      if$
+      "{" * swap$ * "}]" *
+    }
+  if$
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 FUNCTION {format.title}
 { title empty$
     { "" }
@@ -857,7 +906,8 @@ FUNCTION {first.page}
 
 FUNCTION {format.journal.pages}
 { pages empty$
-    'skip$
+    { format.eprint outputeprint                   %EDP Sciences le 30/11/2014
+    }
     { duplicate$ empty$
         { pop$ format.pages }
         {
@@ -1071,6 +1121,7 @@ FUNCTION {article}
   if$
   format.journal.pages
   format.note output
+  %format.eprint outputeprint                      %EDP Sciences le 30/11/2014
   fin.entry
 }
 

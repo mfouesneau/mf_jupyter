@@ -55,6 +55,7 @@ def register_magic():
             var index = Jupyter.notebook.get_cell_elements().index(cell_element);
             var cell = Jupyter.notebook.get_cell(index);
             cell.metadata.hide = tags;
+            cell.metadata.tags.push('hide');
         }
     });
     """))
@@ -141,9 +142,8 @@ def add_hide_button():
     """ Add buttom to the mf_jupyter toolbar to toggle the hide field. """
     from IPython.display import HTML, display
 
-    r = HTML('''
-             <script>
-             var CellToolbar = Jupyter.CellToolbar
+    r = HTML('''<script>
+var CellToolbar = Jupyter.CellToolbar
 var mf_hide_toggle =  function(div, cell) {
      var button_container = $(div)
 
@@ -152,8 +152,16 @@ var mf_hide_toggle =  function(div, cell) {
 
      // On click, change the metadata value and update the button label
      button.click(function(){
-                 var v = cell.metadata.hide;
-                 cell.metadata.hide = !v;
+                var v = cell.metadata.hide;
+                cell.metadata.hide = !v;
+                if (cell.metadata.tags === undefined) {
+                    cell.metadata.tags = [];
+                }
+                if (v) {
+                   cell.metadata.tags.splice(cell.metadata.tags.indexOf('hide'), 1);
+                } else {
+                   cell.metadata.tags.push('hide');
+                }
                  button.text("hide: "  + String(!v));
              })
 
