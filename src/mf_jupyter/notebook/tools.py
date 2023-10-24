@@ -160,7 +160,8 @@ class Table(DisplayObject):
     VDOTS = object()
 
     def __init__(self, data, headings=None, formats=None, caption=None,
-                 label=None, position='h', fontsize=None, subtables=1):
+                 label=None, position='h', fontsize=None, subtables=1,
+                 star=False):
         """
         A HTML/LaTeX IPython DisplayObject Table
 
@@ -228,6 +229,7 @@ class Table(DisplayObject):
         self.position = position
         self.subtables = subtables
         self.fontsize = fontsize
+        self.star = star
 
     @staticmethod
     def _default_format(what):
@@ -267,39 +269,48 @@ class Table(DisplayObject):
     def _repr_latex_(self):
         strings = []
 
-        strings.append(r"""\begin{table}""")
-        if self.position not in (None, ''):
-            strings.append("[" + self.position + r"]")
-        strings.append("""
-        \centering
-        """)
+        if self.star:
+            table_env = "table*"
+        else:
+            table_env = "table"
+        if self.position not in (None, ""):
+            table_position = f"[{self.position}]"
+        else:
+            table_position = ""
+
+        strings.append(rf"\begin{{{table_env}}}{table_position}")
+        strings.append("""\centering""")
 
         if self.label:
-            strings.append(r"\caption{" + markdown2latex(self.caption) + "}")
-            strings.append(r"\label{tab:" + self.label + "}")
+            table_caption = markdown2latex(self.caption)
+            strings.append(rf"\caption{{{table_caption}}}")
+            strings.append(rf"\label{{tab:{self.label}}}")
 
         if self.fontsize:
-            strings.append("\n" + self.fontsize + "\n")
+            strings.append(self.fontsize)
+
         if self.subtables > 1:
             subtables = self._subtables_split()
             width = "{:.3f}\linewidth".format(0.95 / self.subtables)
 
             for i, rows in enumerate(subtables):
                 strings.append(r"\begin{{subtable}}[t]{{{0}}}%".format(width))
-                strings.append(r"""
-                \centering
-                \vspace{0pt}
-                """)
+                strings.append(
+                    r"""
+                    \centering
+                    \vspace{0pt}
+                    """
+                )
                 self._latex_tabular(strings, rows)
                 strings.append(r"\end{subtable}%")
                 if i != len(subtables) - 1:
-                    strings.append("\hfill%")
+                    strings.append(r"\hfill%")
 
         else:
             rows = self._format_rows()
             self._latex_tabular(strings, rows)
 
-        strings.append(r"""\end{table} """)
+        strings.append(rf"""\end{{{table_env}}}""")
         return "\n".join(strings)
 
     def _latex_tabular(self, strings, rows):
@@ -318,9 +329,8 @@ class Table(DisplayObject):
             latex = " & ".join(row)
             strings.append(latex + r" \\")
 
-        strings.append(r"""
-        \hline
-        \end{tabular}%""")
+        strings.append(r"\hline")
+        strings.append(r"\end{tabular}")
 
     def _repr_html_(self):
         strings = []
