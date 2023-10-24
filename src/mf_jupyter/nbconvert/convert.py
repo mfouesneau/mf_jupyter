@@ -119,8 +119,10 @@ def _get_bibtex_cmd(
 
     TEXEXPORTS = ":".join(TEXEXPORTS)
 
+    # bibtex can raise issues when no bib file or no citations etc.
+    # This is not so useful here. We bypass the exit status.
     cmd = f"""export BSTINPUTS=.:{TEXEXPORTS:s}:
-    {BIBTEX:s} {latexfile_path:s}"""
+    {BIBTEX:s} {latexfile_path:s} || true"""
 
     return cmd
 
