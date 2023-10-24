@@ -1,0 +1,91 @@
+# Define input and output files
+input_file = "input notebook file name without extension"
+output_file = "output file name with .pdf extension"
+output_template = " template for the conversion "
+bibliography_files = ["bibliography.bib", "other_bibliography.bib"]
+mf_jupyter_dir = "path to the directory containing the nbconvert templates etc directory"
+
+
+# ==== No need to edit below this line ====
+# Define the rule to convert the notebook to LaTeX with bibliography
+
+# Define the final target
+rule all:
+    input:
+        output_file
+
+# Define the rule to convert the notebook to LaTeX
+rule nbconvert:
+    input:
+        f"{input_file}.ipynb"
+    output:
+        f"{input_file}.tex"
+    params:
+        config=f'{mf_jupyter_dir}/nbconvert/config.py',
+        template=f"{output_template}",
+        template_extrapath=f'{mf_jupyter_dir}/nbconvert/templates',
+        extra_options="",
+    log:
+        "nbconvert.log"
+    shell:
+        """
+        jupyter nbconvert \
+            --config={params.config} \
+            --to=latex --template={params.template} \
+            --TemplateExporter.extra_template_basedirs={params.template_extrapath} \
+            {input_file} {params.extra_options} 2>&1 > {log}
+        """
+
+rule bibtex:
+    input:
+        f"{input_file}.tex",
+        *bibliography_files
+    output:
+        f"{input_file}.bbl"
+    params:
+        extra_texinputs=f".:{mf_jupyter_dir}/nbconvert/texlibs/texmf//:"
+    log:
+        "bibtex.log"
+    shell:
+        """
+        export BSTINPUTS={params.extra_texinputs}; \
+        bibtex {input_file} 2>&1 > {log}
+        """
+
+# Define the rule to compile the LaTeX file
+rule prelatex:
+    input:
+        f"{input_file}.tex",
+    output:
+        f"{output_file}", f"{input_file}.aux"
+    params:
+        extra_texinputs=f".:{mf_jupyter_dir}/nbconvert/texlibs/texmf//:",
+        pdflatex_options="-enable-write18 -shell-escape -interaction=nonstopmode"
+    log:
+        "pdflatex.log"
+    shell:
+        """
+        export TEXINPUTS={params.extra_texinputs}; \
+        pdflatex {params.pdflatex_options} {input}  2>&1 > {log} && \
+        pdflatex {params.pdflatex_options} {input}  2>&1 > {log}
+        """
+
+# Define the rule to compile the LaTeX file
+rule latex:
+    input:
+        f"{input_file}.tex",
+        f"{input_file}.bbl"
+        f"{input_file}.aux"
+    output:
+        f"{output_file}"
+    params:
+        extra_texinputs=f".:{mf_jupyter_dir}/nbconvert/texlibs/texmf//:",
+        pdflatex_options="-enable-write18 -shell-escape -interaction=nonstopmode"
+    log:
+        "pdflatex.log"
+    shell:
+        """
+        export TEXINPUTS={params.extra_texinputs}; \
+        pdflatex {params.pdflatex_options} {input}  2>&1 > {log} && \
+        pdflatex {params.pdflatex_options} {input}  2>&1 > {log}
+        """
