@@ -74,7 +74,7 @@ rule prelatex:
 rule latex:
     input:
         f"{input_file}.tex",
-        f"{input_file}.bbl"
+        f"{input_file}.bbl",
         f"{input_file}.aux"
     output:
         f"{output_file}"
