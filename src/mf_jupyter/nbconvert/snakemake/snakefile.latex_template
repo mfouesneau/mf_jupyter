@@ -57,7 +57,7 @@ rule prelatex:
     input:
         f"{input_file}.tex",
     output:
-        f"{output_file}", f"{input_file}.aux"
+        f"{input_file}.aux"
     params:
         extra_texinputs=f".:{mf_jupyter_dir}/nbconvert/texlibs/texmf//:",
         pdflatex_options="-enable-write18 -shell-escape -interaction=nonstopmode"
