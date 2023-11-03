@@ -3,11 +3,11 @@ input_file = "input notebook file name without extension"
 output_file = "output file name with .pdf extension"
 output_template = " template for the conversion "
 bibliography_files = ["bibliography.bib", "other_bibliography.bib"]
-mf_jupyter_dir = "path to the directory containing the nbconvert templates etc directory"
-
 
 # ==== No need to edit below this line ====
 # Define the rule to convert the notebook to LaTeX with bibliography
+from mf_jupyter.nbconvert.snakemake import get_data_dir
+mf_jupyter_dir = get_data_dir()
 
 # Define the final target
 rule all:
