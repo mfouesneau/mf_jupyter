@@ -15,10 +15,6 @@ def generate(
     if bibliography_files is None:
         bibliography_files = glob("*.bib")
 
-    mf_jupyter_dir = os.path.abspath(
-        os.path.join(pkg_resources.resource_filename("mf_jupyter", ""))
-    )
-
     if workflow_file is None:
         workflow_file = os.path.abspath(
             os.path.join(
@@ -33,7 +29,6 @@ def generate(
         output_file=notebook_name.replace(".ipynb", ".pdf"),
         output_template=template,
         bibliography_files=bibliography_files,
-        mf_jupyter_dir=mf_jupyter_dir,
     )
     header = [
         f'{key} = "{value}"'
