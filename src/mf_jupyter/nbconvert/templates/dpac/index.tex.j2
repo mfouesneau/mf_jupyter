@@ -56,7 +56,7 @@
 %\setDpacDocIssue    {0}                      % the issue
 \setDpacDocRevision {\DpacDocRevision}        % the revision
 \setDpacDocDate     {\today}                  % the date of the issue
-\setDpacDocStatus   {Draft}                   % the document status
+\setDpacDocStatus   {\DpacDocStatus}          % the document status
 % Comment out the setDpacDU if you do not want it do not set it to Blanck
 %\setDpacDU          {DUy}                      % no DU for CU8
 %\setDpacDocApprove{who checked}              % Who checked the document
@@ -148,6 +148,9 @@
 	}{}
      \@ifundefined{DpacDocRevision}{%
 	\def\DpacDocRevision{0}
+	}{}
+     \@ifundefined{DpacDocStatus}{%
+	\def\DpacDocStatus{Draft}
 	}{}
    \makeatother
 
